@@ -2,7 +2,7 @@
 
 *Mod Minecraft de voyage spatial seamless : tests délégables à des agents*
 
-*Version 1 · 20 octobre 2026 · associé au plan d’architecture version 5 (`architecture_v5.md`)*
+*Version 1 · 20 octobre 2026 · associé au plan d’architecture version 5 (`../architecture_v5.md`)*
 
 ## 1. Comment utiliser ce document
 

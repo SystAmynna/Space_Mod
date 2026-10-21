@@ -1,0 +1,25 @@
+DÉBUT A9 ; mécanisme 2 (demande n° 1474) : BLOQUÉ, accord de l'utilisateur et Docker requis
+[méca 1 S] transfert #0 : 35,85 ms, identifiant conservé=false, vitesse avant=(2,0000, 0,0000, 0,0000)
+[méca 1 S] transfert #19 : 2,57 ms, identifiant conservé=false, vitesse avant=(2,0000, 0,0000, 0,0000)
+[méca 1 S] après 20 aller-retours : blocs=100,coffres=5,items=320,entités=1,user_data={spacemod_test:9} v=(2,0000, 0,0000, 0,0000) -> contenu identique
+[méca 1 S] durée sur le fil serveur : p50=3,37 ms p95=7,77 ms (max 35,85)
+[méca 3 S] transfert #0 : 26,85 ms, identifiant conservé=true, vitesse avant=(2,0000, 0,0000, 0,0000)
+[méca 3 S] transfert #19 : 2,76 ms, identifiant conservé=true, vitesse avant=(0,2702, 0,0000, 0,0000)
+[méca 3 S] après 20 aller-retours : blocs=100,coffres=5,items=320,entités=0,user_data={spacemod_test:9} v=(0,2432, 0,0000, 0,0000) -> CONTENU DIFFÉRENT (avant : blocs=100,coffres=5,items=320,entités=1,user_data={spacemod_test:9})
+ÉCHEC : [méca 3 S] contenu modifié par les transferts
+[méca 3 S] durée sur le fil serveur : p50=2,92 ms p95=4,68 ms (max 26,85)
+[méca 1 L] transfert #0 : 25,38 ms, identifiant conservé=false, vitesse avant=(2,0000, 0,0000, 0,0000)
+[méca 1 L] transfert #19 : 16,21 ms, identifiant conservé=false, vitesse avant=(2,0000, 0,0000, 0,0000)
+[méca 1 L] après 20 aller-retours : blocs=2000,coffres=50,items=3200,entités=1,user_data={spacemod_test:9} v=(2,0000, 0,0000, 0,0000) -> contenu identique
+[méca 1 L] durée sur le fil serveur : p50=16,49 ms p95=25,38 ms (max 26,15)
+[méca 3 L] transfert #0 : 4,22 ms, identifiant conservé=true, vitesse avant=(2,0000, 0,0000, 0,0000)
+[méca 3 L] transfert #19 : 3,56 ms, identifiant conservé=true, vitesse avant=(0,2702, 0,0000, 0,0000)
+[méca 3 L] après 20 aller-retours : blocs=2000,coffres=50,items=3200,entités=0,user_data={spacemod_test:9} v=(0,2432, 0,0000, 0,0000) -> CONTENU DIFFÉRENT (avant : blocs=2000,coffres=50,items=3200,entités=1,user_data={spacemod_test:9})
+ÉCHEC : [méca 3 L] contenu modifié par les transferts
+[méca 3 L] durée sur le fil serveur : p50=3,63 ms p95=4,69 ms (max 4,89)
+ÉCHEC : hauteur méca 3 : exception java.lang.ArrayIndexOutOfBoundsException: Index 12 out of bounds for length 8 ; source conservée=true
+hauteur : dimension -64..320 vers 0..128, méca 1 : blocs=100,coffres=5,items=320,entités=1,user_data={spacemod_test:9} -> identique
+échec provoqué, destination absente, ordre « charger puis retirer » : exception NullPointerException, source conservée=true
+échec provoqué, destination absente, ordre « retirer puis charger » : exception NullPointerException, source conservée=false
+mécanisme 2 (demande n° 1474) : BLOQUÉ (accord et Docker requis)
+FIN A9 : ÉCHEC/PARTIEL (3)

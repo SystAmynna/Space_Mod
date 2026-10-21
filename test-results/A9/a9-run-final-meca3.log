@@ -1,0 +1,27 @@
+DÉBUT A9 ; mécanisme 2 (demande n° 1474) : BLOQUÉ, accord de l'utilisateur et Docker requis
+[méca 1 S] transfert #0 : 32,47 ms, identifiant conservé=false, vitesse avant=(2,0000, 0,0000, 0,0000)
+[méca 1 S] transfert #19 : 2,69 ms, identifiant conservé=false, vitesse avant=(2,0000, 0,0000, 0,0000)
+[méca 1 S] après 20 aller-retours : blocs=100,coffres=5,items=320,entités=1,user_data={spacemod_test:9} v=(2,0000, 0,0000, 0,0000) -> contenu identique
+[méca 1 S] durée sur le fil serveur : p50=3,50 ms p95=7,32 ms (max 32,47)
+[méca 3 S] transfert #0 : 26,68 ms, identifiant conservé=true, vitesse avant=(2,0000, 0,0000, 0,0000)
+[méca 3 S] transfert #19 : 3,85 ms, identifiant conservé=true, vitesse avant=(2,0000, 0,0000, 0,0000)
+[méca 3 S] après 20 aller-retours : blocs=100,coffres=5,items=320,entités=1,user_data={spacemod_test:9} v=(2,0000, 0,0000, 0,0000) -> contenu identique
+[méca 3 S] durée sur le fil serveur : p50=3,88 ms p95=8,05 ms (max 26,68)
+[méca 1 L] transfert #0 : 26,45 ms, identifiant conservé=false, vitesse avant=(2,0000, 0,0000, 0,0000)
+[méca 1 L] transfert #19 : 14,96 ms, identifiant conservé=false, vitesse avant=(2,0000, 0,0000, 0,0000)
+[méca 1 L] après 20 aller-retours : blocs=2000,coffres=50,items=3200,entités=1,user_data={spacemod_test:9} v=(2,0000, 0,0000, 0,0000) -> contenu identique
+[méca 1 L] durée sur le fil serveur : p50=15,55 ms p95=21,25 ms (max 26,45)
+[méca 3 L] transfert #0 : 5,05 ms, identifiant conservé=true, vitesse avant=(2,0000, 0,0000, 0,0000)
+[méca 3 L] transfert #19 : 3,92 ms, identifiant conservé=true, vitesse avant=(2,0000, 0,0000, 0,0000)
+[méca 3 L] après 20 aller-retours : blocs=2000,coffres=50,items=3200,entités=1,user_data={spacemod_test:9} v=(2,0000, 0,0000, 0,0000) -> contenu identique
+[méca 3 L] durée sur le fil serveur : p50=4,00 ms p95=5,05 ms (max 5,27)
+refus : plage verticale de spacemod_test:short_a9 (0..128) incompatible avec la source (-64..320, plot Y 128..128)
+hauteur -64..320 vers 0..128, méca 3 : transfert refusé, source conservée=true -> refus propre attendu
+hauteur -64..320 vers 0..128, méca 1 : accepté, blocs=100,coffres=5,items=320,entités=1,user_data={spacemod_test:9} -> identique
+refus : plage verticale de spacemod_test:mid_a9 (0..256) incompatible avec la source (-64..320, plot Y 128..128)
+hauteur -64..320 vers 0..256, méca 3 : transfert refusé, source conservée=true -> refus propre attendu
+hauteur -64..320 vers 0..256, méca 1 : accepté, blocs=100,coffres=5,items=320,entités=1,user_data={spacemod_test:9} -> identique
+échec provoqué, destination absente, ordre « charger puis retirer » : exception NullPointerException, source conservée=true
+échec provoqué, destination absente, ordre « retirer puis charger » : exception NullPointerException, source conservée=false
+mécanisme 2 (demande n° 1474) : BLOQUÉ (accord et Docker requis)
+FIN A9 : RÉUSSI

@@ -1,0 +1,24 @@
+DÉBUT A9 ; mécanisme 2 (demande n° 1474) : BLOQUÉ, accord de l'utilisateur et Docker requis
+[méca 1 S] transfert #0 : 32,37 ms, identifiant conservé=false, vitesse avant=(0,0000, 0,0000, 0,0000)
+[méca 1 S] transfert #19 : 2,58 ms, identifiant conservé=false, vitesse avant=(0,0000, 0,0000, 0,0000)
+[méca 1 S] après 20 aller-retours : blocs=100,coffres=5,items=320,entités=1,user_data={spacemod_test:9} v=(0,0000, 0,0000, 0,0000) -> contenu identique
+[méca 1 S] durée sur le fil serveur : p50=3,46 ms p95=8,70 ms (max 32,37)
+[méca 3 S] transfert #0 : 22,20 ms, identifiant conservé=true, vitesse avant=(0,0000, 0,0000, 0,0000)
+[méca 3 S] transfert #19 : 2,65 ms, identifiant conservé=true, vitesse avant=(0,0000, 0,0000, 0,0000)
+[méca 3 S] après 20 aller-retours : blocs=100,coffres=5,items=320,entités=0,user_data={spacemod_test:9} v=(0,0000, 0,0000, 0,0000) -> CONTENU DIFFÉRENT (avant : blocs=100,coffres=5,items=320,entités=2,user_data={spacemod_test:9})
+ÉCHEC : [méca 3 S] contenu modifié par les transferts
+[méca 3 S] durée sur le fil serveur : p50=2,91 ms p95=5,34 ms (max 22,20)
+[méca 1 L] transfert #0 : 26,44 ms, identifiant conservé=false, vitesse avant=(0,0000, 0,0000, 0,0000)
+[méca 1 L] transfert #19 : 18,82 ms, identifiant conservé=false, vitesse avant=(0,0000, 0,0000, 0,0000)
+[méca 1 L] après 20 aller-retours : blocs=2000,coffres=50,items=3200,entités=1,user_data={spacemod_test:9} v=(0,0000, 0,0000, 0,0000) -> contenu identique
+[méca 1 L] durée sur le fil serveur : p50=16,93 ms p95=23,30 ms (max 26,44)
+[méca 3 L] transfert #0 : 4,54 ms, identifiant conservé=true, vitesse avant=(0,0000, 0,0000, 0,0000)
+[méca 3 L] transfert #19 : 3,54 ms, identifiant conservé=true, vitesse avant=(0,0000, 0,0000, 0,0000)
+[méca 3 L] après 20 aller-retours : blocs=2000,coffres=50,items=3200,entités=2,user_data={spacemod_test:9} v=(0,0000, 0,0000, 0,0000) -> contenu identique
+[méca 3 L] durée sur le fil serveur : p50=3,60 ms p95=4,26 ms (max 4,54)
+ÉCHEC : hauteur méca 3 : exception java.lang.ArrayIndexOutOfBoundsException: Index 12 out of bounds for length 8
+ÉCHEC : hauteur méca 1 : exception java.lang.RuntimeException: Body has been removed
+échec provoqué (destination null) : exception NullPointerException, source conservée=false -> PERDUE : le mécanisme 3 retire la source avant le chargement ; ordre à corriger (charger puis retirer ?)
+ÉCHEC : échec provoqué : source perdue
+mécanisme 2 (demande n° 1474) : BLOQUÉ (accord et Docker requis)
+FIN A9 : ÉCHEC/PARTIEL (4)

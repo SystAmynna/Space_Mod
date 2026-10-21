@@ -1,0 +1,9 @@
+DÉBUT C6 ; SIMULATION CÔTÉ SERVEUR SEULEMENT (aucun client, aucune bande passante mesurée) : chaque « joueur » est une Mini S avec un armor stand ; deux hôtes (croiseur R=300.0, planète R=2000.0 avec terrain plat chargé sur 17×17 chunks) et la Tampon avec des rencontres ; les Minis des hôtes franchissent la frontière (amplitude 4M, période 60 ticks)
+ 2 joueurs simulés : TPS mesuré 20,00 (période moyenne 50,00 ms, max 100,3 ms) ; temps de tick moyen du serveur 2,31 ms (pic 8,33 ms) ; 21 transferts de frontière (p50 3,88 ms, p95 4,93 ms) ; plots occupés 2 (attendu 2) ; sérialisation d'un joueur déconnecté 0,87 ms, restauration 3,55 ms
+diagnostic : transfert refusé, Mini 1 plot [10000, 10001] de c6h1 vers c6t ; plots occupés source={128} destination={0, 128}
+diagnostic : transfert refusé, Mini 2 plot [10000, 10001] de c6h2 vers c6t ; plots occupés source={128} destination={0, 128}
+diagnostic : transfert refusé, Mini 1 plot [10000, 10001] de c6h1 vers c6t ; plots occupés source={128} destination={0, 128}
+ 4 joueurs simulés : TPS mesuré 20,00 (période moyenne 50,00 ms, max 59,2 ms) ; temps de tick moyen du serveur 1,76 ms (pic 2,39 ms) ; 59 transferts de frontière (p50 0,55 ms, p95 3,61 ms) ; plots occupés 3 (attendu 4) ; sérialisation d'un joueur déconnecté 0,65 ms, restauration 0,34 ms
+ 8 joueurs simulés : TPS mesuré 20,00 (période moyenne 50,00 ms, max 82,7 ms) ; temps de tick moyen du serveur 1,98 ms (pic 3,26 ms) ; 20 transferts de frontière (p50 0,31 ms, p95 0,54 ms) ; plots occupés 8 (attendu 8) ; sérialisation d'un joueur déconnecté 0,53 ms, restauration 3,06 ms
+16 joueurs simulés : TPS mesuré 20,00 (période moyenne 50,00 ms, max 97,0 ms) ; temps de tick moyen du serveur 2,60 ms (pic 5,33 ms) ; 59 transferts de frontière (p50 0,15 ms, p95 0,45 ms) ; plots occupés 15 (attendu 16) ; sérialisation d'un joueur déconnecté 0,85 ms, restauration 0,34 ms
+FIN C6 : mémoire 332 → 390 Mo ; partie automatique seulement

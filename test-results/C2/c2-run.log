@@ -1,0 +1,18 @@
+DÉBUT C2 ; mesures côté serveur uniquement (le client n'est pas lancé) ; valeurs de test : R(croiseur)=300, R(planète)=2000, M=15, mass lock v(d)=10.0 + 0.1·d blocs/s (d = distance au volume logique)
+[terrain plat, généré] chunks disponibles (serveur, cumulé depuis la création/chargement de la dimension, du centre vers l'extérieur) : rayon 8 = 220 ms, rayon 16 = 629 ms, rayon 32 = 2062 ms
+[terrain plat, déjà sur disque] chunks disponibles (serveur, cumulé depuis la création/chargement de la dimension, du centre vers l'extérieur) : rayon 8 = 93 ms, rayon 16 = 276 ms, rayon 32 = 1234 ms
+[terrain réaliste (générateur de l'Overworld), généré] chunks disponibles (serveur, cumulé depuis la création/chargement de la dimension, du centre vers l'extérieur) : rayon 8 = 4325 ms, rayon 16 = 10867 ms, rayon 32 = 33897 ms
+[terrain réaliste, déjà sur disque] chunks disponibles (serveur, cumulé depuis la création/chargement de la dimension, du centre vers l'extérieur) : rayon 8 = 336 ms, rayon 16 = 1307 ms, rayon 32 = 6988 ms
+--- temps disponible entre l'entrée du volume d'exclusion (2R) et l'entrée dans l'hôte (R-M), en volant au plafond du mass lock ---
+temps de chargement serveur du pire cas (terrain réaliste généré) : rayon 8 = 4,3 s, rayon 16 = 10,9 s, rayon 32 = 33,9 s
+R=300, M=15, mass lock 10+0,10·d : temps disponible 14,2 s ; marge rayon 16 = 1,3, rayon 32 = 0,4 (critère >= 2)
+R=2000, M=15, mass lock 10+0,10·d : temps disponible 30,5 s ; marge rayon 16 = 2,8, rayon 32 = 0,9 (critère >= 2)
+R=6000, M=15, mass lock 10+0,10·d : temps disponible 41,1 s ; marge rayon 16 = 3,8, rayon 32 = 1,2 (critère >= 2)
+--- variation des paramètres pour R=2000 : plafond de vitesse maximale pour garder une marge de 2 ---
+k=0,02/s : temps disponible 80,8 s, marge 2,4, vitesse au bord du volume d'exclusion 50 blocs/s
+k=0,05/s : temps disponible 48,1 s, marge 1,4, vitesse au bord du volume d'exclusion 111 blocs/s
+k=0,10/s : temps disponible 30,5 s, marge 0,9, vitesse au bord du volume d'exclusion 212 blocs/s
+k=0,20/s : temps disponible 18,6 s, marge 0,5, vitesse au bord du volume d'exclusion 413 blocs/s
+k=0,50/s : temps disponible 9,2 s, marge 0,3, vitesse au bord du volume d'exclusion 1018 blocs/s
+k=1,00/s : temps disponible 5,3 s, marge 0,2, vitesse au bord du volume d'exclusion 2025 blocs/s
+FIN C2 : voir rapport (client non mesuré)

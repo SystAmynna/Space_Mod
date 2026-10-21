@@ -1,0 +1,17 @@
+== 1. Saut : pose (position, orientation, vitesse) d'un système A vers un système B ==
+  erreur de position (aller-retour de référentiel, positions jusqu'à ~1e12) : max 0,000e+00 blocs
+  écart relatif de la norme de vitesse : max 1,059e-15 ; vitesse dans le repère du vaisseau : max 1,073e-15 ; norme du quaternion : max 2,220e-16
+== 2. Parcours : 1e9 blocs loin de tout astre, changements de référentiel ==
+  7999 ticks, 1432 changements de cellule (tous les ~0,3 s) ; distance finale 9,998751e+08 blocs
+  écart relatif max (cellule + décalage) : 1,331e-16 ; écart absolu final : 1,331e-07 blocs
+  comparaison, une seule double sans rebase : 9,790e-14 relatif ; float 32 bits : 3,393e-05 relatif
+  changement de référentiel local (rebase) : écart de position max 0,000e+00 blocs sur 1e5 cas aléatoires
+== 2b. Mass lock : plafond de vitesse selon la distance ==
+  croissant avec la distance : true ; aucune limite à >= 5e+06 blocs : true ; plafond à 1e3 / 1e5 / 4,9e6 blocs : 20 / 2000 / 98000 blocs/s
+  vitesse de croisière du parcours (2,5e+06 blocs/s) contre le plafond à 4,9e6 blocs : plafonnée près de l'astre (attendu)
+== 4. Ordre chargement / déchargement entre deux systèmes ==
+  charge B à 4.6E8
+  référentiel et ciel -> B à 5.0E8
+  décharge A à 5.6E8
+  B chargé avant le changement, A déchargé après : true  (modèle logique seul : le vrai ciel et les vrais chargements n'existent pas encore dans le mod)
+RÉSULTAT NUMÉRIQUE : tous les critères atteints

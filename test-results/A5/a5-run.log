@@ -1,0 +1,23 @@
+DÉBUT A5, gravité Sable de a5g : ( 0,000E+0 -1,100E+1  0,000E+0)
+temps de tick serveur moyen avec 0 sub-level : 0,3107 ms (401 ticks)
+sub-levels dans a5g : 1
+temps de tick serveur moyen avec 1 sub-level : 0,3461 ms (401 ticks)
+1 sub-level : déplacement max sur la fenêtre de 400 ticks = 0,000e+00 (seuil 0,01)
+impulsion verticale appliquée au sub-level au repos
+après la sollicitation : écart maximal pendant la fenêtre=0,399, déplacement final=0,000, vitesse=0,0000 -> rendormi/au repos
+wakeUp puis impulsion verticale appliqués
+après la sollicitation : écart maximal pendant la fenêtre=0,399, déplacement final=0,000, vitesse=0,0000 -> rendormi/au repos
+bloc posé sur le sub-level au repos : BlockPos{x=20481034, y=130, z=20481034}
+après la sollicitation : écart maximal pendant la fenêtre=0,040, déplacement final=0,040, vitesse=0,0000 -> rendormi/au repos
+sub-levels dans a5g : 200
+temps de tick serveur moyen avec 200 sub-levels : 1,8390 ms (401 ticks)
+200 sub-levels : déplacement max sur la fenêtre de 400 ticks = 0,000e+00 (seuil 0,01)
+coût supplémentaire par rapport à 0 sub-level : 1 -> 0,0355 ms ; 200 -> 1,5283 ms (0,0076 ms par sub-level au repos)
+variation 200 contre 1 (tick total) : 431,3 %
+sub-level gelé dans a5v : 096970e9-baee-4229-bc52-6c21acb043ab pose=(5,1753, 64,4992, 5,0195)
+dimension a5v désenregistrée
+après rechargement, sub-level retrouvé : true
+impulsion linéaire appliquée au sub-level gelé rechargé
+déplacement du sub-level gelé après rechargement et impulsion : 5,350e+01 -> gel PERDU (contrainte non persistée)
+ÉCHEC : la contrainte de gel ne survit pas au rechargement de la dimension
+FIN A5 : ÉCHEC/PARTIEL (1)

@@ -1,0 +1,31 @@
+DÉBUT C1 ; coque = plaque 10×1×10 (1 bloc d'épaisseur), Minis libres de masse égale, gravité nulle ; plafond de vitesse relative du mass lock entre Minis (valeur de test) = 50.0 bloc/s ; 100 passages par vitesse
+vitesse relative 5 bloc/s (sous ou au niveau du plafond) : 61 traversées de coque sur 100 passages ; tick moyen 2,81 ms
+vitesse relative 20 bloc/s (sous ou au niveau du plafond) : 87 traversées de coque sur 100 passages ; tick moyen 2,43 ms
+vitesse relative 50 bloc/s (sous ou au niveau du plafond) : 89 traversées de coque sur 100 passages ; tick moyen 2,30 ms
+vitesse relative 100 bloc/s (AU-DESSUS du plafond) : 98 traversées de coque sur 100 passages ; tick moyen 2,20 ms
+vitesse relative 200 bloc/s (AU-DESSUS du plafond) : 100 traversées de coque sur 100 passages ; tick moyen 2,09 ms
+vitesse relative 400 bloc/s (AU-DESSUS du plafond) : 100 traversées de coque sur 100 passages ; tick moyen 1,99 ms
+--- formation de groupe, fusion et scission ---
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-30,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-50,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-30,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-50,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-30,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-50,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-30,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-50,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-30,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-50,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-30,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-50,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-30,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-50,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-30,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-50,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-30,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-50,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-30,0000, 0,0000, 0,0000)
+ÉCHEC : vitesse relative (0,0000, 0,0000, 0,0000) contre (-50,0000, 0,0000, 0,0000)
+20 cycles formation → ajout depuis les données → scission : formation (2 transferts + poses) p50=6,76 ms p95=8,06 ms ; désérialisation d'une Mini en données p50=2,99 ms p95=3,74 ms ; scission p50=4,09 ms p95=4,76 ms
+erreur maximale de pose relative 5 ticks après la formation : 12,5000 bloc ; dépassement maximal du plafond de vitesse relative après écrêtage : 0,00e+00 bloc/s
+FIN C1 : ÉCHEC/PARTIEL (23)

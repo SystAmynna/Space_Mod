@@ -1,0 +1,22 @@
+== scénarios (entrée E=100, sortie X=150) ==
+OK      trois objets éloignés : trois groupes
+OK      A rejoint B (90 < E)
+OK      C approche à 50 de B mais reste hors de A : C rejoint le groupe via B (chaîne A–B–C avec A et C à 140)
+OK      B s'éloigne de A à 120 (entre E et X) : le groupe est conservé (hystérésis)
+OK      B passe à 160 > X : A quitte le groupe ; C reste avec B (40 d'écart)
+OK      deux groupes distincts {A,B} et {C,D}
+OK      fusion : B–C à 50 relie les deux groupes en un seul
+OK      scission : retour à deux groupes
+OK      objets de systèmes différents aux mêmes coordonnées : jamais groupés
+
+== tests à propriétés : indépendance de l'ordre (graine 99) ==
+OK      ordre d'itération : 0 divergence(s) sur 3000 ticks
+OK      aucun groupe contenant deux systèmes différents (0 cas)
+changements d'étiquette observés : 1046
+
+== bruit autour du seuil : A oscille autour de E d'un petit bruit gaussien ==
+E=100 X=100 : 848 changement(s) de groupe pour un franchissement aller-retour (sans hystérésis)
+E=100 X=150 : 1 changement(s) de groupe pour un franchissement aller-retour (avec hystérésis)
+OK      avec hystérésis : au plus 2 changements (entrée puis sortie) pour un aller-retour
+
+FIN B3 : RÉUSSI

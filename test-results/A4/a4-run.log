@@ -1,0 +1,21 @@
+S verrouillée, impulsion linéaire : sub-level 96bdfb8a-66e1-4414-9468-7f7fe39b58f0 masse=192.5 départ=(5,1753, 64,4992, 5,0195)
+S verrouillée, couple : sub-level 6aff1c09-2c15-420a-b2c6-9d61f960a753 masse=192.5 départ=(105,1753, 64,4992, 5,0195)
+S verrouillée, impulsion + couple : sub-level d59e9621-7ffe-4f2d-8b1b-97b41cc224c0 masse=192.5 départ=(205,1753, 64,4992, 5,0195)
+S gelée (contrainte fixe), impulsion + couple : sub-level 254a61aa-9548-4f89-898e-d228d9eeeab9 masse=192.5 départ=(305,1753, 64,4992, 5,0195)
+L verrouillée, impulsion + couple : sub-level 87617f23-fa7c-4e47-a580-afd1a6afe5ee masse=3925.0 départ=(410,0669, 66,4614, 10,0019)
+S verrouillée + 20 entités, impulsion + couple : sub-level 9e34a07e-ec65-40bd-acec-dfa0848f2e72 masse=192.5 départ=(505,1753, 64,4992, 5,0195)
+DÉBUT A4 6000 ticks
+contrainte posée et impulsions appliquées : S verrouillée, impulsion linéaire
+contrainte posée et impulsions appliquées : S verrouillée, couple
+contrainte posée et impulsions appliquées : S verrouillée, impulsion + couple
+contrainte posée et impulsions appliquées : S gelée (contrainte fixe), impulsion + couple
+contrainte posée et impulsions appliquées : L verrouillée, impulsion + couple
+contrainte posée et impulsions appliquées : S verrouillée + 20 entités, impulsion + couple
+S verrouillée, impulsion linéaire : dérive max=1,063e-05 écart-type=0,000e+00 angle max=0,000 rad pic ω=0,000 amortissement(1%)=non atteint -> position OK, rotation OK
+S verrouillée, couple : dérive max=3,205e-06 écart-type=0,000e+00 angle max=3,140 rad pic ω=2,714 amortissement(1%)=non atteint -> position OK, rotation OK
+S verrouillée, impulsion + couple : dérive max=1,763e-05 écart-type=0,000e+00 angle max=3,140 rad pic ω=2,714 amortissement(1%)=non atteint -> position OK, rotation OK
+S gelée (contrainte fixe), impulsion + couple : dérive max=3,120e-05 écart-type=0,000e+00 angle max=0,000 rad pic ω=0,000 amortissement(1%)=2 ticks -> position OK, rotation OK
+L verrouillée, impulsion + couple : dérive max=1,851e-05 écart-type=1,728e-12 angle max=3,141 rad pic ω=0,457 amortissement(1%)=non atteint -> position OK, rotation OK
+S verrouillée + 20 entités, impulsion + couple : dérive max=3,120e-05 écart-type=0,000e+00 angle max=3,140 rad pic ω=2,714 amortissement(1%)=non atteint -> position OK, rotation OK
+temps de tick serveur moyen : 0,775 ms (6021 ticks)
+FIN A4 : RÉUSSI

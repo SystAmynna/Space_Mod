@@ -1,0 +1,46 @@
+[setup-stop] DÉBUT setup-stop : 4 Minis occupées [4cd2429b-de61-4722-9c25-3a56565c7923, 949b1004-65ec-4d73-b179-1a64c40b25a6, 653f47e1-bf91-4281-9271-959be1c2cf9f, 8a805ced-3fbb-40cc-8663-a3ade8f289ff], 3 Minis en données [a32b1051-8e22-4777-b2d0-25b18ece62cf, 44561aa3-65c6-4be4-8e15-3c64cbe7d387, 547d1f26-8abc-4cb8-a2fb-3e3521312805], intervalle de sauvegarde 200 ticks
+[setup-stop] sauvegarde automatique au tick 200
+[setup-stop] arrêt propre demandé au tick 300 (100 ticks après la sauvegarde automatique du tick 200)
+[check] DÉBUT check (après stop) : index du tick 200, dernière vérité terrain au tick 300
+[check] sub-levels présents dans la Tampon : 4 (attendu 4) ; doublons=0 ; plots occupés=4
+[check] Mini occupée 949b1004-65ec-4d73-b179-1a64c40b25a6 : restaurée à (78,5016, 64,0000, 0,0000) ; vérité terrain (tick 300) 69,49,64,00,0,00 -> perte 9,009 bloc ; écart à la dernière sauvegarde (tick 200) : 19,006 bloc ; vitesse restaurée (1,8000, 0,0000, 0,0000) ; passager=1
+[check] Mini occupée 4cd2429b-de61-4722-9c25-3a56565c7923 : restaurée à (38,4942, 64,0000, 0,0000) ; vérité terrain (tick 300) 29,50,64,00,0,00 -> perte 8,997 bloc ; écart à la dernière sauvegarde (tick 200) : 18,995 bloc ; vitesse restaurée (1,8000, 0,0000, 0,0000) ; passager=1
+[check] Mini occupée 653f47e1-bf91-4281-9271-959be1c2cf9f : restaurée à (118,5016, 64,0000, 0,0000) ; vérité terrain (tick 300) 109,49,64,00,0,00 -> perte 9,009 bloc ; écart à la dernière sauvegarde (tick 200) : 19,006 bloc ; vitesse restaurée (1,8000, 0,0000, 0,0000) ; passager=1
+[check] Mini occupée 8a805ced-3fbb-40cc-8663-a3ade8f289ff : restaurée à (158,5016, 64,0000, 0,0000) ; vérité terrain (tick 300) 149,49,64,00,0,00 -> perte 9,009 bloc ; écart à la dernière sauvegarde (tick 200) : 19,006 bloc ; vitesse restaurée (1,8000, 0,0000, 0,0000) ; passager=1
+[check] fichiers de Minis en données : 3 (attendu 3) ; temporaires résiduels : 0
+[check] Mini en données a32b1051-8e22-4777-b2d0-25b18ece62cf : désérialisée (lisible, non corrompue) ; identifiant conservé=true
+[check] Mini en données 44561aa3-65c6-4be4-8e15-3c64cbe7d387 : désérialisée (lisible, non corrompue) ; identifiant conservé=true
+[check] Mini en données 547d1f26-8abc-4cb8-a2fb-3e3521312805 : désérialisée (lisible, non corrompue) ; identifiant conservé=true
+[check] plots occupés après les désérialisations de contrôle : 4 (attendu 4)
+[check] FIN check : RÉUSSI
+[setup-kill] DÉBUT setup-kill : 4 Minis occupées [5390a895-bc68-44a7-b663-74c5ec00bff5, 6584ad5a-86bf-49c9-b03c-8358ce6f5ab0, 24cf2955-f897-4d06-98c6-706b7b5ac219, 17d867f3-2ac1-44bb-a9e1-2bf6ecc224a2], 3 Minis en données [f5d26281-30e5-49a5-94c9-cfd20f267f13, 80ec363f-cb3a-43e5-a4eb-d4106ba4e671, 6c57163d-7b5f-4c6a-bc87-8eac219760e6], intervalle de sauvegarde 200 ticks
+[setup-kill] sauvegarde automatique au tick 200
+[setup-kill] prêt pour le plantage au tick 300 ; attente du kill -9 externe
+[check] DÉBUT check (après kill) : index du tick 200, dernière vérité terrain au tick 300
+[check] sub-levels présents dans la Tampon : 4 (attendu 4) ; doublons=0 ; plots occupés=4
+[check] Mini occupée 6584ad5a-86bf-49c9-b03c-8358ce6f5ab0 : restaurée à (68,4972, 64,0000, 0,0000) ; vérité terrain (tick 300) 69,49,64,00,0,00 -> perte 0,996 bloc ; écart à la dernière sauvegarde (tick 200) : 9,002 bloc ; vitesse restaurée (1,8000, 0,0000, 0,0000) ; passager=1
+[check] Mini occupée 24cf2955-f897-4d06-98c6-706b7b5ac219 : restaurée à (108,5040, 64,0000, 0,0000) ; vérité terrain (tick 300) 109,49,64,00,0,00 -> perte 0,989 bloc ; écart à la dernière sauvegarde (tick 200) : 9,009 bloc ; vitesse restaurée (1,8000, 0,0000, 0,0000) ; passager=1
+[check] Mini occupée 17d867f3-2ac1-44bb-a9e1-2bf6ecc224a2 : restaurée à (148,5040, 64,0000, 0,0000) ; vérité terrain (tick 300) 149,49,64,00,0,00 -> perte 0,989 bloc ; écart à la dernière sauvegarde (tick 200) : 9,009 bloc ; vitesse restaurée (1,8000, 0,0000, 0,0000) ; passager=1
+[check] Mini occupée 5390a895-bc68-44a7-b663-74c5ec00bff5 : restaurée à (28,5016, 64,0000, 0,0000) ; vérité terrain (tick 300) 29,50,64,00,0,00 -> perte 0,996 bloc ; écart à la dernière sauvegarde (tick 200) : 9,002 bloc ; vitesse restaurée (1,8000, 0,0000, 0,0000) ; passager=1
+[check] fichiers de Minis en données : 3 (attendu 3) ; temporaires résiduels : 0
+[check] Mini en données f5d26281-30e5-49a5-94c9-cfd20f267f13 : désérialisée (lisible, non corrompue) ; identifiant conservé=true
+[check] Mini en données 80ec363f-cb3a-43e5-a4eb-d4106ba4e671 : désérialisée (lisible, non corrompue) ; identifiant conservé=true
+[check] Mini en données 6c57163d-7b5f-4c6a-bc87-8eac219760e6 : désérialisée (lisible, non corrompue) ; identifiant conservé=true
+[check] plots occupés après les désérialisations de contrôle : 4 (attendu 4)
+[check] FIN check : RÉUSSI
+[setup-killser] DÉBUT setup-killser : 4 Minis occupées [131851f2-dde4-4283-9aca-874b28249c38, a3839512-a907-4bf0-a71c-82c04ef4d75c, 3c6a9232-d6a1-4c0c-97a7-40b425a89d43, 3e55247e-ed91-4793-98ea-a3b323d4e310], 3 Minis en données [1d214ec8-523f-40f8-9e68-d0eeea08ae82, b673ebbd-a20b-44af-8668-f82914acfd5e, 036c9f75-1b56-4d30-9ab8-8de719341cc6], intervalle de sauvegarde 200 ticks
+[setup-killser] sauvegarde automatique au tick 200
+[setup-killser] écriture de 131851f2-dde4-4283-9aca-874b28249c38 interrompue à mi-fichier (547/1095 octets dans le .tmp)
+[check] DÉBUT check (après killser) : index du tick 200, dernière vérité terrain au tick 300
+[check] sub-levels présents dans la Tampon : 4 (attendu 4) ; doublons=0 ; plots occupés=4
+[check] Mini occupée 131851f2-dde4-4283-9aca-874b28249c38 : restaurée à (28,5016, 64,0000, 0,0000) ; vérité terrain (tick 300) 29,50,64,00,0,00 -> perte 0,996 bloc ; écart à la dernière sauvegarde (tick 200) : 9,002 bloc ; vitesse restaurée (1,8000, 0,0000, 0,0000) ; passager=1
+[check] Mini occupée a3839512-a907-4bf0-a71c-82c04ef4d75c : restaurée à (68,4972, 64,0000, 0,0000) ; vérité terrain (tick 300) 69,49,64,00,0,00 -> perte 0,996 bloc ; écart à la dernière sauvegarde (tick 200) : 9,002 bloc ; vitesse restaurée (1,8000, 0,0000, 0,0000) ; passager=1
+[check] Mini occupée 3e55247e-ed91-4793-98ea-a3b323d4e310 : restaurée à (148,5040, 64,0000, 0,0000) ; vérité terrain (tick 300) 149,49,64,00,0,00 -> perte 0,989 bloc ; écart à la dernière sauvegarde (tick 200) : 9,009 bloc ; vitesse restaurée (1,8000, 0,0000, 0,0000) ; passager=1
+[check] Mini occupée 3c6a9232-d6a1-4c0c-97a7-40b425a89d43 : restaurée à (108,5040, 64,0000, 0,0000) ; vérité terrain (tick 300) 109,49,64,00,0,00 -> perte 0,989 bloc ; écart à la dernière sauvegarde (tick 200) : 9,009 bloc ; vitesse restaurée (1,8000, 0,0000, 0,0000) ; passager=1
+[check] fichier temporaire résiduel (ignoré par le chargement) : 131851f2-dde4-4283-9aca-874b28249c38.nbt.tmp (547 octets)
+[check] fichiers de Minis en données : 3 (attendu 3) ; temporaires résiduels : 1
+[check] Mini en données 1d214ec8-523f-40f8-9e68-d0eeea08ae82 : désérialisée (lisible, non corrompue) ; identifiant conservé=true
+[check] Mini en données b673ebbd-a20b-44af-8668-f82914acfd5e : désérialisée (lisible, non corrompue) ; identifiant conservé=true
+[check] Mini en données 036c9f75-1b56-4d30-9ab8-8de719341cc6 : désérialisée (lisible, non corrompue) ; identifiant conservé=true
+[check] plots occupés après les désérialisations de contrôle : 4 (attendu 4)
+[check] FIN check : RÉUSSI

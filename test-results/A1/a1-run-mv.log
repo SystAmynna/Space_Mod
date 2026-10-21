@@ -1,0 +1,132 @@
+DÉBUT A1 2026-10-20T10:21:14.457564229Z bibliothèque=Madnessverse cycles=10 niveaux_de_base=3
+-- cycle 1/10
+création des 2 dimensions : 5 ms
+sub-level void=a0d4db75-0767-4dc4-b3e6-c406a03c9566 départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=a3252175-12a2-4208-81af-81965814b399 départ=(4,9938, 64,5116, 5,0062)
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=420.1618426287616
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 27 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:void) -> true
+deleteDynamicDimension(spacemod_test:gravity) -> true
+niveaux chargés : 3 (base 3)
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/void
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/gravity
+-- cycle 2/10
+création des 2 dimensions : 3 ms
+sub-level void=17763af4-b08a-49ff-ac39-23150c16b2b0 départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=8497917a-0ff5-442b-bbd4-3e1c4c70469c départ=(4,9938, 64,5116, 5,0062)
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=420.1618426287616
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 8 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:void) -> true
+deleteDynamicDimension(spacemod_test:gravity) -> true
+niveaux chargés : 3 (base 3)
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/void
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/gravity
+-- cycle 3/10
+création des 2 dimensions : 4 ms
+sub-level void=35c6e26b-781c-4bcb-a9cd-1de122374bd8 départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=02fcd59a-5c6d-41b3-bbff-9f1538b337da départ=(4,9938, 64,5116, 5,0062)
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=420.1618426287616
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 5 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:void) -> true
+deleteDynamicDimension(spacemod_test:gravity) -> true
+niveaux chargés : 3 (base 3)
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/void
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/gravity
+-- cycle 4/10
+création des 2 dimensions : 4 ms
+sub-level void=f19407a3-1636-4e82-9395-356334e61325 départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=1734e51c-90e3-4d8a-a21a-a4ead6078c8e départ=(4,9938, 64,5116, 5,0062)
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=420.1618426287616
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 7 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:void) -> true
+deleteDynamicDimension(spacemod_test:gravity) -> true
+niveaux chargés : 3 (base 3)
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/void
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/gravity
+-- cycle 5/10
+création des 2 dimensions : 3 ms
+sub-level void=62d74f0b-2e2a-4f9d-82d8-f1ed1f51ec44 départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=75d73ac4-cf57-44bf-9a5b-8e47f3bf2d0f départ=(4,9938, 64,5116, 5,0062)
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=420.1618426287616
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 6 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:void) -> true
+deleteDynamicDimension(spacemod_test:gravity) -> true
+niveaux chargés : 3 (base 3)
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/void
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/gravity
+-- cycle 6/10
+création des 2 dimensions : 3 ms
+sub-level void=068ddbfe-3b78-4d63-92b8-e5bee137cbfd départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=4150e494-c04a-428d-8ac0-816eb7e89c24 départ=(4,9938, 64,5116, 5,0062)
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=420.1618426287616
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 5 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:void) -> true
+deleteDynamicDimension(spacemod_test:gravity) -> true
+niveaux chargés : 3 (base 3)
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/void
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/gravity
+-- cycle 7/10
+création des 2 dimensions : 4 ms
+sub-level void=4481e488-fa61-4d6a-ace3-184736bcb758 départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=678b550f-e883-4a6a-a620-a805561bc822 départ=(4,9938, 64,5116, 5,0062)
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=420.1618426287616
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 5 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:void) -> true
+deleteDynamicDimension(spacemod_test:gravity) -> true
+niveaux chargés : 3 (base 3)
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/void
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/gravity
+-- cycle 8/10
+création des 2 dimensions : 4 ms
+sub-level void=c3d7b402-af22-431f-b79f-fc3ab6541b1e départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=51fe3091-b3c4-40db-b8f4-27165fd231e9 départ=(4,9938, 64,5116, 5,0062)
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=420.1618426287616
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 4 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:void) -> true
+deleteDynamicDimension(spacemod_test:gravity) -> true
+niveaux chargés : 3 (base 3)
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/void
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/gravity
+-- cycle 9/10
+création des 2 dimensions : 3 ms
+sub-level void=50a09e57-b027-412c-96cd-9d0d89ad012b départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=ee99338d-60b1-45d2-83e6-a97ff0e0be6b départ=(4,9938, 64,5116, 5,0062)
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=420.1618426287616
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 4 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:void) -> true
+deleteDynamicDimension(spacemod_test:gravity) -> true
+niveaux chargés : 3 (base 3)
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/void
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/gravity
+-- cycle 10/10
+création des 2 dimensions : 3 ms
+sub-level void=dfeeac46-4635-4512-ac9a-ec338cf4976f départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=37195b46-a543-423b-8dfe-c01123924677 départ=(4,9938, 64,5116, 5,0062)
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=420.1618426287616
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 4 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:void) -> true
+deleteDynamicDimension(spacemod_test:gravity) -> true
+niveaux chargés : 3 (base 3)
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/void
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/gravity
+FIN A1 : RÉUSSI

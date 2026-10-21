@@ -1,0 +1,30 @@
+DÉBUT C7 ; R=300.0 (croiseur), M=15.0, 1 g = 9.81 bloc/s², vitesse initiale de l'hôte 5.0 bloc/s
+[accélération douce 0,5 g (+x), orientation identité] 156 mesures de Δv ; écart relatif à la variation attendue : max 1,027e-06 moyen 6,278e-07 (critère 1 %) ; dérive max des Minis couplées 0,00001 bloc ; tick moyen 9,63 ms
+[accélération forte 5 g (+x), hôte tourné de 0,7 rad autour de Y] 156 mesures de Δv ; écart relatif à la variation attendue : max 1,154e-06 moyen 6,286e-07 (critère 1 %) ; dérive max des Minis couplées 0,00001 bloc ; tick moyen 5,13 ms
+[freinage 5 g (-x), hôte tourné de 1,1 rad autour de Z] 156 mesures de Δv ; écart relatif à la variation attendue : max 1,288e-06 moyen 9,930e-07 (critère 1 %) ; dérive max des Minis couplées 0,00001 bloc ; tick moyen 3,41 ms
+[changement de direction (+y puis -z), orientation quelconque] 76 mesures de Δv ; écart relatif à la variation attendue : max 6,638e-07 moyen 6,638e-07 (critère 1 %) ; dérive max des Minis couplées 0,00001 bloc ; tick moyen 3,16 ms
+[changement de direction (-z)] 76 mesures de Δv ; écart relatif à la variation attendue : max 1,480e-06 moyen 1,480e-06 (critère 1 %) ; dérive max des Minis couplées 0,00001 bloc ; tick moyen 3,34 ms
+[accélérations répétées 1/10 (+x, 2,5 g)] 76 mesures de Δv ; écart relatif à la variation attendue : max 5,973e-06 moyen 5,672e-06 (critère 1 %) ; dérive max des Minis couplées 0,00001 bloc ; tick moyen 3,43 ms
+[accélérations répétées 2/10 (-x, 2,5 g)] 76 mesures de Δv ; écart relatif à la variation attendue : max 5,973e-06 moyen 5,672e-06 (critère 1 %) ; dérive max des Minis couplées 0,00001 bloc ; tick moyen 3,39 ms
+[accélérations répétées 3/10 (+x, 2,5 g)] 76 mesures de Δv ; écart relatif à la variation attendue : max 5,973e-06 moyen 5,370e-06 (critère 1 %) ; dérive max des Minis couplées 0,00001 bloc ; tick moyen 3,43 ms
+[accélérations répétées 4/10 (-x, 2,5 g)] 76 mesures de Δv ; écart relatif à la variation attendue : max 5,973e-06 moyen 5,672e-06 (critère 1 %) ; dérive max des Minis couplées 0,00001 bloc ; tick moyen 3,37 ms
+[accélérations répétées 5/10 (+x, 2,5 g)] 76 mesures de Δv ; écart relatif à la variation attendue : max 5,973e-06 moyen 5,370e-06 (critère 1 %) ; dérive max des Minis couplées 0,00001 bloc ; tick moyen 3,37 ms
+[accélérations répétées 6/10 (-x, 2,5 g)] 76 mesures de Δv ; écart relatif à la variation attendue : max 5,973e-06 moyen 5,672e-06 (critère 1 %) ; dérive max des Minis couplées 0,00001 bloc ; tick moyen 3,39 ms
+[accélérations répétées 7/10 (+x, 2,5 g)] 76 mesures de Δv ; écart relatif à la variation attendue : max 5,973e-06 moyen 5,370e-06 (critère 1 %) ; dérive max des Minis couplées 0,00001 bloc ; tick moyen 3,34 ms
+[accélérations répétées 8/10 (-x, 2,5 g)] 76 mesures de Δv ; écart relatif à la variation attendue : max 5,973e-06 moyen 5,672e-06 (critère 1 %) ; dérive max des Minis couplées 0,00001 bloc ; tick moyen 3,19 ms
+[accélérations répétées 9/10 (+x, 2,5 g)] 76 mesures de Δv ; écart relatif à la variation attendue : max 5,973e-06 moyen 5,370e-06 (critère 1 %) ; dérive max des Minis couplées 0,00001 bloc ; tick moyen 3,14 ms
+[accélérations répétées 10/10 (-x, 2,5 g)] 76 mesures de Δv ; écart relatif à la variation attendue : max 5,973e-06 moyen 5,672e-06 (critère 1 %) ; dérive max des Minis couplées 0,00001 bloc ; tick moyen 3,11 ms
+Mini couplée pendant la variation à pose=(-1893,4365, -1497,6984, -737,4192) (vitesse remise à zéro avant le couplage)
+[couplage d'une Mini pendant la variation (+x, 2,5 g)] 93 mesures de Δv ; écart relatif à la variation attendue : max 5,973e-06 moyen 5,480e-06 (critère 1 %) ; dérive max des Minis couplées 0,00001 bloc ; tick moyen 3,03 ms
+  Mini couplée en cours de variation : dérive 0,00000 bloc depuis 5 ticks après le couplage
+début éjection : vitesse stratégique de l'hôte (51,5975, 49,0500, -49,0500), 3 Minis non couplées en suspension, positions x=-50, -10, 70 ; seuil R+M=315.0
+Mini éjectée au tick 66 à distance 321,1 (R+M=315,0) ; vitesse stratégique avant éjection (51,5975, 49,0500, -49,0500) contre vitesse initiale (51,5975, 49,0500, -49,0500) : écart relatif 2,89e-07 ; transfert 15,32 ms
+Mini éjectée au tick 71 à distance 323,4 (R+M=315,0) ; vitesse stratégique avant éjection (51,5975, 49,0500, -49,0500) contre vitesse initiale (51,5975, 49,0500, -49,0500) : écart relatif 3,25e-07 ; transfert 6,71 ms
+  vitesse dans la Tampon Spatiale après éjection : (51,5975, 49,0500, -49,0500) contre (51,5975, 49,0500, -49,0500), écart relatif 2,93e-08
+  vitesse dans la Tampon Spatiale après éjection : (51,5975, 49,0500, -49,0500) contre (51,5975, 49,0500, -49,0500), écart relatif 2,16e-08
+Mini éjectée au tick 79 à distance 317,5 (R+M=315,0) ; vitesse stratégique avant éjection (51,5975, 49,0500, -49,0500) contre vitesse initiale (51,5975, 49,0500, -49,0500) : écart relatif 3,81e-07 ; transfert 7,06 ms
+  vitesse dans la Tampon Spatiale après éjection : (51,5975, 49,0500, -49,0500) contre (51,5975, 49,0500, -49,0500), écart relatif 1,88e-08
+[éjection en cascade (+x, 5 g, R=300)] éjectées : 3 ; écart relatif max de continuité : 3,812e-07 ; tick moyen 3,11 ms
+dérive maximale des Minis couplées sur tout le test : 0,00001 bloc (critère 0,01)
+dimension hôte déchargée pendant la variation : effet appliqué=false (attendu : non), niveau retiré après 0 ticks
+FIN C7 : RÉUSSI (partie automatique)

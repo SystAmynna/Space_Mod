@@ -1,0 +1,26 @@
+# Mod de test jetable (plan_de_tests.md). Chargé uniquement par runServerDevMods / runClientDevMods.
+modLoader="javafml"
+loaderVersion="[1,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="spacemod_test"
+version="0.1.0"
+displayName="Space Mod - tests"
+description='''
+Commandes /spacetest pour exécuter les tests du plan_de_tests.md. Ne pas publier.
+'''
+
+[[dependencies.spacemod_test]]
+modId="sable"
+type="required"
+versionRange="[2.0.6,)"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.spacemod_test]]
+modId="madnessverse"
+type="required"
+versionRange="[1.0.0,)"
+ordering="AFTER"
+side="BOTH"

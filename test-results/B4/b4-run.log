@@ -1,0 +1,14 @@
+OK      premier joueur : chargement, rattrapage une fois, durée depuis le début du monde = 100
+OK      délai non écoulé (1199 ticks) : toujours chargé
+OK      délai écoulé : déchargé exactement à t+1200
+OK      retour après déchargement : 2e chargement, rattrapage = durée depuis le déchargement (3300)
+OK      reconnexion avant le délai : déchargement annulé, aucun deuxième chargement ni rattrapage
+OK      deux joueurs, deux systèmes : celui qui part est déchargé, l'autre reste chargé
+OK      saut sol -> alpha : alpha chargé au moment du saut, sol encore chargé pendant le délai puis déchargé
+OK      arrêt pendant le délai : système déchargé proprement, une seule fois
+OK      redémarrage : un seul rattrapage, durée = temps de jeu écoulé entre l'arrêt et le rechargement (0 ici, horloge arrêtée)
+OK      trois joueurs arrivent puis deux repartent : un seul chargement, aucun déchargement tant qu'un joueur reste
+OK      le dernier joueur part : déchargement après le délai
+OK      2000 séquences aléatoires : 0 violation(s) des invariants (chargé si joueur ; déchargement planifié sinon ; rattrapage = nombre de chargements ; pas de double chargement)
+
+FIN B4 : RÉUSSI

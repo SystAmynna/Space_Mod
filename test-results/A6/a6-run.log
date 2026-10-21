@@ -1,0 +1,22 @@
+DÉBUT A6, plots occupés au départ : 0
+[S] prêt : 58e73895-ad6c-49fe-a124-c19e022c4248 plots occupés=1
+[S] avant : blocs=100,coffres=5,items=320,entités=1,user_data={spacemod_test:42} pose=(6,2752, 64,4992, 5,0195) plot=[10000, 10000] v=(2,0000, 0,0000, 0,0000)
+[S] sérialisé : 1044 octets compressés (31260 non compressés), 1,78 ms
+[S] après retrait : plots occupés=0 (avant 1), absent du conteneur=true
+[S] désérialisé en 20,84 ms
+[S] après : blocs=100,coffres=5,items=320,entités=1,user_data={spacemod_test:42} plot=[10000, 10000] v=(1,8000, 0,0000, 0,0000) facteur de vitesse≈0,9000 -> contenu identique
+[L] prêt : a97b236b-1c26-48a6-a42a-03da5cbf93a3 plots occupés=1
+[L] avant : blocs=2000,coffres=50,items=3200,entités=1,user_data={spacemod_test:42} pose=(11,1670, 66,4614, 10,0019) plot=[10000, 10000] v=(2,0000, 0,0000, 0,0000)
+[L] sérialisé : 1351 octets compressés (77157 non compressés), 0,65 ms
+[L] après retrait : plots occupés=0 (avant 1), absent du conteneur=true
+[L] désérialisé en 8,44 ms
+[L] après : blocs=2000,coffres=50,items=3200,entités=1,user_data={spacemod_test:42} plot=[10000, 10000] v=(1,8000, 0,0000, 0,0000) facteur de vitesse≈0,9000 -> contenu identique
+[conflit] prêt : a652f249-bdda-47b5-b8ed-b31793eab7c5 plots occupés=1
+[conflit] avant : blocs=100,coffres=5,items=320,entités=1,user_data={spacemod_test:42} pose=(1006,2872, 64,4992, 5,0195) plot=[10000, 10000] v=(2,0000, 0,0000, 0,0000)
+[conflit] sérialisé : 1045 octets compressés (31260 non compressés), 0,29 ms
+[conflit] autre sub-level 2c34d525-3580-4b5c-80a1-67e12f9a72b0 plot=[10000, 10000] (ancien plot de a652f249-bdda-47b5-b8ed-b31793eab7c5 : null)
+ÉCHEC : [conflit] fullyLoad renvoie null (plot pris) sans exception : les données seraient perdues si l'appelant ne le vérifie pas
+[fuite] prêt : 8e50cd3d-82a0-48ca-8f8c-eabe7c8f2b39 plots occupés=1
+[fuite] plots occupés : début=1 fin=1 après 1000 cycles
+durées (ms) sérialisation p50=0,21 p95=0,32 ; désérialisation p50=2,04 p95=2,54
+FIN A6 : ÉCHEC (1)

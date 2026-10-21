@@ -1,0 +1,16 @@
+DÉBUT C3 ; R(croiseur)=300.0 ; M = rayon de la Mini L arrondi = 15.0 (formule de test : M = rayon de la Mini ; l'agent la juge adaptée pour une sphère, voir rapport) ; période d'oscillation 30 ticks ; vitesse de l'hôte 5.0 bloc/s
+mémoire utilisée au départ : 285,8 Mo
+plots occupés au départ : hôte=0 tampon=1
+[sphère, amplitude M/2] 600 ticks, 0 entrées + 0 sorties = 0 transferts ; seuils violés=0 ; passager perdu=0 fois ; continuité de la vitesse stratégique (0 contrôles) : pire écart relatif 0,00e+00 (absolu 0,00e+00 bloc/s), >1e-6 : 0 fois ; durée de transfert p50=NaN ms p95=NaN ms max=NaN ms ; plots occupés hôte=0 tampon=1
+  mémoire après la série : 285,9 Mo (départ 285,8 Mo)
+[sphère, amplitude 0,99 M] 600 ticks, 0 entrées + 0 sorties = 0 transferts ; seuils violés=0 ; passager perdu=0 fois ; continuité de la vitesse stratégique (0 contrôles) : pire écart relatif 0,00e+00 (absolu 0,00e+00 bloc/s), >1e-6 : 0 fois ; durée de transfert p50=NaN ms p95=NaN ms max=NaN ms ; plots occupés hôte=0 tampon=1
+  mémoire après la série : 290,7 Mo (départ 285,8 Mo)
+[sphère, amplitude 1,1 M] 300 ticks, 10 entrées + 9 sorties = 19 transferts ; seuils violés=0 ; passager perdu=0 fois ; continuité de la vitesse stratégique (19 contrôles) : pire écart relatif 0,00e+00 (absolu 0,00e+00 bloc/s), >1e-6 : 0 fois ; durée de transfert p50=5,05 ms p95=8,49 ms max=62,35 ms ; plots occupés hôte=0 tampon=1
+  mémoire après la série : 305,7 Mo (départ 285,8 Mo)
+[sphère, amplitude 2M] 1500 ticks, 50 entrées + 49 sorties = 99 transferts ; seuils violés=0 ; passager perdu=0 fois ; continuité de la vitesse stratégique (99 contrôles) : pire écart relatif 0,00e+00 (absolu 0,00e+00 bloc/s), >1e-6 : 0 fois ; durée de transfert p50=3,65 ms p95=4,68 ms max=5,27 ms ; plots occupés hôte=0 tampon=1
+  mémoire après la série : 307,7 Mo (départ 285,8 Mo)
+[sphère, amplitude 4M (1000 franchissements)] 15000 ticks, 500 entrées + 499 sorties = 999 transferts ; seuils violés=0 ; passager perdu=0 fois ; continuité de la vitesse stratégique (999 contrôles) : pire écart relatif 0,00e+00 (absolu 0,00e+00 bloc/s), >1e-6 : 0 fois ; durée de transfert p50=3,11 ms p95=4,05 ms max=8,69 ms ; plots occupés hôte=0 tampon=1
+  mémoire après la série : 314,2 Mo (départ 285,8 Mo)
+[tore, amplitude 4M] 3000 ticks, 100 entrées + 99 sorties = 199 transferts ; seuils violés=0 ; passager perdu=0 fois ; continuité de la vitesse stratégique (199 contrôles) : pire écart relatif 0,00e+00 (absolu 0,00e+00 bloc/s), >1e-6 : 0 fois ; durée de transfert p50=2,95 ms p95=3,92 ms max=6,89 ms ; plots occupés hôte=0 tampon=1
+  mémoire après la série : 313,3 Mo (départ 285,8 Mo)
+FIN C3 : mémoire 285,8 Mo -> 314,1 Mo, plots occupés hôte=0 tampon=1 (départ 0/1) -> RÉUSSI

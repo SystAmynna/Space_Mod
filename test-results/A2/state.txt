@@ -1,0 +1,2 @@
+persist|1277f47e-baab-4752-ba7f-820031d31d42|(4,9938, 64,5116, 5,0062)|blocs=105,coffres=5,items=320
+tampon|7e9db1dd-176f-45de-afea-5fcd617bae87|(4,9938, 64,5116, 5,0062)|blocs=105,coffres=5,items=320

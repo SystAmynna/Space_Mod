@@ -1,0 +1,25 @@
+== scénarios : rattrapage événementiel contre simulation tick par tick ==
+(a) Mini contre astre sur 1 heure : événements=[29593 ASTRE1×MINI2] ; référence=[29593 ASTRE1×MINI2] ; durée rattrapage 6,71 ms (référence 11 ms) -> IDENTIQUE
+(a) Mini contre astre sur 1 jour : événements=[29593 ASTRE1×MINI2] ; référence=[29593 ASTRE1×MINI2] ; durée rattrapage 0,24 ms (référence 123 ms) -> IDENTIQUE
+(a) Mini contre astre sur 1 mois : événements=[29593 ASTRE1×MINI2] ; référence=[29593 ASTRE1×MINI2] ; durée rattrapage 0,19 ms (référence 2205 ms) -> IDENTIQUE
+(b) Mini contre Mini sur 1 heure : événements=[24953 MINI1×MINI2] ; référence=[24953 MINI1×MINI2] ; durée rattrapage 0,20 ms (référence 15 ms) -> IDENTIQUE
+(b) Mini contre Mini sur 1 jour : événements=[24953 MINI1×MINI2] ; référence=[24953 MINI1×MINI2] ; durée rattrapage 0,09 ms (référence 66 ms) -> IDENTIQUE
+(b) Mini contre Mini sur 1 mois : événements=[24953 MINI1×MINI2] ; référence=[24953 MINI1×MINI2] ; durée rattrapage 0,07 ms (référence 1885 ms) -> IDENTIQUE
+(c) Mini contre Micro sur 1 heure : événements=[9982 MINI1×MICRO2] ; référence=[9982 MINI1×MICRO2] ; durée rattrapage 0,16 ms (référence 3 ms) -> IDENTIQUE
+(c) Mini contre Micro sur 1 jour : événements=[9982 MINI1×MICRO2] ; référence=[9982 MINI1×MICRO2] ; durée rattrapage 0,09 ms (référence 62 ms) -> IDENTIQUE
+(c) Mini contre Micro sur 1 mois : événements=[9982 MINI1×MICRO2] ; référence=[9982 MINI1×MICRO2] ; durée rattrapage 0,06 ms (référence 1878 ms) -> IDENTIQUE
+(d) trois objets, collisions multiples sur 1 heure : événements=[9909 MINI1×MINI3, 9909 MINI2×MINI3] ; référence=[9909 MINI1×MINI3, 9909 MINI2×MINI3] ; durée rattrapage 0,37 ms (référence 8 ms) -> IDENTIQUE
+(d) trois objets, collisions multiples sur 1 jour : événements=[9909 MINI1×MINI3, 9909 MINI2×MINI3] ; référence=[9909 MINI1×MINI3, 9909 MINI2×MINI3] ; durée rattrapage 0,16 ms (référence 93 ms) -> IDENTIQUE
+(d) trois objets, collisions multiples sur 1 mois : événements=[9909 MINI1×MINI3, 9909 MINI2×MINI3] ; référence=[9909 MINI1×MINI3, 9909 MINI2×MINI3] ; durée rattrapage 0,20 ms (référence 2567 ms) -> IDENTIQUE
+(e) aucune collision sur 1 heure : événements=[] ; référence=[] ; durée rattrapage 0,18 ms (référence 3 ms) -> IDENTIQUE
+(e) aucune collision sur 1 jour : événements=[] ; référence=[] ; durée rattrapage 0,07 ms (référence 62 ms) -> IDENTIQUE
+(e) aucune collision sur 1 mois : événements=[] ; référence=[] ; durée rattrapage 0,13 ms (référence 1931 ms) -> IDENTIQUE
+
+== validation aléatoire (graine 2026) : 60 scénarios de 10 objets sur 1 jour, 15 événements au total, 0 divergence(s) ==
+restauration d'une Mini détruite : état conservé (tick 24953, position [2495.3, 0.0, 0.0], vitesse 0.1) -> OK
+Mini contre Micro : Mini restaurable=true, Micro oubliée=true (non restaurable par conception)
+performance, 10 000 Minis + 1 000 Micros + 20 astres sur 1 mois (essai 1) : 1,24 s, 15 événements (critère proposé : moins de 1 s)
+performance, 10 000 Minis + 1 000 Micros + 20 astres sur 1 mois (essai 2) : 1,21 s, 15 événements (critère proposé : moins de 1 s)
+performance, 10 000 Minis + 1 000 Micros + 20 astres sur 1 mois (essai 3) : 1,21 s, 15 événements (critère proposé : moins de 1 s)
+
+FIN B2 : exactitude RÉUSSIE

@@ -1,0 +1,15 @@
+DÉBUT A1 2026-10-20T15:15:18.270759307Z bibliothèque=Madnessverse cycles=1 niveaux_de_base=3
+-- cycle 1/1
+création des 2 dimensions : 9 ms
+sub-level void=b20fd1c1-eadd-489c-83da-3ef305b400b5 départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=c1165a0a-bcca-40fe-b421-ceef0a960c87 départ=(4,9938, 64,5116, 5,0062)
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=420.1618426287616
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 31 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:void) -> true
+deleteDynamicDimension(spacemod_test:gravity) -> true
+niveaux chargés : 3 (base 3)
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/void
+fichiers conservés par la bibliothèque, supprimés par le test : ./world/./dimensions/spacemod_test/gravity
+FIN A1 : RÉUSSI

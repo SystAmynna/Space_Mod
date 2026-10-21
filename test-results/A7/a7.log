@@ -1,0 +1,23 @@
+15:43:34.789429128 setup : Mini 7bb0368f-e643-4b9b-8db1-ce2b3bc2d2a9 pose=(5,0490, 64,5196, 5,0490) ; délai=30 s
+15:44:19.982153731 DÉCONNEXION de Dev position brute=7.7218|66.0000|7.7146 suivi par un sub-level=true ; Mini présente=true
+15:44:30.643796643 CONNEXION de Dev : minuteur en cours annulé=true, Mini en sub-level=true, position à la connexion=(7,7218, 66,0000, 7,7146)
+15:44:30.644044526 joueur replacé à la position enregistrée (7,7218, 66,0000, 7,7146)
+15:44:47.930396839 DÉCONNEXION de Dev position brute=7.7218|66.0000|7.7146 suivi par un sub-level=true ; Mini présente=true
+15:45:17.879345139 délai écoulé : sérialisation
+15:45:17.881440180 Mini sérialisée dans ../test-results/A7/mini.nbt puis retirée du conteneur
+15:45:33.842667833 CONNEXION de Dev : minuteur en cours annulé=false, Mini en sub-level=false, position à la connexion=(7,7218, 66,0000, 7,7146)
+15:45:33.860590988 Mini restaurée depuis les données : 7bb0368f-e643-4b9b-8db1-ce2b3bc2d2a9 pose=(5,0490, 64,5196, 5,0490)
+15:45:33.866213213 joueur replacé à la position enregistrée (7,7218, 66,0000, 7,7146)
+15:46:04.580247768 DÉCONNEXION de Dev position brute=7.7218|66.0000|7.7146 suivi par un sub-level=true ; Mini présente=true
+15:46:08.779334381 arrêt du serveur pendant le délai : sérialisation immédiate
+15:46:08.780293321 Mini sérialisée dans ../test-results/A7/mini.nbt puis retirée du conteneur
+15:46:22.232112068 CONNEXION de Dev : minuteur en cours annulé=false, Mini en sub-level=false, position à la connexion=(7,7218, 66,0000, 7,7146)
+15:46:22.244344208 Mini restaurée depuis les données : 7bb0368f-e643-4b9b-8db1-ce2b3bc2d2a9 pose=(5,0490, 64,5196, 5,0490)
+15:46:22.262884709 joueur replacé à la position enregistrée (7,7218, 66,0000, 7,7146)
+15:47:39.732506527 DÉCONNEXION de Dev position brute=7.7218|66.0000|7.7146 suivi par un sub-level=true ; Mini présente=true
+15:48:18.594433486 CONNEXION de Dev : minuteur en cours annulé=false, Mini en sub-level=false, position à la connexion=(7,7218, 66,0000, 7,7146)
+15:48:18.606437313 Mini restaurée depuis les données : 7bb0368f-e643-4b9b-8db1-ce2b3bc2d2a9 pose=(5,0490, 64,5196, 5,0490)
+15:48:18.634653699 joueur replacé à la position enregistrée (7,7218, 66,0000, 7,7146)
+15:49:09.905564190 DÉCONNEXION de Dev position brute=7.7218|66.0000|7.7146 suivi par un sub-level=true ; Mini présente=true
+15:49:13.801863698 arrêt du serveur pendant le délai : sérialisation immédiate
+15:49:13.804295652 Mini sérialisée dans ../test-results/A7/mini.nbt puis retirée du conteneur

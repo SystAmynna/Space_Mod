@@ -1,0 +1,723 @@
+1792509623793 écran ouvert : TitleScreen
+1792509627672 écran ouvert : JoinMultiplayerScreen
+1792509629322 écran ouvert : ProgressScreen
+1792509629333 écran ouvert : ConnectScreen
+1792509630132 écran ouvert : ReceivingLevelScreen
+1792509630324 écran ouvert : ReceivingLevelScreen
+1792509630575 image longue : 442 ms, écran=ReceivingLevelScreen
+1792509630600 niveau client changé : minecraft:overworld, chunks chargés=33, écran=ReceivingLevelScreen
+1792509630605 +1 ticks : chunks chargés=33, écran=ReceivingLevelScreen, joueur=(-167,5 64,0 57,5)
+1792509630610 +2 ticks : chunks chargés=33, écran=ReceivingLevelScreen, joueur=(-167,5 64,0 57,5)
+1792509630621 +5 ticks : chunks chargés=33, écran=ReceivingLevelScreen, joueur=(-167,5 64,0 57,5)
+1792509630653 image longue : 78 ms, écran=ReceivingLevelScreen
+1792509630658 +10 ticks : chunks chargés=33, écran=ReceivingLevelScreen, joueur=(-167,5 64,0 57,5)
+1792509631117 +20 ticks : chunks chargés=60, écran=aucun, joueur=(-167,5 64,0 57,5)
+1792509632121 +40 ticks : chunks chargés=121, écran=aucun, joueur=(-167,5 64,0 57,5)
+1792509633037 écran ouvert : GameModeSwitcherScreen
+1792509634565 écran ouvert : ChatScreen
+1792509642969 écran ouvert : ReceivingLevelScreen
+1792509643061 écran ouvert : ReceivingLevelScreen
+1792509643085 niveau client changé : spacemod_test:a8a, chunks chargés=1, écran=ReceivingLevelScreen
+1792509643091 image longue : 121 ms, écran=ReceivingLevelScreen
+1792509643094 +1 ticks : chunks chargés=1, écran=ReceivingLevelScreen, joueur=(5,2 66,5 5,0)
+1792509643096 +2 ticks : chunks chargés=1, écran=ReceivingLevelScreen, joueur=(5,2 66,5 5,0)
+1792509643214 +5 ticks : chunks chargés=3, écran=aucun, joueur=(5,2 66,5 5,0)
+1792509643468 +10 ticks : chunks chargés=204, écran=aucun, joueur=(5,2 66,5 5,0)
+1792509643964 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 66,5 5,0)
+1792509644964 +40 ticks : chunks chargés=453, écran=aucun, joueur=(4,5 65,0 5,2)
+1792509646378 écran ouvert : ContainerScreen
+1792509647172 écran ouvert : ContainerScreen
+1792509647978 écran ouvert : ContainerScreen
+1792509648624 écran ouvert : ContainerScreen
+1792509649623 écran ouvert : ContainerScreen
+1792509650227 écran ouvert : ContainerScreen
+1792509652469 écran ouvert : ChatScreen
+1792509657063 écran ouvert : ChatScreen
+1792509671150 écran ouvert : ReceivingLevelScreen
+1792509671253 écran ouvert : ReceivingLevelScreen
+1792509671262 image longue : 111 ms, écran=ReceivingLevelScreen
+1792509671264 niveau client changé : spacemod_test:a8b, chunks chargés=63, écran=ReceivingLevelScreen
+1792509671266 +1 ticks : chunks chargés=63, écran=ReceivingLevelScreen, joueur=(5,4 65,0 4,6)
+1792509671267 +2 ticks : chunks chargés=63, écran=ReceivingLevelScreen, joueur=(5,4 65,0 4,6)
+1792509671417 +5 ticks : chunks chargés=210, écran=aucun, joueur=(5,4 65,0 4,6)
+1792509671668 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,4 65,0 4,6)
+1792509672164 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,4 65,0 4,6)
+1792509673164 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,4 65,0 4,6)
+1792509673415 écran ouvert : ChatScreen
+1792509675656 écran ouvert : ReceivingLevelScreen
+1792509675736 écran ouvert : ReceivingLevelScreen
+1792509675744 image longue : 87 ms, écran=ReceivingLevelScreen
+1792509675746 niveau client changé : spacemod_test:a8a, chunks chargés=16, écran=ReceivingLevelScreen
+1792509675749 +1 ticks : chunks chargés=16, écran=ReceivingLevelScreen, joueur=(5,4 64,9 4,6)
+1792509675771 +2 ticks : chunks chargés=71, écran=aucun, joueur=(5,4 64,8 4,6)
+1792509675915 +5 ticks : chunks chargés=296, écran=aucun, joueur=(5,4 63,9 4,6)
+1792509676166 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,4 60,9 4,6)
+1792509676671 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,4 50,4 4,6)
+1792509677663 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,4 42,1 4,6)
+1792509680116 écran ouvert : ChatScreen
+1792509680711 écran ouvert : ReceivingLevelScreen
+1792509680785 écran ouvert : ReceivingLevelScreen
+1792509680790 image longue : 78 ms, écran=ReceivingLevelScreen
+1792509680791 niveau client changé : spacemod_test:a8b, chunks chargés=61, écran=ReceivingLevelScreen
+1792509680792 +1 ticks : chunks chargés=61, écran=ReceivingLevelScreen, joueur=(5,4 60,7 4,6)
+1792509680817 +2 ticks : chunks chargés=123, écran=aucun, joueur=(5,4 60,7 4,6)
+1792509680968 +5 ticks : chunks chargés=312, écran=aucun, joueur=(5,4 60,7 4,6)
+1792509681220 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,4 60,7 4,6)
+1792509681716 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,5 62,2 4,7)
+1792509682717 +40 ticks : chunks chargés=453, écran=aucun, joueur=(8,8 62,2 10,2)
+1792509686564 écran ouvert : ChatScreen
+1792509694996 écran ouvert : PauseScreen
+1792509697816 écran ouvert : ChatScreen
+1792509701383 écran ouvert : ReceivingLevelScreen
+1792509701454 écran ouvert : ReceivingLevelScreen
+1792509701459 image longue : 76 ms, écran=ReceivingLevelScreen
+1792509701461 niveau client changé : spacemod_test:a8a, chunks chargés=128, écran=ReceivingLevelScreen
+1792509701469 +1 ticks : chunks chargés=128, écran=aucun, joueur=(5,2 66,4 5,0)
+1792509701519 +2 ticks : chunks chargés=192, écran=aucun, joueur=(5,2 66,3 5,0)
+1792509701671 +5 ticks : chunks chargés=384, écran=aucun, joueur=(5,2 65,4 5,0)
+1792509701915 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 62,4 5,0)
+1792509702420 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 51,9 5,0)
+1792509703017 écran ouvert : ChatScreen
+1792509703421 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 66,5 5,0)
+1792509705918 écran ouvert : ChatScreen
+1792509710320 écran ouvert : ChatScreen
+1792509726663 écran ouvert : ChatScreen
+1792509729620 écran ouvert : ChatScreen
+1792509730384 écran ouvert : ReceivingLevelScreen
+1792509730458 écran ouvert : ReceivingLevelScreen
+1792509730463 image longue : 79 ms, écran=ReceivingLevelScreen
+1792509730465 niveau client changé : spacemod_test:a8b, chunks chargés=84, écran=ReceivingLevelScreen
+1792509730465 +1 ticks : chunks chargés=84, écran=ReceivingLevelScreen, joueur=(5,2 67,2 5,0)
+1792509730516 +2 ticks : chunks chargés=148, écran=aucun, joueur=(5,2 67,2 5,0)
+1792509730666 +5 ticks : chunks chargés=340, écran=aucun, joueur=(5,2 67,2 5,0)
+1792509730919 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 67,2 5,0)
+1792509731415 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 66,6 5,0)
+1792509732416 écran ouvert : ChatScreen
+1792509732417 +40 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,2 65,0 6,7)
+1792509884685 écran ouvert : ProgressScreen
+1792510103177 écran ouvert : TitleScreen
+1792510105683 écran ouvert : JoinMultiplayerScreen
+1792510107141 écran ouvert : ProgressScreen
+1792510107144 écran ouvert : ConnectScreen
+1792510107996 écran ouvert : ReceivingLevelScreen
+1792510108138 écran ouvert : ReceivingLevelScreen
+1792510108437 image longue : 440 ms, écran=ReceivingLevelScreen
+1792510108465 niveau client changé : minecraft:overworld, chunks chargés=35, écran=ReceivingLevelScreen
+1792510108473 +1 ticks : chunks chargés=35, écran=ReceivingLevelScreen, joueur=(-344,5 63,0 233,5)
+1792510108478 +2 ticks : chunks chargés=35, écran=ReceivingLevelScreen, joueur=(-344,5 63,0 233,5)
+1792510108492 +5 ticks : chunks chargés=35, écran=ReceivingLevelScreen, joueur=(-344,5 63,0 233,5)
+1792510108517 image longue : 80 ms, écran=ReceivingLevelScreen
+1792510108524 +10 ticks : chunks chargés=35, écran=ReceivingLevelScreen, joueur=(-344,5 63,0 233,5)
+1792510108963 +20 ticks : chunks chargés=58, écran=aucun, joueur=(-344,5 63,0 233,5)
+1792510109959 +40 ticks : chunks chargés=136, écran=aucun, joueur=(-344,5 63,0 233,5)
+1792510110664 écran ouvert : GameModeSwitcherScreen
+1792510138896 écran ouvert : GameModeSwitcherScreen
+1792510141558 écran ouvert : ChatScreen
+1792510143639 écran ouvert : ReceivingLevelScreen
+1792510143737 écran ouvert : ReceivingLevelScreen
+1792510143768 image longue : 128 ms, écran=ReceivingLevelScreen
+1792510143771 niveau client changé : spacemod_test:a8a, chunks chargés=1, écran=ReceivingLevelScreen
+1792510143773 +1 ticks : chunks chargés=1, écran=ReceivingLevelScreen, joueur=(5,2 66,5 5,0)
+1792510143776 +2 ticks : chunks chargés=1, écran=ReceivingLevelScreen, joueur=(5,2 66,5 5,0)
+1792510143907 +5 ticks : chunks chargés=54, écran=aucun, joueur=(5,2 66,5 5,0)
+1792510144159 +10 ticks : chunks chargés=317, écran=aucun, joueur=(5,2 66,5 5,0)
+1792510144655 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 66,9 5,0)
+1792510145303 écran ouvert : ChatScreen
+1792510145656 +40 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,2 65,0 5,0)
+1792510147216 écran ouvert : ReceivingLevelScreen
+1792510147304 écran ouvert : ReceivingLevelScreen
+1792510147312 image longue : 94 ms, écran=ReceivingLevelScreen
+1792510147313 niveau client changé : spacemod_test:a8b, chunks chargés=16, écran=ReceivingLevelScreen
+1792510147315 +1 ticks : chunks chargés=16, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,0)
+1792510147357 +2 ticks : chunks chargés=74, écran=aucun, joueur=(5,2 65,0 5,0)
+1792510147508 +5 ticks : chunks chargés=269, écran=aucun, joueur=(5,2 65,0 5,0)
+1792510147760 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792510148257 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792510148509 écran ouvert : ChatScreen
+1792510149257 +40 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,2 65,0 5,0)
+1792510149357 écran ouvert : ReceivingLevelScreen
+1792510149431 écran ouvert : ReceivingLevelScreen
+1792510149437 niveau client changé : spacemod_test:a8a, chunks chargés=64, écran=ReceivingLevelScreen
+1792510149439 image longue : 82 ms, écran=ReceivingLevelScreen
+1792510149441 +1 ticks : chunks chargés=64, écran=ReceivingLevelScreen, joueur=(5,2 64,9 5,0)
+1792510149458 +2 ticks : chunks chargés=64, écran=aucun, joueur=(5,2 64,8 5,0)
+1792510149611 +5 ticks : chunks chargés=320, écran=aucun, joueur=(5,2 63,9 5,0)
+1792510149855 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 60,9 5,0)
+1792510150359 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 50,4 5,0)
+1792510151360 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 50,2 5,0)
+1792510154453 écran ouvert : ChatScreen
+1792510155116 écran ouvert : ReceivingLevelScreen
+1792510155190 écran ouvert : ReceivingLevelScreen
+1792510155195 image longue : 78 ms, écran=ReceivingLevelScreen
+1792510155197 niveau client changé : spacemod_test:a8b, chunks chargés=80, écran=ReceivingLevelScreen
+1792510155206 +1 ticks : chunks chargés=80, écran=aucun, joueur=(5,2 64,3 5,0)
+1792510155256 +2 ticks : chunks chargés=144, écran=aucun, joueur=(5,2 64,3 5,0)
+1792510155407 +5 ticks : chunks chargés=336, écran=aucun, joueur=(5,2 64,3 5,0)
+1792510155659 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 64,3 5,0)
+1792510156155 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 66,5 5,0)
+1792510157156 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792510281355 écran ouvert : PauseScreen
+1792510284105 écran ouvert : ChatScreen
+1792510285363 écran ouvert : ReceivingLevelScreen
+1792510285442 écran ouvert : ReceivingLevelScreen
+1792510285447 image longue : 83 ms, écran=ReceivingLevelScreen
+1792510285448 niveau client changé : spacemod_test:a8a, chunks chargés=82, écran=ReceivingLevelScreen
+1792510285456 +1 ticks : chunks chargés=82, écran=aucun, joueur=(5,2 64,9 5,0)
+1792510285507 +2 ticks : chunks chargés=146, écran=aucun, joueur=(5,2 64,8 5,0)
+1792510285658 +5 ticks : chunks chargés=338, écran=aucun, joueur=(5,2 63,9 5,0)
+1792510285911 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 60,9 5,0)
+1792510286355 écran ouvert : ChatScreen
+1792510286406 +20 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,2 57,1 5,0)
+1792510286725 écran ouvert : ReceivingLevelScreen
+1792510286796 écran ouvert : ReceivingLevelScreen
+1792510286801 image longue : 76 ms, écran=ReceivingLevelScreen
+1792510286802 niveau client changé : spacemod_test:a8b, chunks chargés=80, écran=ReceivingLevelScreen
+1792510286811 +1 ticks : chunks chargés=80, écran=aucun, joueur=(5,2 57,1 5,0)
+1792510286853 +2 ticks : chunks chargés=144, écran=aucun, joueur=(5,2 57,1 5,0)
+1792510287004 +5 ticks : chunks chargés=336, écran=aucun, joueur=(5,2 57,1 5,0)
+1792510287256 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 57,1 5,0)
+1792510287306 écran ouvert : ChatScreen
+1792510287760 +20 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,2 57,1 5,0)
+1792510288759 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 57,1 5,0)
+1792510305558 écran ouvert : ChatScreen
+1792510306682 écran ouvert : ReceivingLevelScreen
+1792510306770 écran ouvert : ReceivingLevelScreen
+1792510306773 image longue : 90 ms, écran=ReceivingLevelScreen
+1792510306776 niveau client changé : spacemod_test:a8a, chunks chargés=64, écran=ReceivingLevelScreen
+1792510306777 +1 ticks : chunks chargés=64, écran=ReceivingLevelScreen, joueur=(5,0 64,9 5,1)
+1792510306808 +2 ticks : chunks chargés=128, écran=aucun, joueur=(5,0 64,8 5,1)
+1792510306960 +5 ticks : chunks chargés=320, écran=aucun, joueur=(5,0 63,9 5,1)
+1792510307203 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,0 60,9 5,1)
+1792510307677 écran ouvert : PauseScreen
+1792510307708 +20 ticks : chunks chargés=453, écran=PauseScreen, joueur=(5,0 50,4 5,1)
+1792510308708 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,0 28,6 5,1)
+1792510308808 écran ouvert : ChatScreen
+1792510309395 écran ouvert : ReceivingLevelScreen
+1792510309468 écran ouvert : ReceivingLevelScreen
+1792510309473 image longue : 77 ms, écran=ReceivingLevelScreen
+1792510309474 niveau client changé : spacemod_test:a8b, chunks chargés=64, écran=ReceivingLevelScreen
+1792510309475 +1 ticks : chunks chargés=64, écran=ReceivingLevelScreen, joueur=(5,0 28,9 5,1)
+1792510309508 +2 ticks : chunks chargés=128, écran=aucun, joueur=(5,0 28,9 5,1)
+1792510309659 +5 ticks : chunks chargés=320, écran=aucun, joueur=(5,0 28,9 5,1)
+1792510309903 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,0 30,2 5,1)
+1792510310407 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,0 33,9 5,1)
+1792510311408 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,0 41,4 5,1)
+1792510524119 écran ouvert : ProgressScreen
+1792510591297 écran ouvert : TitleScreen
+1792510602320 écran ouvert : JoinMultiplayerScreen
+1792510603971 écran ouvert : ProgressScreen
+1792510603976 écran ouvert : ConnectScreen
+1792510604782 écran ouvert : ReceivingLevelScreen
+1792510604932 écran ouvert : ReceivingLevelScreen
+1792510605039 niveau client changé : spacemod_test:a8b, chunks chargés=54, écran=ReceivingLevelScreen
+1792510605193 image longue : 410 ms, écran=ReceivingLevelScreen
+1792510605203 +1 ticks : chunks chargés=108, écran=ReceivingLevelScreen, joueur=(5,0 65,0 4,8)
+1792510605206 +2 ticks : chunks chargés=108, écran=ReceivingLevelScreen, joueur=(5,0 65,0 4,8)
+1792510605215 +5 ticks : chunks chargés=108, écran=ReceivingLevelScreen, joueur=(5,0 65,0 4,8)
+1792510605237 image longue : 43 ms, écran=ReceivingLevelScreen
+1792510605242 +10 ticks : chunks chargés=124, écran=aucun, joueur=(5,0 65,0 4,8)
+1792510605740 +20 ticks : chunks chargés=330, écran=aucun, joueur=(5,0 65,0 4,8)
+1792510606739 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,0 65,0 4,8)
+1792510607538 écran ouvert : ChatScreen
+1792510608814 écran ouvert : ReceivingLevelScreen
+1792510608903 écran ouvert : ReceivingLevelScreen
+1792510608918 image longue : 103 ms, écran=ReceivingLevelScreen
+1792510608921 niveau client changé : spacemod_test:a8a, chunks chargés=45, écran=ReceivingLevelScreen
+1792510608923 +1 ticks : chunks chargés=45, écran=ReceivingLevelScreen, joueur=(5,2 66,4 5,0)
+1792510608938 +2 ticks : chunks chargés=75, écran=aucun, joueur=(5,2 66,3 5,0)
+1792510609090 +5 ticks : chunks chargés=168, écran=aucun, joueur=(5,2 65,4 5,0)
+1792510609334 +10 ticks : chunks chargés=336, écran=aucun, joueur=(5,2 65,0 5,0)
+1792510609585 écran ouvert : ChatScreen
+1792510609837 +20 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,2 65,0 5,0)
+1792510610836 +40 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,2 65,0 5,0)
+1792510610927 écran ouvert : ReceivingLevelScreen
+1792510611013 écran ouvert : ReceivingLevelScreen
+1792510611022 image longue : 93 ms, écran=ReceivingLevelScreen
+1792510611023 niveau client changé : spacemod_test:a8b, chunks chargés=55, écran=ReceivingLevelScreen
+1792510611025 +1 ticks : chunks chargés=55, écran=ReceivingLevelScreen, joueur=(5,2 64,9 5,0)
+1792510611041 +2 ticks : chunks chargés=94, écran=aucun, joueur=(5,2 64,8 5,0)
+1792510611185 +5 ticks : chunks chargés=215, écran=aucun, joueur=(5,2 63,9 5,0)
+1792510611437 +10 ticks : chunks chargés=428, écran=aucun, joueur=(5,2 60,9 5,0)
+1792510611933 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 50,4 5,0)
+1792510612933 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 35,0 5,0)
+1792510613690 écran ouvert : ChatScreen
+1792510614882 écran ouvert : ReceivingLevelScreen
+1792510614963 écran ouvert : ReceivingLevelScreen
+1792510614968 niveau client changé : spacemod_test:a8a, chunks chargés=45, écran=ReceivingLevelScreen
+1792510614971 image longue : 88 ms, écran=ReceivingLevelScreen
+1792510614972 +1 ticks : chunks chargés=45, écran=ReceivingLevelScreen, joueur=(5,2 66,5 5,0)
+1792510614990 +2 ticks : chunks chargés=91, écran=aucun, joueur=(5,2 66,5 5,0)
+1792510615133 +5 ticks : chunks chargés=231, écran=aucun, joueur=(5,2 66,5 5,0)
+1792510615386 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 66,6 5,0)
+1792510615890 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 66,2 5,0)
+1792510616234 écran ouvert : ChatScreen
+1792510616889 +40 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,2 65,0 5,0)
+1792510617786 écran ouvert : ReceivingLevelScreen
+1792510617862 écran ouvert : ReceivingLevelScreen
+1792510617867 niveau client changé : spacemod_test:a8b, chunks chargés=51, écran=ReceivingLevelScreen
+1792510617869 image longue : 83 ms, écran=ReceivingLevelScreen
+1792510617870 +1 ticks : chunks chargés=51, écran=ReceivingLevelScreen, joueur=(5,2 64,9 5,0)
+1792510617888 +2 ticks : chunks chargés=103, écran=aucun, joueur=(5,2 64,8 5,0)
+1792510618040 +5 ticks : chunks chargés=264, écran=aucun, joueur=(5,2 63,9 5,0)
+1792510618283 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 60,9 5,0)
+1792510618788 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 52,5 5,0)
+1792510619132 écran ouvert : ChatScreen
+1792510619788 +40 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,2 52,3 5,0)
+1792510622398 écran ouvert : ReceivingLevelScreen
+1792510622476 écran ouvert : ReceivingLevelScreen
+1792510622482 image longue : 83 ms, écran=ReceivingLevelScreen
+1792510622485 niveau client changé : spacemod_test:a8a, chunks chargés=23, écran=ReceivingLevelScreen
+1792510622487 +1 ticks : chunks chargés=23, écran=ReceivingLevelScreen, joueur=(5,2 66,5 5,0)
+1792510622534 +2 ticks : chunks chargés=142, écran=aucun, joueur=(5,2 66,5 5,0)
+1792510622686 +5 ticks : chunks chargés=326, écran=aucun, joueur=(5,2 66,5 5,0)
+1792510622938 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 66,8 5,0)
+1792510623434 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792510624434 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792510627185 écran ouvert : ChatScreen
+1792510632179 écran ouvert : ReceivingLevelScreen
+1792510632252 écran ouvert : ReceivingLevelScreen
+1792510632259 image longue : 79 ms, écran=ReceivingLevelScreen
+1792510632260 niveau client changé : spacemod_test:a8b, chunks chargés=80, écran=ReceivingLevelScreen
+1792510632261 +1 ticks : chunks chargés=80, écran=ReceivingLevelScreen, joueur=(5,2 64,9 5,0)
+1792510632286 +2 ticks : chunks chargés=144, écran=aucun, joueur=(5,2 64,8 5,0)
+1792510632437 +5 ticks : chunks chargés=336, écran=aucun, joueur=(5,2 63,9 5,0)
+1792510632689 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 60,9 5,0)
+1792510633185 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 54,9 5,0)
+1792510634186 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 54,8 5,0)
+1792510637121 écran ouvert : PauseScreen
+1792511180714 écran ouvert : ProgressScreen
+1792511325380 écran ouvert : TitleScreen
+1792511328963 écran ouvert : JoinMultiplayerScreen
+1792511330090 écran ouvert : ProgressScreen
+1792511330100 écran ouvert : ConnectScreen
+1792511330864 écran ouvert : ReceivingLevelScreen
+1792511330995 écran ouvert : ReceivingLevelScreen
+1792511331276 image longue : 411 ms, écran=ReceivingLevelScreen
+1792511331291 niveau client changé : spacemod_test:a8b, chunks chargés=83, écran=ReceivingLevelScreen
+1792511331293 +1 ticks : chunks chargés=83, écran=ReceivingLevelScreen, joueur=(5,2 54,8 5,0)
+1792511331295 +2 ticks : chunks chargés=83, écran=ReceivingLevelScreen, joueur=(5,2 54,8 5,0)
+1792511331300 +5 ticks : chunks chargés=83, écran=ReceivingLevelScreen, joueur=(5,2 54,8 5,0)
+1792511331318 image longue : 42 ms, écran=ReceivingLevelScreen
+1792511331330 +10 ticks : chunks chargés=97, écran=aucun, joueur=(5,2 54,8 5,0)
+1792511331825 +20 ticks : chunks chargés=287, écran=aucun, joueur=(5,2 54,8 5,0)
+1792511332825 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 54,8 5,0)
+1792511334624 écran ouvert : ChatScreen
+1792511336530 écran ouvert : ReceivingLevelScreen
+1792511336617 écran ouvert : ReceivingLevelScreen
+1792511336629 niveau client changé : spacemod_test:a8a, chunks chargés=45, écran=ReceivingLevelScreen
+1792511336635 image longue : 103 ms, écran=ReceivingLevelScreen
+1792511336637 +1 ticks : chunks chargés=45, écran=ReceivingLevelScreen, joueur=(5,2 66,5 5,0)
+1792511336639 +2 ticks : chunks chargés=45, écran=ReceivingLevelScreen, joueur=(5,2 66,5 5,0)
+1792511336780 +5 ticks : chunks chargés=136, écran=aucun, joueur=(5,2 66,5 5,0)
+1792511337024 +10 ticks : chunks chargés=301, écran=aucun, joueur=(5,2 66,5 5,0)
+1792511337528 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 66,6 5,0)
+1792511337780 écran ouvert : ChatScreen
+1792511338528 +40 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,2 65,0 5,0)
+1792511340477 écran ouvert : ChatScreen
+1792511349779 écran ouvert : ChatScreen
+1792511350829 écran ouvert : ChatScreen
+1792511353676 écran ouvert : ChatScreen
+1792511367927 écran ouvert : ChatScreen
+1792511381103 écran ouvert : PauseScreen
+1792511542185 écran ouvert : ProgressScreen
+1792511555990 écran ouvert : TitleScreen
+1792511559801 écran ouvert : JoinMultiplayerScreen
+1792511560659 écran ouvert : ProgressScreen
+1792511560661 écran ouvert : ConnectScreen
+1792511561459 écran ouvert : ReceivingLevelScreen
+1792511561603 écran ouvert : ReceivingLevelScreen
+1792511561700 niveau client changé : spacemod_test:a8a, chunks chargés=37, écran=ReceivingLevelScreen
+1792511561852 image longue : 392 ms, écran=ReceivingLevelScreen
+1792511561861 +1 ticks : chunks chargés=83, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,0)
+1792511561864 +2 ticks : chunks chargés=83, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,0)
+1792511561872 +5 ticks : chunks chargés=83, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,0)
+1792511561904 +10 ticks : chunks chargés=97, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511562408 +20 ticks : chunks chargés=287, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511563409 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511563553 écran ouvert : ChatScreen
+1792511566806 écran ouvert : ChatScreen
+1792511568678 écran ouvert : ReceivingLevelScreen
+1792511568760 écran ouvert : ReceivingLevelScreen
+1792511568772 image longue : 92 ms, écran=ReceivingLevelScreen
+1792511568774 niveau client changé : spacemod_test:a8b, chunks chargés=28, écran=ReceivingLevelScreen
+1792511568776 +1 ticks : chunks chargés=28, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,0)
+1792511568808 +2 ticks : chunks chargés=57, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511568959 +5 ticks : chunks chargés=148, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511569204 +10 ticks : chunks chargés=313, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511569709 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511570052 écran ouvert : ChatScreen
+1792511570572 écran ouvert : ReceivingLevelScreen
+1792511570659 écran ouvert : ReceivingLevelScreen
+1792511570667 image longue : 93 ms, écran=ReceivingLevelScreen
+1792511570669 niveau client changé : spacemod_test:a8a, chunks chargés=64, écran=ReceivingLevelScreen
+1792511570672 +1 ticks : chunks chargés=64, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,0)
+1792511570703 +2 ticks : chunks chargés=103, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511570855 +5 ticks : chunks chargés=222, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511571107 +10 ticks : chunks chargés=432, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511571358 écran ouvert : ChatScreen
+1792511571603 +20 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,2 65,0 5,0)
+1792511571719 écran ouvert : ReceivingLevelScreen
+1792511571805 écran ouvert : ReceivingLevelScreen
+1792511571813 image longue : 93 ms, écran=ReceivingLevelScreen
+1792511571815 niveau client changé : spacemod_test:a8b, chunks chargés=44, écran=ReceivingLevelScreen
+1792511571816 +1 ticks : chunks chargés=44, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,0)
+1792511571857 +2 ticks : chunks chargés=89, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511572008 +5 ticks : chunks chargés=228, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511572253 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511572757 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511573758 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511574606 écran ouvert : ChatScreen
+1792511575285 écran ouvert : ReceivingLevelScreen
+1792511575371 écran ouvert : ReceivingLevelScreen
+1792511575379 image longue : 92 ms, écran=ReceivingLevelScreen
+1792511575381 niveau client changé : spacemod_test:a8a, chunks chargés=51, écran=ReceivingLevelScreen
+1792511575382 +1 ticks : chunks chargés=51, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,0)
+1792511575406 +2 ticks : chunks chargés=102, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511575557 +5 ticks : chunks chargés=261, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511575801 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511576103 écran ouvert : ChatScreen
+1792511576305 +20 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,2 65,0 5,0)
+1792511577101 écran ouvert : ReceivingLevelScreen
+1792511577180 écran ouvert : ReceivingLevelScreen
+1792511577185 niveau client changé : spacemod_test:a8b, chunks chargés=57, écran=ReceivingLevelScreen
+1792511577188 image longue : 86 ms, écran=ReceivingLevelScreen
+1792511577189 +1 ticks : chunks chargés=57, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,0)
+1792511577206 +2 ticks : chunks chargés=115, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511577357 +5 ticks : chunks chargés=295, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511577610 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511578106 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511579107 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511588703 écran ouvert : ChatScreen
+1792511589257 écran ouvert : ReceivingLevelScreen
+1792511589342 écran ouvert : ReceivingLevelScreen
+1792511589347 niveau client changé : spacemod_test:a8a, chunks chargés=64, écran=ReceivingLevelScreen
+1792511589350 image longue : 93 ms, écran=ReceivingLevelScreen
+1792511589353 +1 ticks : chunks chargés=128, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,0)
+1792511589354 +2 ticks : chunks chargés=128, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,0)
+1792511589504 +5 ticks : chunks chargés=320, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511589756 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511590252 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511591255 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511591594 écran ouvert : PauseScreen
+1792511593557 écran ouvert : ChatScreen
+1792511596663 écran ouvert : ReceivingLevelScreen
+1792511596747 écran ouvert : ReceivingLevelScreen
+1792511596753 image longue : 89 ms, écran=ReceivingLevelScreen
+1792511596755 niveau client changé : spacemod_test:a8b, chunks chargés=64, écran=ReceivingLevelScreen
+1792511596756 +1 ticks : chunks chargés=64, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,0)
+1792511596805 +2 ticks : chunks chargés=128, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511596956 +5 ticks : chunks chargés=320, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511597208 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511597705 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511598705 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511599655 écran ouvert : ChatScreen
+1792511601653 écran ouvert : ReceivingLevelScreen
+1792511601740 écran ouvert : ReceivingLevelScreen
+1792511601745 niveau client changé : spacemod_test:a8a, chunks chargés=64, écran=ReceivingLevelScreen
+1792511601747 image longue : 93 ms, écran=ReceivingLevelScreen
+1792511601749 +1 ticks : chunks chargés=128, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,0)
+1792511601758 +2 ticks : chunks chargés=128, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511601909 +5 ticks : chunks chargés=320, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511602152 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511602253 écran ouvert : ChatScreen
+1792511602580 écran ouvert : ReceivingLevelScreen
+1792511602661 écran ouvert : ReceivingLevelScreen
+1792511602666 image longue : 86 ms, écran=ReceivingLevelScreen
+1792511602668 niveau client changé : spacemod_test:a8b, chunks chargés=80, écran=ReceivingLevelScreen
+1792511602669 +1 ticks : chunks chargés=80, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,0)
+1792511602710 +2 ticks : chunks chargés=144, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511602802 écran ouvert : ChatScreen
+1792511602853 +5 ticks : chunks chargés=336, écran=ChatScreen, joueur=(5,2 65,0 5,0)
+1792511603104 +10 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,2 65,0 5,0)
+1792511603162 écran ouvert : ReceivingLevelScreen
+1792511603235 écran ouvert : ReceivingLevelScreen
+1792511603240 image longue : 77 ms, écran=ReceivingLevelScreen
+1792511603241 niveau client changé : spacemod_test:a8a, chunks chargés=64, écran=ReceivingLevelScreen
+1792511603258 +1 ticks : chunks chargés=128, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511603309 +2 ticks : chunks chargés=192, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511603452 +5 ticks : chunks chargés=384, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511603704 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511604209 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792511604806 écran ouvert : ChatScreen
+1792511605209 +40 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,2 65,0 5,0)
+1792511630105 écran ouvert : ChatScreen
+1792511631458 écran ouvert : ChatScreen
+1792511632357 écran ouvert : ChatScreen
+1792511633155 écran ouvert : ChatScreen
+1792511633902 écran ouvert : ChatScreen
+1792511634557 écran ouvert : ChatScreen
+1792511635657 écran ouvert : ChatScreen
+1792511639978 écran ouvert : PauseScreen
+1792511641041 écran ouvert : ProgressScreen
+1792511641096 écran ouvert : JoinMultiplayerScreen
+1792511643531 écran ouvert : ProgressScreen
+1792511643539 écran ouvert : ConnectScreen
+1792511643938 écran ouvert : ReceivingLevelScreen
+1792511643977 écran ouvert : ReceivingLevelScreen
+1792511644020 image longue : 81 ms, écran=ReceivingLevelScreen
+1792511644024 niveau client changé : spacemod_test:a8a, chunks chargés=14, écran=ReceivingLevelScreen
+1792511644027 +1 ticks : chunks chargés=14, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,2)
+1792511644056 +2 ticks : chunks chargés=20, écran=aucun, joueur=(5,2 65,0 5,2)
+1792511644206 +5 ticks : chunks chargés=47, écran=aucun, joueur=(5,2 65,0 5,2)
+1792511644458 +10 ticks : chunks chargés=112, écran=aucun, joueur=(5,2 65,0 5,2)
+1792511644955 +20 ticks : chunks chargés=310, écran=aucun, joueur=(5,2 65,0 5,2)
+1792511645358 écran ouvert : ChatScreen
+1792511645955 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,2)
+1792511647704 écran ouvert : ChatScreen
+1792511649677 écran ouvert : PauseScreen
+1792511650364 écran ouvert : ProgressScreen
+1792511650411 écran ouvert : JoinMultiplayerScreen
+1792511652032 écran ouvert : ProgressScreen
+1792511652034 écran ouvert : ConnectScreen
+1792511652340 écran ouvert : ReceivingLevelScreen
+1792511652378 écran ouvert : ReceivingLevelScreen
+1792511652393 image longue : 52 ms, écran=ReceivingLevelScreen
+1792511652395 niveau client changé : spacemod_test:a8b, chunks chargés=14, écran=ReceivingLevelScreen
+1792511652404 +1 ticks : chunks chargés=14, écran=aucun, joueur=(5,2 65,0 5,2)
+1792511652454 +2 ticks : chunks chargés=20, écran=aucun, joueur=(5,2 65,0 5,2)
+1792511652605 +5 ticks : chunks chargés=47, écran=aucun, joueur=(5,2 65,0 5,2)
+1792511652857 +10 ticks : chunks chargés=112, écran=aucun, joueur=(5,2 65,0 5,2)
+1792511653110 écran ouvert : ChatScreen
+1792511653353 +20 ticks : chunks chargés=310, écran=ChatScreen, joueur=(5,2 65,0 5,2)
+1792511654352 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,2)
+1792511655829 écran ouvert : PauseScreen
+1792511687207 écran ouvert : ChatScreen
+1792511688356 écran ouvert : ChatScreen
+1792511703707 écran ouvert : ChatScreen
+1792511705705 écran ouvert : ChatScreen
+1792511706641 écran ouvert : PauseScreen
+1792511708555 écran ouvert : ChatScreen
+1792511709353 écran ouvert : ChatScreen
+1792511710059 écran ouvert : ChatScreen
+1792511710706 écran ouvert : ChatScreen
+1792511711605 écran ouvert : ChatScreen
+1792511712453 écran ouvert : ChatScreen
+1792511713108 écran ouvert : ChatScreen
+1792511713856 écran ouvert : ChatScreen
+1792511714754 écran ouvert : ChatScreen
+1792511717105 écran ouvert : ChatScreen
+1792511718701 écran ouvert : ChatScreen
+1792511720255 écran ouvert : ChatScreen
+1792511722053 écran ouvert : ChatScreen
+1792511741202 écran ouvert : ChatScreen
+1792511742151 écran ouvert : ChatScreen
+1792511742605 écran ouvert : ChatScreen
+1792511743058 écran ouvert : ChatScreen
+1792511743554 écran ouvert : ChatScreen
+1792511744007 écran ouvert : ChatScreen
+1792511744452 écran ouvert : ChatScreen
+1792511744855 écran ouvert : ChatScreen
+1792511745661 écran ouvert : PauseScreen
+1792511746829 écran ouvert : ProgressScreen
+1792511746890 écran ouvert : JoinMultiplayerScreen
+1792511747729 écran ouvert : TitleScreen
+1792511760791 écran ouvert : ProgressScreen
+1792512091330 écran ouvert : TitleScreen
+1792512094502 écran ouvert : JoinMultiplayerScreen
+1792512095495 écran ouvert : ProgressScreen
+1792512095510 écran ouvert : ConnectScreen
+1792512096271 écran ouvert : ReceivingLevelScreen
+1792512096417 écran ouvert : ReceivingLevelScreen
+1792512096520 niveau client changé : spacemod_test:a8a, chunks chargés=37, écran=ReceivingLevelScreen
+1792512096688 image longue : 415 ms, écran=ReceivingLevelScreen
+1792512096689 image 280 : sub-levels clients = 95bf693d plot=[10000, 10000] finalisé; 
+1792512096699 +1 ticks : chunks chargés=83, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,2)
+1792512096703 +2 ticks : chunks chargés=83, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,2)
+1792512096712 +5 ticks : chunks chargés=83, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,2)
+1792512096735 image longue : 47 ms, écran=ReceivingLevelScreen
+1792512096740 +10 ticks : chunks chargés=97, écran=aucun, joueur=(5,2 65,0 5,2)
+1792512097218 +20 ticks : chunks chargés=287, écran=aucun, joueur=(5,2 65,0 5,2)
+1792512098219 +40 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,2)
+1792512099523 écran ouvert : ChatScreen
+1792512103724 écran ouvert : ChatScreen
+1792512105832 image 1363 : sub-levels clients = AUCUN
+1792512105868 image 1367 : sub-levels clients = 95bf693d plot=[10000, 10000] finalisé; 
+1792512106571 écran ouvert : ChatScreen
+1792512107394 image 1549 : sub-levels clients = AUCUN
+1792512107423 image 1552 : sub-levels clients = 95bf693d plot=[10000, 10000] finalisé; 
+1792512108967 écran ouvert : ChatScreen
+1792512109454 image 1794 : sub-levels clients = AUCUN
+1792512109474 image 1796 : sub-levels clients = 95bf693d plot=[10000, 10000] finalisé; 
+1792512110219 écran ouvert : ChatScreen
+1792512110547 image 1924 : sub-levels clients = AUCUN
+1792512110564 image 1926 : sub-levels clients = 95bf693d plot=[10000, 10000] finalisé; 
+1792512111269 écran ouvert : ChatScreen
+1792512111597 image 2049 : sub-levels clients = AUCUN
+1792512111615 image 2051 : sub-levels clients = 95bf693d plot=[10000, 10000] finalisé; 
+1792512117219 écran ouvert : ChatScreen
+1792512118050 image 2817 : sub-levels clients = AUCUN
+1792512118070 image 2819 : sub-levels clients = 95bf693d plot=[10000, 10000] finalisé; 
+1792512119614 écran ouvert : PauseScreen
+1792512143768 écran ouvert : PauseScreen
+1792512199415 écran ouvert : ProgressScreen
+1792512317266 écran ouvert : TitleScreen
+1792512325513 écran ouvert : JoinMultiplayerScreen
+1792512326786 écran ouvert : ProgressScreen
+1792512326789 écran ouvert : ConnectScreen
+1792512327542 écran ouvert : ReceivingLevelScreen
+1792512327694 écran ouvert : ReceivingLevelScreen
+1792512327935 image longue : 392 ms, écran=ReceivingLevelScreen
+1792512327956 niveau client changé : minecraft:overworld, chunks chargés=27, écran=ReceivingLevelScreen
+1792512327961 +1 ticks : chunks chargés=27, écran=ReceivingLevelScreen, joueur=(-238,5 66,0 565,5)
+1792512327965 +2 ticks : chunks chargés=27, écran=ReceivingLevelScreen, joueur=(-238,5 66,0 565,5)
+1792512327974 +5 ticks : chunks chargés=27, écran=ReceivingLevelScreen, joueur=(-238,5 66,0 565,5)
+1792512327992 image longue : 56 ms, écran=ReceivingLevelScreen
+1792512328008 +10 ticks : chunks chargés=36, écran=ReceivingLevelScreen, joueur=(-238,5 66,0 565,5)
+1792512328513 +20 ticks : chunks chargés=63, écran=aucun, joueur=(-238,5 66,0 565,5)
+1792512329507 +40 ticks : chunks chargés=121, écran=aucun, joueur=(-238,5 66,0 565,5)
+1792512332077 écran ouvert : GameModeSwitcherScreen
+1792512340006 écran ouvert : ChatScreen
+1792512362250 écran ouvert : ReceivingLevelScreen
+1792512362344 écran ouvert : ReceivingLevelScreen
+1792512362372 image longue : 121 ms, écran=ReceivingLevelScreen
+1792512362373 image 4665 : sub-levels clients = 18ed09c1 plot=[10000, 10000] finalisé; 
+1792512362377 niveau client changé : spacemod_test:a8a, chunks chargés=24, écran=ReceivingLevelScreen
+1792512362379 +1 ticks : chunks chargés=24, écran=ReceivingLevelScreen, joueur=(5,2 66,4 5,0)
+1792512362382 +2 ticks : chunks chargés=24, écran=ReceivingLevelScreen, joueur=(5,2 66,3 5,0)
+1792512362506 +5 ticks : chunks chargés=28, écran=aucun, joueur=(5,2 65,4 5,0)
+1792512362758 +10 ticks : chunks chargés=191, écran=aucun, joueur=(5,2 65,0 5,0)
+1792512363254 écran ouvert : ChatScreen
+1792512363255 +20 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,2 65,0 5,0)
+1792512364254 +40 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,2 65,0 5,0)
+1792512371995 image 5811 : sub-levels clients = AUCUN
+1792512372038 image 5816 : sub-levels clients = 18ed09c1 plot=[10000, 10000] finalisé; 
+1792512373004 écran ouvert : ChatScreen
+1792512373692 image 6013 : sub-levels clients = AUCUN
+1792512373736 image 6018 : sub-levels clients = 18ed09c1 plot=[10000, 10000] finalisé; 
+1792512374256 écran ouvert : ChatScreen
+1792512374642 image 6126 : sub-levels clients = AUCUN
+1792512374686 image 6131 : sub-levels clients = 18ed09c1 plot=[10000, 10000] finalisé; 
+1792512375004 écran ouvert : ChatScreen
+1792512375415 image 6218 : sub-levels clients = AUCUN
+1792512375433 image 6220 : sub-levels clients = 18ed09c1 plot=[10000, 10000] finalisé; 
+1792512376357 écran ouvert : ChatScreen
+1792512376660 image 6366 : sub-levels clients = AUCUN
+1792512376686 image 6369 : sub-levels clients = 18ed09c1 plot=[10000, 10000] finalisé; 
+1792512377580 écran ouvert : PauseScreen
+1792512382856 écran ouvert : ChatScreen
+1792512383251 image 7151 : sub-levels clients = AUCUN
+1792512383277 image 7154 : sub-levels clients = 18ed09c1 plot=[10000, 10000] finalisé; 
+1792512383505 écran ouvert : ChatScreen
+1792512383782 image 7214 : sub-levels clients = AUCUN
+1792512383791 image 7215 : sub-levels clients = 18ed09c1 plot=[10000, 10000] finalisé; 
+1792512383958 écran ouvert : ChatScreen
+1792512384286 image 7274 : sub-levels clients = AUCUN
+1792512384329 image 7279 : sub-levels clients = 18ed09c1 plot=[10000, 10000] finalisé; 
+1792512384403 écran ouvert : ChatScreen
+1792512384714 image 7325 : sub-levels clients = AUCUN
+1792512384731 image 7327 : sub-levels clients = 18ed09c1 plot=[10000, 10000] finalisé; 
+1792512384857 écran ouvert : ChatScreen
+1792512979730 écran ouvert : ProgressScreen
+1792512999460 écran ouvert : TitleScreen
+1792513028561 écran ouvert : JoinMultiplayerScreen
+1792513029547 écran ouvert : ProgressScreen
+1792513029550 écran ouvert : ConnectScreen
+1792513030379 écran ouvert : ReceivingLevelScreen
+1792513030554 écran ouvert : ReceivingLevelScreen
+1792513030775 image longue : 395 ms, écran=ReceivingLevelScreen
+1792513030799 niveau client changé : minecraft:overworld, chunks chargés=33, écran=ReceivingLevelScreen
+1792513030802 +1 ticks : chunks chargés=33, écran=ReceivingLevelScreen, joueur=(-4,5 117,0 7,5)
+1792513030806 +2 ticks : chunks chargés=33, écran=ReceivingLevelScreen, joueur=(-4,5 117,0 7,5)
+1792513030813 +5 ticks : chunks chargés=33, écran=ReceivingLevelScreen, joueur=(-4,5 117,0 7,5)
+1792513030842 image longue : 66 ms, écran=ReceivingLevelScreen
+1792513030862 +10 ticks : chunks chargés=33, écran=aucun, joueur=(-4,5 117,0 7,5)
+1792513031358 +20 ticks : chunks chargés=74, écran=aucun, joueur=(-4,5 117,0 7,5)
+1792513032295 écran ouvert : GameModeSwitcherScreen
+1792513032358 +40 ticks : chunks chargés=154, écran=GameModeSwitcherScreen, joueur=(-4,5 117,0 7,5)
+1792513035333 écran ouvert : PauseScreen
+1792513068612 écran ouvert : ChatScreen
+1792513100057 écran ouvert : ChatScreen
+1792513102760 écran ouvert : ChatScreen
+1792513106889 écran ouvert : PauseScreen
+1792513107688 écran ouvert : OptionsScreen
+1792513108413 écran ouvert : ControlsScreen
+1792513109459 écran ouvert : KeyBindsScreen
+1792513114503 écran ouvert : ControlsScreen
+1792513114950 écran ouvert : OptionsScreen
+1792513115237 écran ouvert : PauseScreen
+1792513121855 écran ouvert : ChatScreen
+1792513124514 écran ouvert : InventoryScreen
+1792513124544 écran ouvert : CreativeModeInventoryScreen
+1792513124559 image longue : 57 ms, écran=CreativeModeInventoryScreen
+1792513125148 écran ouvert : PauseScreen
+1792513125958 écran ouvert : ShaderPackScreen
+1792513173368 image longue : 3298 ms, écran=ShaderPackScreen
+1792513175007 écran ouvert : ChatScreen
+1792513233010 écran ouvert : InventoryScreen
+1792513233011 écran ouvert : CreativeModeInventoryScreen
+1792513234010 écran ouvert : ChatScreen
+1792513241598 écran ouvert : ReceivingLevelScreen
+1792513241771 écran ouvert : ReceivingLevelScreen
+1792513241839 image longue : 240 ms, écran=ReceivingLevelScreen
+1792513241840 image 26522 : sub-levels clients = 9b323644 plot=[10000, 10000] finalisé; 
+1792513241846 niveau client changé : spacemod_test:a3, chunks chargés=25, écran=aucun
+1792513241852 +1 ticks : chunks chargés=25, écran=aucun, joueur=(5,0 67,1 5,0)
+1792513241857 +2 ticks : chunks chargés=25, écran=aucun, joueur=(5,0 67,0 5,0)
+1792513241888 +5 ticks : chunks chargés=80, écran=aucun, joueur=(5,0 66,1 5,0)
+1792513242106 +10 ticks : chunks chargés=369, écran=aucun, joueur=(5,0 65,9 5,0)
+1792513242611 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,0 66,3 5,0)
+1792513243612 écran ouvert : ChatScreen
+1792513243613 +40 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,0 65,9 5,0)
+1792513275459 écran ouvert : ChatScreen
+1792513287659 écran ouvert : ChatScreen
+1792513292957 écran ouvert : ChatScreen
+1792513296754 écran ouvert : ChatScreen
+1792513302469 écran ouvert : PauseScreen
+1792513309010 écran ouvert : ChatScreen
+1792513329551 écran ouvert : PauseScreen
+1792513333908 écran ouvert : ChatScreen
+1792513337965 écran ouvert : PauseScreen
+1792513348807 écran ouvert : ChatScreen
+1792513354940 écran ouvert : PauseScreen
+1792513358961 écran ouvert : ChatScreen
+1792513364837 écran ouvert : ReceivingLevelScreen
+1792513365054 écran ouvert : ReceivingLevelScreen
+1792513365104 image longue : 266 ms, écran=ReceivingLevelScreen
+1792513365104 image 41163 : sub-levels clients = 9d02860f plot=[10000, 10000] finalisé; 
+1792513365107 niveau client changé : spacemod_test:a8a, chunks chargés=172, écran=aucun
+1792513365107 +1 ticks : chunks chargés=172, écran=aucun, joueur=(5,2 66,4 5,0)
+1792513365108 +2 ticks : chunks chargés=172, écran=aucun, joueur=(5,2 66,3 5,0)
+1792513365109 +5 ticks : chunks chargés=172, écran=aucun, joueur=(5,2 65,4 5,0)
+1792513365355 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792513365859 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792513366556 écran ouvert : ChatScreen
+1792513366859 +40 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,2 65,0 5,0)
+1792513374474 écran ouvert : ReceivingLevelScreen
+1792513374475 image 42278 : sub-levels clients = AUCUN
+1792513374623 écran ouvert : ReceivingLevelScreen
+1792513374646 image longue : 170 ms, écran=ReceivingLevelScreen
+1792513374646 image 42279 : sub-levels clients = 9d02860f plot=[10000, 10000] finalisé; 
+1792513374656 niveau client changé : spacemod_test:a8b, chunks chargés=20, écran=ReceivingLevelScreen
+1792513374656 +1 ticks : chunks chargés=20, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,0)
+1792513374657 +2 ticks : chunks chargés=20, écran=ReceivingLevelScreen, joueur=(5,2 65,0 5,0)
+1792513374755 +5 ticks : chunks chargés=148, écran=aucun, joueur=(5,2 65,0 5,0)
+1792513375007 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792513375209 écran ouvert : ChatScreen
+1792513375511 +20 ticks : chunks chargés=453, écran=ChatScreen, joueur=(5,2 65,0 5,0)
+1792513375679 écran ouvert : ReceivingLevelScreen
+1792513375680 image 42400 : sub-levels clients = AUCUN
+1792513375823 écran ouvert : ReceivingLevelScreen
+1792513375839 image longue : 159 ms, écran=ReceivingLevelScreen
+1792513375839 image 42401 : sub-levels clients = 9d02860f plot=[10000, 10000] finalisé; 
+1792513375855 niveau client changé : spacemod_test:a8a, chunks chargés=64, écran=aucun
+1792513375856 +1 ticks : chunks chargés=64, écran=aucun, joueur=(5,2 65,0 5,0)
+1792513375857 +2 ticks : chunks chargés=64, écran=aucun, joueur=(5,2 65,0 5,0)
+1792513375958 +5 ticks : chunks chargés=128, écran=aucun, joueur=(5,2 65,0 5,0)
+1792513376210 +10 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792513376706 +20 ticks : chunks chargés=453, écran=aucun, joueur=(5,2 65,0 5,0)
+1792513377049 écran ouvert : PauseScreen
+1792513377705 +40 ticks : chunks chargés=453, écran=PauseScreen, joueur=(5,2 65,0 5,0)
+1792513380104 écran ouvert : ChatScreen
+1792513388465 image 43904 : sub-levels clients = AUCUN
+1792513388502 image 43908 : sub-levels clients = 9d02860f plot=[10000, 10000] finalisé; 
+1792513392460 écran ouvert : ChatScreen
+1792513395283 image 44715 : sub-levels clients = AUCUN
+1792513395301 image 44717 : sub-levels clients = 9d02860f plot=[10000, 10000] finalisé; 
+1792513395904 écran ouvert : ChatScreen
+1792513397364 image 44963 : sub-levels clients = AUCUN
+1792513397410 image 44968 : sub-levels clients = 9d02860f plot=[10000, 10000] finalisé; 
+1792513397911 écran ouvert : ChatScreen
+1792513398458 image 45093 : sub-levels clients = AUCUN
+1792513398510 image 45099 : sub-levels clients = 9d02860f plot=[10000, 10000] finalisé; 
+1792513400440 écran ouvert : PauseScreen
+1792513437477 écran ouvert : ProgressScreen

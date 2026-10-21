@@ -1,0 +1,12 @@
+JVM 21.0.12.1 amd64
+
+== écart d'angle (radians) : accumulation par tick contre modulo exact ==
+1 000 000 ticks : double accumulé écart=-1,758e-12 rad (6,680e-07 blocs au rayon 380000) ; float accumulé écart=-4,779e-04 rad (1,816e+02 blocs)
+1 000 000 000 ticks : double accumulé écart=2,392e-06 rad (9,090e-01 blocs au rayon 380000) ; float accumulé écart=1,276e+00 rad (4,850e+05 blocs)
+10^12 ticks : accumulation non exécutée (option accumulation-1e12 requise)
+
+== stabilité du modulo aux grandes valeurs ==
+écart max entre t et t + k·(multiple commun des périodes), 10^5 tirages jusqu'à 10^15 ticks : 0,000e+00 blocs
+
+== déterminisme (64 tâches sur 16 fils, même JVM) : identique
+EMPREINTE StrictMath=05e3acde9b5201f7  Math=728881fb767a4b21

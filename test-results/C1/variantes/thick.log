@@ -1,0 +1,4 @@
+variante : thick
+DÉBUT C1 ; coque = plaque 10×1×10 (1 bloc d'épaisseur), Minis libres de masse égale, gravité nulle ; plafond de vitesse relative du mass lock entre Minis (valeur de test) = 50.0 bloc/s ; 100 passages par vitesse
+vitesse relative 5 bloc/s (sous ou au niveau du plafond) : 26 traversées complètes de coque (centre de B au-delà de la face opposée) sur 100 passages ; 45 enfoncements au-delà du centre de A ; écart vertical minimal moyen 0,23 (contact = 1,0) ; tick moyen 2,00 ms
+vitesse relative 50 bloc/s (sous ou au niveau du plafond) : 98 traversées complètes de coque (centre de B au-delà de la face opposée) sur 100 passages ; 98 enfoncements au-delà du centre de A ; écart vertical minimal moyen -20,48 (contact = 1,0) ; tick moyen 1,80 ms

@@ -6,3 +6,10 @@ run/
 .vscode/
 .directory
 *.docx#
+dev-mods/*.jar
+run-dev/
+run-dev-server/
+test-libs/*.jar
+dev-mods-client/*.jar
+dev-mods-client-alt/*.jar
+run-dev/shaderpacks/
