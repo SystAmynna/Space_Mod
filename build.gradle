@@ -28,6 +28,7 @@ sourceSets.main.resources {
 
 repositories {
     // Add here additional repositories if required by some of the dependencies below.
+    mavenCentral() // sqlite-jdbc
     // Tests : Sable (API de compilation du mod de test src/spacetest) et ses dépendances.
     maven { url = 'https://maven.ryanhcode.dev/releases' }
     maven { url = 'https://maven.blamejared.com' }
@@ -73,6 +74,13 @@ neoForge {
         spacemod_test {
             sourceSet(sourceSets.spacetest)
         }
+    }
+
+    // Tests JUnit (src/test) avec les classes Minecraft, sans lancer le jeu.
+    unitTest {
+        enable()
+        testedMod = mods."${mod_id}"
+        loadedMods = [mods."${mod_id}"] // sans le mod jetable spacemod_test, qui exige Sable
     }
 
     // Default run configurations.
@@ -168,7 +176,27 @@ configurations {
     runtimeClasspath.extendsFrom localRuntime
 }
 
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
 dependencies {
+    // Base de données de la couche stratégique : SQLite intégré au jar du mod (Jar-in-Jar). Les autres SGBD se branchent par
+    // la configuration, avec un pilote déposé dans config/amynnaspacemod/drivers/. Minecraft 1.21.1 exige en plus le
+    // chemin de classes d'exécution supplémentaire, sinon ClassNotFoundException en développement.
+    jarJar(implementation("org.xerial:sqlite-jdbc:3.45.1.0")) {
+        version {
+            strictly '[3.45,4)'
+            prefer '3.45.1.0'
+        }
+    }
+    additionalRuntimeClasspath "org.xerial:sqlite-jdbc:3.45.1.0"
+
+    // Tests hors jeu de la couche stratégique (src/test).
+    testImplementation platform('org.junit:junit-bom:5.10.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
     // Mod de test : compilé contre test-libs/ (copies des jars de dev-mods/, qui peuvent y être désactivés) et Sable (Maven).
     spacetestCompileOnly 'dev.ryanhcode.sable:sable-neoforge-1.21.1:2.0.6'
     spacetestCompileOnly fileTree(dir: 'test-libs', include: '*.jar')
