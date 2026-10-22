@@ -52,9 +52,14 @@ public final class SpaceObject {
     /** Ce qui fait bouger l'objet ; {@code null} = immobile (position = Transform stocké). */
     @Nullable
     private Controller controller;
-    /** Rappel de la couche appelé à chaque modification, ou {@code null} tant que l'objet n'est pas dans une couche (ou vient d'être relu). */
+    /**
+     * Rappel de la couche appelé à chaque modification, ou {@code null} tant que l'objet n'est pas dans une couche (ou vient d'être relu).
+     * C'est le lien objet → couche : {@code StrategicLayer.onChanged}, branché par {@link #attach}, y marque l'objet à
+     * écrire à la prochaine sauvegarde et tient à jour l'index des dimensions hébergées. Sans lui, la couche ne saurait
+     * pas quels objets réécrire.
+     */
     @Nullable
-    private Consumer<SpaceObject> changeListener; // TODO : à quoi ça sert ?
+    private Consumer<SpaceObject> changeListener;
 
     /** Crée un objet sans parent, sans contrôleur ni composant. */
     public SpaceObject(UUID id) {

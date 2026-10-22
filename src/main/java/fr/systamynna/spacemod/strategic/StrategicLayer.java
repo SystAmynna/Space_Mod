@@ -65,20 +65,30 @@ public final class StrategicLayer {
     private final Map<UUID, SpaceObject> objects = new HashMap<>();
     /** Identifiants des galaxies : objets sans parent, enfants directs de la racine virtuelle. Toujours résidentes. */
     private final Set<UUID> roots = new LinkedHashSet<>();
-    /** Unités chargées : identifiant du système → identifiants de ses corps en mémoire. La présence de la clé = unité chargée. */
-    private final Map<UUID, Set<UUID>> unitMembers = new HashMap<>(); // TODO : Qu'est-ce qu'une unité ?
-    /** Unité de chaque corps chargé (les objets résidents n'y figurent pas). */
-    private final Map<UUID, UUID> unitByObject = new HashMap<>(); // TODO : ?
-    /** Dernier accès (temps de jeu) à chaque unité chargée, pour décider de son déchargement. */
-    private final Map<UUID, Long> unitLastAccess = new HashMap<>(); // TODO : ?
+    /**
+     * Unités chargées : identifiant du système → identifiants de ses corps en mémoire. La présence de la clé = unité chargée.
+     * Une unité est un système stellaire avec tous ses corps (étoiles, planètes, lunes, stations…) : la granularité du
+     * chargement, tous ses corps sont lus et déchargés ensemble. Son identifiant est celui du système (colonne
+     * {@code unit_id} de la base).
+     */
+    private final Map<UUID, Set<UUID>> unitMembers = new HashMap<>();
+    /** Unité de chaque corps chargé (les objets résidents n'y figurent pas). Réciproque de {@link #unitMembers} : retrouve l'unité d'un objet sans remonter l'arbre. */
+    private final Map<UUID, UUID> unitByObject = new HashMap<>();
+    /** Dernier accès (temps de jeu, {@link #now}) à chaque unité chargée, pour décider de son déchargement ({@link #unloadIdleUnits}). */
+    private final Map<UUID, Long> unitLastAccess = new HashMap<>();
     /** Objets modifiés depuis la dernière écriture, à écrire au prochain {@link #save()}. */
     private final Set<UUID> needsSave = new LinkedHashSet<>();
     /** Dimension hébergée → identifiant de l'objet hôte, pour tous les objets, chargés ou non. Borné par le nombre de dimensions. */
     private final Map<ResourceLocation, UUID> dimensionHosts = new HashMap<>();
     /** Réciproque de {@link #dimensionHosts}. */
     private final Map<UUID, ResourceLocation> hostedBy = new HashMap<>();
-    /** Dernier temps de jeu connu ({@link #tick}), utilisé pour dater les accès aux unités. */
-    private long now; // TODO :  pourquoi pas dans clock ?
+    /**
+     * Dernier temps de jeu connu ({@link #tick}), utilisé pour dater les accès aux unités. Ce n'est pas le temps spatial
+     * de {@link #clock} : celui-ci suit un rythme réglable (il peut être figé à 0, alors plus aucune unité ne serait
+     * jamais déchargée) et {@link SpaceClock#spaceTime} peut déplacer son ancre, ce qu'on ne veut pas à chaque accès.
+     * La gestion de la mémoire a besoin du temps de jeu brut.
+     */
+    private long now;
 
     /**
      * Charge la partie résidente depuis le magasin et vérifie sa cohérence.
@@ -89,7 +99,13 @@ public final class StrategicLayer {
     public StrategicLayer(StrategicStore store) {
         this.store = store;
         this.clock = store.loadClock();
-        List<StoredObject> resident = store.loadResident(); // TODO : Résient != tous les SpaceObject, mais seulement ceux à load (ceux qui était load à la fermeture), sinon est en train de load tout l'univers en mémoire ?
+        // Résident = unit_id NULL en base, critère structurel (pas « ce qui était chargé à la fermeture ») : tous les cadres
+        // (galaxies et systèmes) et les corps hors de tout système. Les corps d'un système sont chargés à la demande.
+        // Exemple : 2 galaxies de 1 000 000 de systèmes donnent environ 2 000 002 objets en mémoire (galaxies + systèmes),
+        // jamais leurs étoiles, planètes ou lunes.
+        // TODO : architecture : charger aussi les systèmes à la demande (comme leurs corps) et ne garder résidentes que les
+        // galaxies et la zone occupée par les joueurs ; le nombre de systèmes est la vraie limite de mémoire.
+        List<StoredObject> resident = store.loadResident();
         for (StoredObject stored : resident) {
             if (objects.putIfAbsent(stored.object().id(), stored.object()) != null) {
                 throw new IllegalStateException("Objet présent deux fois dans la base : " + stored.object().id());
@@ -261,7 +277,8 @@ public final class StrategicLayer {
      *         est placé ailleurs que sous un cadre hors système
      */
     public void reparent(UUID objectId, @Nullable UUID newParentId, double spaceTime, @Nullable Controller newController) {
-        // TODO : Pourquoi spaceTime est nécessaire ? définit le delta sur le rail ?
+        // spaceTime est l'instant où la position est figée, pas un décalage sur le rail : la position absolue dépend du temps
+        // (un parent sur rail, un cadre qui tourne), donc RailMath.rebased doit la calculer à cet instant avant de la réécrire.
         SpaceObject object = require(objectId);
         SpaceObject newParent = newParentId == null ? null : require(newParentId);
         // Cycle : devenir enfant de soi-même ou d'un de ses descendants couperait le sous-arbre de l'arbre.

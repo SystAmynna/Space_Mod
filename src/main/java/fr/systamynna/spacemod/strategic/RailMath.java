@@ -170,11 +170,13 @@ public final class RailMath {
 
     /**
      * Plus proche ancêtre (ou l'objet lui-même) commun à {@code a} et {@code b} ; {@code null} = racine de la couche.
+     * Les ancêtres d'un objet sont son parent, le parent de son parent, et ainsi de suite jusqu'à la galaxie : pour deux
+     * lunes de planètes différentes d'un même système, c'est le système. C'est le repère dans lequel on compare leurs
+     * positions sans perdre de précision.
      *
      * @param b peut être {@code null} (la racine) : le résultat est alors toujours {@code null}
      */
     static @Nullable SpaceObject commonAncestor(StrategicLayer layer, SpaceObject a, @Nullable SpaceObject b) {
-        // TODO : C'est quoi un Ancestor ?
         // On recense tous les ancêtres de b (lui compris), puis on remonte depuis a jusqu'au premier qui y figure.
         Set<UUID> ancestorsOfB = new HashSet<>();
         int depth = 0;

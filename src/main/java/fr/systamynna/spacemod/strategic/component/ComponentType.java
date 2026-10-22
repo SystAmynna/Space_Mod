@@ -16,8 +16,7 @@ public final class ComponentType<T extends Component> {
     /** Fabrique qui reconstruit un composant de ce type depuis son NBT. */
     private final Function<CompoundTag, T> reader;
 
-    // TODO : Erreur commentaire (ligne en dessous)
-    /** Réservé à {@link ComponentTypes#register}, qui garantit l'unicité de l'identifiant. */
+    /** Réservé à {@link ComponentTypes#register(ResourceLocation, Function)}, qui garantit l'unicité de l'identifiant. */
     ComponentType(ResourceLocation id, Function<CompoundTag, T> reader) {
         this.id = id;
         this.reader = reader;
