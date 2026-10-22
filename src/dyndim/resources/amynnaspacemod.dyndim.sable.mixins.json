@@ -1,0 +1,12 @@
+{
+  "required": false,
+  "package": "fr.systamynna.dynamicdimensions.impl.mixin.compat.sable",
+  "compatibilityLevel": "JAVA_21",
+  "plugin": "fr.systamynna.dynamicdimensions.impl.mixin.compat.sable.SableMixinPlugin",
+  "mixins": [
+    "SubLevelPhysicsSystemMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

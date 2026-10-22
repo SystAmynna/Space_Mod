@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "fr.systamynna.dynamicdimensions.impl.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "ChunkMapAccessor",
+    "DistanceManagerAccessor",
+    "HolderSetNamedAccessor",
+    "MappedRegistryAccessor",
+    "MinecraftServerAccessor",
+    "MinecraftServerMixin",
+    "PlayerListMixin",
+    "PrimaryLevelDataMixin",
+    "ReloadableServerResourcesAccessor",
+    "ServerChunkCacheAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
