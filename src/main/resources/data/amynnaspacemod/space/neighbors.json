@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "id": "alpha_centauri",
+      "parent": "milky_way",
+      "archetype": "system",
+      "name": "Alpha du Centaure",
+      "position": [
+        2.45985e+20,
+        -1.29257e+16,
+        -3.61e+16
+      ],
+      "main_star": "alpha_centauri/star"
+    },
+    {
+      "id": "alpha_centauri/star",
+      "parent": "alpha_centauri",
+      "archetype": "star",
+      "name": "Alpha du Centaure",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 850000000.0
+      }
+    },
+    {
+      "id": "barnard",
+      "parent": "milky_way",
+      "archetype": "system",
+      "name": "Étoile de Barnard",
+      "position": [
+        2.45999e+20,
+        -5.61939e+16,
+        4610360000000000.0
+      ],
+      "main_star": "barnard/star"
+    },
+    {
+      "id": "barnard/star",
+      "parent": "barnard",
+      "archetype": "star",
+      "name": "Étoile de Barnard",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 140000000.0
+      }
+    },
+    {
+      "id": "sirius",
+      "parent": "milky_way",
+      "archetype": "system",
+      "name": "Sirius",
+      "position": [
+        2.45985e+20,
+        7.6425e+16,
+        -2.34074e+16
+      ],
+      "main_star": "sirius/star"
+    },
+    {
+      "id": "sirius/star",
+      "parent": "sirius",
+      "archetype": "star",
+      "name": "Sirius",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 1190000000.0
+      }
+    },
+    {
+      "id": "procyon",
+      "parent": "milky_way",
+      "archetype": "system",
+      "name": "Procyon",
+      "position": [
+        2.45955e+20,
+        9.79335e+16,
+        9864040000000000.0
+      ],
+      "main_star": "procyon/star"
+    },
+    {
+      "id": "procyon/star",
+      "parent": "procyon",
+      "archetype": "star",
+      "name": "Procyon",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 1400000000.0
+      }
+    },
+    {
+      "id": "tau_ceti",
+      "parent": "milky_way",
+      "archetype": "system",
+      "name": "Tau Ceti",
+      "position": [
+        2.46097e+20,
+        4.73703e+16,
+        -3.09185e+16
+      ],
+      "main_star": "tau_ceti/star"
+    },
+    {
+      "id": "tau_ceti/star",
+      "parent": "tau_ceti",
+      "archetype": "star",
+      "name": "Tau Ceti",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 590000000.0
+      }
+    }
+  ]
+}

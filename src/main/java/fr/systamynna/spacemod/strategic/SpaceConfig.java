@@ -30,6 +30,9 @@ public final class SpaceConfig {
     /** Ticks sans accès ni joueur après lesquels les corps d'un système sont déchargés. */
     public static final ModConfigSpec.IntValue UNLOAD_DELAY_TICKS;
 
+    /** Mise à jour de la base du monde depuis des données du web (pas encore implémenté : sans effet pour le moment). */
+    public static final ModConfigSpec.BooleanValue WEB_PROVIDER;
+
     static {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
@@ -58,6 +61,12 @@ public final class SpaceConfig {
         UNLOAD_DELAY_TICKS = builder
                 .comment("Ticks sans accès ni joueur après lesquels les corps d'un système sont déchargés (6000 = 5 minutes).")
                 .defineInRange("unloadDelayTicks", 6000, 20, Integer.MAX_VALUE);
+        builder.pop();
+
+        builder.comment("Fournisseurs d'objets de l'espace (système solaire, datapacks, web).").push("provider");
+        WEB_PROVIDER = builder
+                .comment("Met à jour la base du monde depuis des bases de données en ligne (non implémenté pour le moment).")
+                .define("WEB_PROVIDER", false);
         builder.pop();
 
         SPEC = builder.build();

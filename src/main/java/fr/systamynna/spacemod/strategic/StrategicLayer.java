@@ -402,6 +402,17 @@ public final class StrategicLayer {
         return write(new ArrayList<>(needsSave), clock.needsSave());
     }
 
+    /** Métadonnée du monde (version des données importées, par exemple), ou {@code null}. */
+    @Nullable
+    public String meta(String key) {
+        return store.meta(key);
+    }
+
+    /** Écrit une métadonnée du monde. */
+    public void setMeta(String key, String value) {
+        store.setMeta(key, value);
+    }
+
     /** Ferme le magasin. À appeler après la dernière sauvegarde. */
     public void close() {
         store.close();

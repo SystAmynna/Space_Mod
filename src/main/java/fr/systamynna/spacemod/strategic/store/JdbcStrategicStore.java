@@ -299,6 +299,18 @@ public final class JdbcStrategicStore implements StrategicStore {
 
     /** Valeur d'une clé de {@code meta}, ou {@code null} si elle n'existe pas. */
     @Nullable
+    @Override
+    public String meta(String key) {
+        return readMeta(key);
+    }
+
+    @Override
+    public void setMeta(String key, String value) {
+        writeMeta(key, value);
+    }
+
+    /** Valeur d'une clé de {@code meta}, ou {@code null} si elle n'existe pas. */
+    @Nullable
     private String readMeta(String key) {
         try (PreparedStatement statement = connection.prepareStatement("SELECT v FROM " + metaTable + " WHERE k = ?")) {
             statement.setString(1, key);

@@ -1,0 +1,316 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "id": "milky_way",
+      "archetype": "galaxy",
+      "name": "Voie lactée"
+    },
+    {
+      "id": "sol",
+      "parent": "milky_way",
+      "archetype": "system",
+      "name": "Système solaire",
+      "position": [
+        2.46e+20,
+        0,
+        0
+      ],
+      "main_star": "sol/sun"
+    },
+    {
+      "id": "sol/sun",
+      "parent": "sol",
+      "archetype": "star",
+      "name": "Soleil",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 695700000.0
+      },
+      "spin": {
+        "period": 43856640,
+        "phase": 0
+      }
+    },
+    {
+      "id": "sol/mercury",
+      "parent": "sol",
+      "archetype": "planet",
+      "name": "Mercure",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 2439700.0
+      },
+      "orbit": {
+        "period": 152010432,
+        "radius": 57909036552.2286,
+        "phase": 0,
+        "inclination": 0.12217
+      },
+      "spin": {
+        "period": 101347200,
+        "phase": 0
+      }
+    },
+    {
+      "id": "sol/venus",
+      "parent": "sol",
+      "archetype": "planet",
+      "name": "Vénus",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 6051800.0
+      },
+      "orbit": {
+        "period": 388283328,
+        "radius": 108208927009.1724,
+        "phase": 0,
+        "inclination": 0.05917
+      },
+      "spin": {
+        "period": 419940000,
+        "phase": 0
+      }
+    },
+    {
+      "id": "sol/earth",
+      "parent": "sol",
+      "archetype": "planet",
+      "name": "Terre",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 6371000.0
+      },
+      "orbit": {
+        "period": 631162368,
+        "radius": 149597870700.0,
+        "phase": 0,
+        "inclination": 0.0
+      },
+      "spin": {
+        "period": 1723248,
+        "phase": 0
+      }
+    },
+    {
+      "id": "sol/mars",
+      "parent": "sol",
+      "archetype": "planet",
+      "name": "Mars",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 3389500.0
+      },
+      "orbit": {
+        "period": 1187101440,
+        "radius": 227939134030.3053,
+        "phase": 0,
+        "inclination": 0.03229
+      },
+      "spin": {
+        "period": 1772856,
+        "phase": 0
+      }
+    },
+    {
+      "id": "sol/jupiter",
+      "parent": "sol",
+      "archetype": "planet",
+      "name": "Jupiter",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 69911000.0
+      },
+      "orbit": {
+        "period": 7486715520,
+        "radius": 778567158271.08,
+        "phase": 0,
+        "inclination": 0.02269
+      },
+      "spin": {
+        "period": 714600,
+        "phase": 0
+      }
+    },
+    {
+      "id": "sol/saturn",
+      "parent": "sol",
+      "archetype": "planet",
+      "name": "Saturne",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 58232000.0
+      },
+      "orbit": {
+        "period": 18591932160,
+        "radius": 1433536555769.8198,
+        "phase": 0,
+        "inclination": 0.04346
+      },
+      "spin": {
+        "period": 767232,
+        "phase": 0
+      }
+    },
+    {
+      "id": "sol/uranus",
+      "parent": "sol",
+      "archetype": "planet",
+      "name": "Uranus",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 25362000.0
+      },
+      "orbit": {
+        "period": 53029728000,
+        "radius": 2875031718260.88,
+        "phase": 0,
+        "inclination": 0.01344
+      },
+      "spin": {
+        "period": 1241280,
+        "phase": 0
+      }
+    },
+    {
+      "id": "sol/neptune",
+      "parent": "sol",
+      "archetype": "planet",
+      "name": "Neptune",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 24622000.0
+      },
+      "orbit": {
+        "period": 103994496000,
+        "radius": 4504391886777.0,
+        "phase": 0,
+        "inclination": 0.03089
+      },
+      "spin": {
+        "period": 1159920,
+        "phase": 0
+      }
+    },
+    {
+      "id": "sol/moon",
+      "parent": "sol/earth",
+      "archetype": "planet",
+      "name": "Lune",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 1737400.0
+      },
+      "orbit": {
+        "period": 47212416,
+        "radius": 384400000.0,
+        "phase": 0,
+        "inclination": 0.08971
+      },
+      "spin": {
+        "period": 47212416,
+        "phase": 0
+      }
+    },
+    {
+      "id": "sol/io",
+      "parent": "sol/jupiter",
+      "archetype": "planet",
+      "name": "Io",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 1821600.0
+      },
+      "orbit": {
+        "period": 3056832,
+        "radius": 421700000.0,
+        "phase": 0,
+        "inclination": 0.0007
+      },
+      "spin": {
+        "period": 3056832,
+        "phase": 0
+      }
+    },
+    {
+      "id": "sol/europa",
+      "parent": "sol/jupiter",
+      "archetype": "planet",
+      "name": "Europe",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 1560800.0
+      },
+      "orbit": {
+        "period": 6136128,
+        "radius": 671100000.0,
+        "phase": 0,
+        "inclination": 0.0082
+      },
+      "spin": {
+        "period": 6136128,
+        "phase": 0
+      }
+    },
+    {
+      "id": "sol/ganymede",
+      "parent": "sol/jupiter",
+      "archetype": "planet",
+      "name": "Ganymède",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 2634100.0
+      },
+      "orbit": {
+        "period": 12363840,
+        "radius": 1070400000.0,
+        "phase": 0,
+        "inclination": 0.00349
+      },
+      "spin": {
+        "period": 12363840,
+        "phase": 0
+      }
+    },
+    {
+      "id": "sol/callisto",
+      "parent": "sol/jupiter",
+      "archetype": "planet",
+      "name": "Callisto",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 2410300.0
+      },
+      "orbit": {
+        "period": 28838592,
+        "radius": 1882700000.0,
+        "phase": 0,
+        "inclination": 0.00332
+      },
+      "spin": {
+        "period": 28838592,
+        "phase": 0
+      }
+    },
+    {
+      "id": "sol/titan",
+      "parent": "sol/saturn",
+      "archetype": "planet",
+      "name": "Titan",
+      "render": {
+        "model": "amynnaspacemod:proxy/rock",
+        "radius": 2574700.0
+      },
+      "orbit": {
+        "period": 27552960,
+        "radius": 1221900000.0,
+        "phase": 0,
+        "inclination": 0.00576
+      },
+      "spin": {
+        "period": 27552960,
+        "phase": 0
+      }
+    }
+  ]
+}

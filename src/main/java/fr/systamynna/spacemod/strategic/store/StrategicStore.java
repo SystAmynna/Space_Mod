@@ -23,6 +23,13 @@ public interface StrategicStore extends AutoCloseable {
      */
     record Placement(@Nullable UUID unitId) {}
 
+    /** Valeur d'une métadonnée du monde, ou {@code null} si elle n'existe pas. */
+    @Nullable
+    String meta(String key);
+
+    /** Écrit une métadonnée du monde (mise à jour ou création), immédiatement. */
+    void setMeta(String key, String value);
+
     /** Horloge sauvée, ou une horloge neuve (temps spatial = temps de jeu) si rien n'a encore été écrit. */
     SpaceClock loadClock();
 
