@@ -22,9 +22,10 @@ import fr.systamynna.spacemod.strategic.component.ControllerTypes;
 import fr.systamynna.spacemod.strategic.component.Destroyable;
 import fr.systamynna.spacemod.strategic.component.ExclusionVolume;
 import fr.systamynna.spacemod.strategic.component.HostedDimension;
-import fr.systamynna.spacemod.strategic.component.LogicalVolume;
+import fr.systamynna.spacemod.strategic.component.hostedPropriety.LogicalVolume;
+import fr.systamynna.spacemod.strategic.component.hostedPropriety.TriggerVolume;
 import fr.systamynna.spacemod.strategic.component.Pilotable;
-import fr.systamynna.spacemod.strategic.component.PortsPoints.Port;
+import fr.systamynna.spacemod.strategic.component.hostedPropriety.PortPoint;
 import fr.systamynna.spacemod.strategic.component.RailFollower;
 import fr.systamynna.spacemod.strategic.component.Render;
 import fr.systamynna.spacemod.strategic.component.Transform;
@@ -58,7 +59,8 @@ class SpaceObjectTest {
                 Archetypes.system("Sol", Transform.at(2.6e17, 0, 0), RailFollower.orbit(1L << 40, 2.6e17, 0, 0.1)),
                 Archetypes.star("Sol", Transform.ORIGIN, RailFollower.spin(24_000, 3), new Render(MODEL, 6.9e8), 1.4e9),
                 Archetypes.planet("Terra", rail, new Render(MODEL, 6.4e6), DIM, 512,
-                        List.of(new Port("nord", 1.5, -2.5, 3.5, 90, 40), new Port("sud", 0, 0, 0, 360, 0))),
+                        List.of(new PortPoint("nord", 1.5, -2.5, 3.5, 7, 70, -7, 0.1, 0.2, 0.3, 0.9, 90, 40, new LogicalVolume(512), new TriggerVolume(1024)),
+                                PortPoint.main(512))),
                 Archetypes.megastructure("Anneau", rail, ResourceLocation.parse("amynnaspacemod:anneau"), 2048, List.of()),
                 Archetypes.station("Relais", rail, ResourceLocation.parse("amynnaspacemod:relais"), 256),
                 Archetypes.cruiser("Albatros", Transform.at(1e12, -3.25, 7), ResourceLocation.parse("amynnaspacemod:albatros"), 128));
@@ -70,22 +72,22 @@ class SpaceObjectTest {
     @Test
     void archetypesFollowTheArchitectureTable() {
         SpaceObject planet = Archetypes.planet("Terra", null, new Render(MODEL, 1), DIM, 512, List.of());
-        assertTrue(planet.has(ComponentTypes.HOSTED_DIMENSION) && planet.has(ComponentTypes.PORTS_POINTS)
-                && planet.has(ComponentTypes.LOGICAL_VOLUME) && planet.has(ComponentTypes.RENDER));
-        assertEquals(512, planet.get(ComponentTypes.LOGICAL_VOLUME).radius());
+        assertTrue(planet.has(ComponentTypes.HOSTED_DIMENSION) && planet.has(ComponentTypes.RENDER));
+        assertEquals(512, planet.get(ComponentTypes.HOSTED_DIMENSION).ports().get(0).logical().radius());
+        assertEquals(1024, planet.get(ComponentTypes.HOSTED_DIMENSION).ports().get(0).trigger().radius());
         assertEquals(1024, planet.get(ComponentTypes.EXCLUSION_VOLUME).radius());
         assertNull(planet.controller(), "pas de contrôleur : immobile");
         assertFalse(planet.has(ComponentTypes.DESTROYABLE), "une planète est indestructible");
 
         SpaceObject star = Archetypes.star("Sol", Transform.ORIGIN, null, new Render(MODEL, 1), 100);
         assertFalse(star.has(ComponentTypes.HOSTED_DIMENSION));
-        assertFalse(star.has(ComponentTypes.LOGICAL_VOLUME), "une étoile exclut sans avoir de dimension");
+        assertFalse(star.has(ComponentTypes.HOSTED_DIMENSION), "une étoile exclut sans avoir de dimension");
         assertEquals(100, star.get(ComponentTypes.EXCLUSION_VOLUME).radius());
 
         SpaceObject cruiser = Archetypes.cruiser("Albatros", Transform.ORIGIN, DIM, 100);
         assertInstanceOf(Pilotable.class, cruiser.controller());
         assertTrue(cruiser.has(ComponentTypes.DESTROYABLE));
-        assertEquals(360, cruiser.get(ComponentTypes.PORTS_POINTS).ports().get(0).openingDegrees());
+        assertEquals(360, cruiser.get(ComponentTypes.HOSTED_DIMENSION).ports().get(0).openingDegrees());
     }
 
     @Test
@@ -150,7 +152,7 @@ class SpaceObjectTest {
         data.putString("note", "venu d'un autre mod");
         data.putLong("n", 42);
         ResourceLocation foreign = ResourceLocation.parse("autremod:blindage");
-        SpaceObject object = new SpaceObject(UUID.randomUUID()).put(new LogicalVolume(10));
+        SpaceObject object = new SpaceObject(UUID.randomUUID()).put(new ExclusionVolume(10));
         CompoundTag saved = object.save();
         saved.getCompound("components").put(foreign.toString(), data);
 
@@ -237,11 +239,11 @@ class SpaceObjectTest {
 
     @Test
     void putReplacesAndRemoveDeletes() {
-        SpaceObject object = new SpaceObject(UUID.randomUUID()).put(new LogicalVolume(10)).put(new LogicalVolume(20));
-        assertEquals(20, object.get(ComponentTypes.LOGICAL_VOLUME).radius());
-        object.remove(ComponentTypes.LOGICAL_VOLUME);
-        assertNull(object.get(ComponentTypes.LOGICAL_VOLUME));
-        assertFalse(object.has(ComponentTypes.LOGICAL_VOLUME));
+        SpaceObject object = new SpaceObject(UUID.randomUUID()).put(new ExclusionVolume(10)).put(new ExclusionVolume(20));
+        assertEquals(20, object.get(ComponentTypes.EXCLUSION_VOLUME).radius());
+        object.remove(ComponentTypes.EXCLUSION_VOLUME);
+        assertNull(object.get(ComponentTypes.EXCLUSION_VOLUME));
+        assertFalse(object.has(ComponentTypes.EXCLUSION_VOLUME));
     }
 
     @Test

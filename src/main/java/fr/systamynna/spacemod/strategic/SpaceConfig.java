@@ -30,6 +30,10 @@ public final class SpaceConfig {
     /** Ticks sans accès ni joueur après lesquels les corps d'un système sont déchargés. */
     public static final ModConfigSpec.IntValue UNLOAD_DELAY_TICKS;
 
+    /** Période, en ticks, de la surveillance des dimensions d'objets. */
+    public static final ModConfigSpec.IntValue DIMENSION_CHECK_PERIOD_TICKS;
+    /** Ticks sans joueur après lesquels une dimension d'objet est fermée. */
+    public static final ModConfigSpec.IntValue DIMENSION_IDLE_DELAY_TICKS;
     /** Mise à jour de la base du monde depuis des données du web (pas encore implémenté : sans effet pour le moment). */
     public static final ModConfigSpec.BooleanValue WEB_PROVIDER;
 
@@ -61,6 +65,15 @@ public final class SpaceConfig {
         UNLOAD_DELAY_TICKS = builder
                 .comment("Ticks sans accès ni joueur après lesquels les corps d'un système sont déchargés (6000 = 5 minutes).")
                 .defineInRange("unloadDelayTicks", 6000, 20, Integer.MAX_VALUE);
+        builder.pop();
+
+        builder.comment("Dimensions des objets de l'espace.").push("dimensions");
+        DIMENSION_CHECK_PERIOD_TICKS = builder
+                .comment("Période, en ticks, de la surveillance des dimensions (volumes de déclenchement, fermeture).")
+                .defineInRange("checkPeriodTicks", 200, 1, Integer.MAX_VALUE);
+        DIMENSION_IDLE_DELAY_TICKS = builder
+                .comment("Ticks sans aucun joueur après lesquels une dimension d'objet est fermée (6000 = 5 minutes).")
+                .defineInRange("idleDelayTicks", 6000, 20, Integer.MAX_VALUE);
         builder.pop();
 
         builder.comment("Fournisseurs d'objets de l'espace (système solaire, datapacks, web).").push("provider");

@@ -255,7 +255,7 @@ public final class JdbcStrategicStore implements StrategicStore {
     private void upsert(StoredObject stored) throws SQLException {
         SpaceObject object = stored.object();
         HostedDimension hosted = object.get(ComponentTypes.HOSTED_DIMENSION);
-        String dimension = hosted == null ? null : hosted.dimension().toString();
+        String dimension = hosted == null || hosted.dimension() == null ? null : hosted.dimension().toString();
         String unit = stored.unitId() == null ? null : stored.unitId().toString();
         byte[] data = toBytes(object.save());
         try (PreparedStatement update = connection.prepareStatement("UPDATE " + objectsTable

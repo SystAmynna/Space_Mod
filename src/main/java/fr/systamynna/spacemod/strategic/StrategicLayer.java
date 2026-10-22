@@ -154,6 +154,11 @@ public final class StrategicLayer {
         return clock;
     }
 
+    /** Copie de tous les objets actuellement en mémoire (galaxies et unités chargées). */
+    public List<SpaceObject> loadedObjects() {
+        return List.copyOf(objects.values());
+    }
+
     /** Les galaxies (toujours en mémoire) : enfants directs de la racine. */
     public List<SpaceObject> galaxies() {
         return roots.stream().map(objects::get).toList();
@@ -245,7 +250,7 @@ public final class StrategicLayer {
         if (find(object.id()) != null) throw new IllegalArgumentException("Objet déjà présent : " + object.id());
         HostedDimension hosted = object.get(ComponentTypes.HOSTED_DIMENSION);
         // une dimension n'a qu'un hôte : refusé avant toute modification de l'arbre
-        if (hosted != null && dimensionHosts.containsKey(hosted.dimension())) {
+        if (hosted != null && hosted.dimension() != null && dimensionHosts.containsKey(hosted.dimension())) {
             throw new IllegalArgumentException("Dimension déjà hébergée : " + hosted.dimension());
         }
         if (object.has(ComponentTypes.FRAME)) requireFrameParent(parentId);

@@ -12,6 +12,9 @@ import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import fr.systamynna.dynamicdimensions.impl.DynamicDimensionsInit;
 import fr.systamynna.spacemod.spaceprovider.SpaceProviderEvents;
+import fr.systamynna.spacemod.network.SkyContextPacket;
+import fr.systamynna.spacemod.strategic.DimensionManager;
+import fr.systamynna.spacemod.strategic.command.SpaceObjectCommands;
 import fr.systamynna.spacemod.strategic.SpaceConfig;
 import fr.systamynna.spacemod.strategic.StrategicEvents;
 
@@ -35,6 +38,10 @@ public class AmynnaSpaceMod {
         container.registerConfig(ModConfig.Type.COMMON, SpaceConfig.SPEC);
         NeoForge.EVENT_BUS.register(StrategicEvents.class);
         NeoForge.EVENT_BUS.register(SpaceProviderEvents.class);
+        NeoForge.EVENT_BUS.register(DimensionManager.class);
+        NeoForge.EVENT_BUS.register(SpaceObjectCommands.class);
+        modEventBus.addListener(SkyContextPacket::register);
+        DimensionManager.registerRestore();
         DynamicDimensionsInit.init(modEventBus, FMLEnvironment.dist);
         LOGGER.info("Amynna's Space Mod loaded :)");
     }

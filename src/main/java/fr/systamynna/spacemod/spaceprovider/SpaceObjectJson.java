@@ -7,8 +7,10 @@ import org.jetbrains.annotations.Nullable;
 
 import fr.systamynna.spacemod.strategic.Archetypes;
 import fr.systamynna.spacemod.strategic.SpaceObject;
+import fr.systamynna.spacemod.strategic.component.ComponentTypes;
 import fr.systamynna.spacemod.strategic.component.ExclusionVolume;
 import fr.systamynna.spacemod.strategic.component.Frame;
+import fr.systamynna.spacemod.strategic.component.HostedDimension;
 import fr.systamynna.spacemod.strategic.component.Identity;
 import fr.systamynna.spacemod.strategic.component.RailFollower;
 import fr.systamynna.spacemod.strategic.component.RailFollower.Orbit;
@@ -27,7 +29,8 @@ import net.minecraft.util.GsonHelper;
  *  "position": [x, y, z],                                   // mètres, optionnel
  *  "orbit": {"period": ticks, "radius": m, "phase": ticks, "inclination": rad},
  *  "spin": {"period": ticks, "phase": ticks},
- *  "render": {"model": "ns:path", "radius": m}, "exclusion_radius": m, "main_star": "sol/sun"}
+ *  "render": {"model": "ns:path", "radius": m}, "exclusion_radius": m, "main_star": "sol/sun",
+ *  "dimension": {"gravity": [x, y, z], "pressure": p, "drag": d, "magnetic_north": [x, y, z]}} // tout optionnel
  * }</pre>
  */
 public final class SpaceObjectJson {
@@ -70,7 +73,22 @@ public final class SpaceObjectJson {
         return new ProviderEntry(GsonHelper.getAsString(json, "id"), GsonHelper.getAsString(json, "parent", null), archetype,
                 GsonHelper.getAsString(json, "name"), transform, orbit == null && spin == null ? null : new RailFollower(orbit, spin),
                 render, json.has("exclusion_radius") ? GsonHelper.getAsDouble(json, "exclusion_radius") : null,
-                GsonHelper.getAsString(json, "main_star", null));
+                GsonHelper.getAsString(json, "main_star", null), json.has("dimension") ? dimension(GsonHelper.getAsJsonObject(json, "dimension")) : null);
+    }
+
+    private static float[] vec(JsonObject json, String key, float[] fallback) {
+        if (!json.has(key)) return fallback;
+        JsonArray a = GsonHelper.getAsJsonArray(json, key);
+        if (a.size() != 3) throw new com.google.gson.JsonParseException(key + " : 3 nombres attendus");
+        return new float[] {a.get(0).getAsFloat(), a.get(1).getAsFloat(), a.get(2).getAsFloat()};
+    }
+
+    private static HostedDimension.Properties dimension(JsonObject d) {
+        HostedDimension.Properties s = HostedDimension.Properties.SPACE;
+        float[] g = vec(d, "gravity", new float[] {s.gx(), s.gy(), s.gz()});
+        float[] n = vec(d, "magnetic_north", new float[] {s.nx(), s.ny(), s.nz()});
+        return new HostedDimension.Properties(g[0], g[1], g[2], GsonHelper.getAsDouble(d, "pressure", s.pressure()),
+                GsonHelper.getAsFloat(d, "drag", s.drag()), n[0], n[1], n[2]);
     }
 
     /** Écrit une entrée ; {@link #fromJson} relit le même contenu. */
@@ -107,28 +125,53 @@ public final class SpaceObjectJson {
             r.addProperty("radius", e.render().apparentRadius());
             json.add("render", r);
         }
+        if (e.dimension() != null) {
+            HostedDimension.Properties p = e.dimension();
+            JsonObject d = new JsonObject();
+            JsonArray g = new JsonArray();
+            g.add(p.gx());
+            g.add(p.gy());
+            g.add(p.gz());
+            d.add("gravity", g);
+            d.addProperty("pressure", p.pressure());
+            d.addProperty("drag", p.drag());
+            JsonArray n = new JsonArray();
+            n.add(p.nx());
+            n.add(p.ny());
+            n.add(p.nz());
+            d.add("magnetic_north", n);
+            json.add("dimension", d);
+        }
         if (e.exclusionRadius() != null) json.addProperty("exclusion_radius", e.exclusionRadius());
         if (e.mainStar() != null) json.addProperty("main_star", e.mainStar());
         return json;
     }
 
-    /** Nouvel objet, avec l'UUID stable de l'entrée ; ni parent ni dimension (ajouté ensuite par la couche). */
-    public static SpaceObject toObject(ProviderEntry e) {
+    /**
+     * Nouvel objet, avec l'UUID stable de l'entrée ; ni parent ni dimension créée (ajouté ensuite par la couche).
+     *
+     * @param parent identité du parent, ou {@code null} pour une galaxie ; l'id texte de l'objet en découle
+     */
+    public static SpaceObject toObject(ProviderEntry e, @Nullable Identity parent) {
         SpaceObject object = new SpaceObject(e.uuid());
         boolean galaxy = e.archetype().equals(Archetypes.GALAXY);
         boolean system = e.archetype().equals(Archetypes.SYSTEM);
         if (galaxy || system) object.put(new Frame());
         if (system) object.put(new StellarSystem(null));
-        update(object, e);
+        // dimension déclarée, pas créée : elle l'est au premier accès (SpaceAccess)
+        if (e.dimension() != null) object.put(new HostedDimension(null, e.dimension()));
+        update(object, e, parent);
         return object;
     }
 
     /**
-     * Applique à un objet existant les données générales de l'entrée (nom, position, rail, rendu, étoile principale).
+     * Applique à un objet existant les données générales de l'entrée (nom, id texte, position, rail, rendu, étoile principale).
      * Ne touche ni à la dimension hébergée, ni aux ports, volumes logiques ou état de destruction, ni au parent.
      */
-    public static void update(SpaceObject object, ProviderEntry e) {
-        object.put(new Identity(e.name(), e.archetype())).put(e.transform()).controller(e.rail());
+    public static void update(SpaceObject object, ProviderEntry e, @Nullable Identity parent) {
+        // le slug est le dernier segment de l'id JSON ; le chemin complet vient de l'identité du parent
+        String slug = e.id().substring(e.id().lastIndexOf('/') + 1);
+        object.put(Identity.child(parent, slug, e.name(), e.archetype())).put(e.transform()).controller(e.rail());
         if (e.render() != null) {
             object.put(e.render());
             if (e.archetype().equals(Archetypes.STAR)) {

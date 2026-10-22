@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "entries": [
     {
       "id": "milky_way",
@@ -50,7 +50,8 @@
       "spin": {
         "period": 101347200,
         "phase": 0
-      }
+      },
+      "dimension": {}
     },
     {
       "id": "sol/venus",
@@ -70,7 +71,8 @@
       "spin": {
         "period": 419940000,
         "phase": 0
-      }
+      },
+      "dimension": {}
     },
     {
       "id": "sol/earth",
@@ -90,7 +92,8 @@
       "spin": {
         "period": 1723248,
         "phase": 0
-      }
+      },
+      "dimension": {}
     },
     {
       "id": "sol/mars",
@@ -110,7 +113,8 @@
       "spin": {
         "period": 1772856,
         "phase": 0
-      }
+      },
+      "dimension": {}
     },
     {
       "id": "sol/jupiter",
@@ -130,7 +134,8 @@
       "spin": {
         "period": 714600,
         "phase": 0
-      }
+      },
+      "dimension": {}
     },
     {
       "id": "sol/saturn",
@@ -150,7 +155,8 @@
       "spin": {
         "period": 767232,
         "phase": 0
-      }
+      },
+      "dimension": {}
     },
     {
       "id": "sol/uranus",
@@ -170,7 +176,8 @@
       "spin": {
         "period": 1241280,
         "phase": 0
-      }
+      },
+      "dimension": {}
     },
     {
       "id": "sol/neptune",
@@ -190,7 +197,8 @@
       "spin": {
         "period": 1159920,
         "phase": 0
-      }
+      },
+      "dimension": {}
     },
     {
       "id": "sol/moon",
@@ -210,7 +218,8 @@
       "spin": {
         "period": 47212416,
         "phase": 0
-      }
+      },
+      "dimension": {}
     },
     {
       "id": "sol/io",
@@ -230,7 +239,8 @@
       "spin": {
         "period": 3056832,
         "phase": 0
-      }
+      },
+      "dimension": {}
     },
     {
       "id": "sol/europa",
@@ -250,7 +260,8 @@
       "spin": {
         "period": 6136128,
         "phase": 0
-      }
+      },
+      "dimension": {}
     },
     {
       "id": "sol/ganymede",
@@ -270,7 +281,8 @@
       "spin": {
         "period": 12363840,
         "phase": 0
-      }
+      },
+      "dimension": {}
     },
     {
       "id": "sol/callisto",
@@ -290,7 +302,8 @@
       "spin": {
         "period": 28838592,
         "phase": 0
-      }
+      },
+      "dimension": {}
     },
     {
       "id": "sol/titan",
@@ -310,7 +323,8 @@
       "spin": {
         "period": 27552960,
         "phase": 0
-      }
+      },
+      "dimension": {}
     }
   ]
 }

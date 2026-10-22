@@ -6,13 +6,14 @@ import java.util.UUID;
 import org.jetbrains.annotations.Nullable;
 
 import fr.systamynna.spacemod.AmynnaSpaceMod;
+import fr.systamynna.spacemod.strategic.component.HostedDimension;
 import fr.systamynna.spacemod.strategic.component.RailFollower;
 import fr.systamynna.spacemod.strategic.component.Render;
 import fr.systamynna.spacemod.strategic.component.Transform;
 
 /**
- * Description, venue d'une source (JSON), d'un objet de l'espace : uniquement ses données générales. Une dimension
- * hébergée n'en fait jamais partie, elle appartient au monde.
+ * Description, venue d'une source (JSON), d'un objet de l'espace : uniquement ses données générales. La dimension elle-même n'en
+ * fait jamais partie, elle appartient au monde.
  *
  * @param id identifiant texte stable (par exemple {@code sol/earth}) dont dérive l'UUID de l'objet
  * @param parent identifiant texte du parent, ou {@code null} pour une galaxie
@@ -23,9 +24,11 @@ import fr.systamynna.spacemod.strategic.component.Transform;
  * @param render modèle et rayon apparent, ou {@code null}
  * @param exclusionRadius rayon d'exclusion d'une étoile, ou {@code null} (alors le double du rayon apparent)
  * @param mainStar identifiant texte de l'étoile principale d'un système, ou {@code null}
+ * @param dimension paramètres de la dimension que l'objet pourra héberger (créée au premier accès), ou {@code null} s'il n'en héberge pas
  */
 public record ProviderEntry(String id, @Nullable String parent, String archetype, String name, Transform transform,
-        @Nullable RailFollower rail, @Nullable Render render, @Nullable Double exclusionRadius, @Nullable String mainStar) {
+        @Nullable RailFollower rail, @Nullable Render render, @Nullable Double exclusionRadius, @Nullable String mainStar,
+        @Nullable HostedDimension.Properties dimension) {
 
     /** UUID de l'objet pour un identifiant texte : le même à chaque import, ce qui permet de retrouver l'objet en base. */
     public static UUID uuid(String id) {

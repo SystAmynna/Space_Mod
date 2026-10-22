@@ -64,7 +64,7 @@ Les dimensions ne se parlent jamais directement : elles lisent et publient leur 
 
 ## 5. Couche stratégique
 
-**SpaceObject.** Liste extensible de composants : Identité, Transform (position double, orientation, vitesse), Render, Controller (rail, rotation, pilotage…), HostedDimension, PortsPoints (sites d'atterrissage), Forgettable (Micros seulement), Volumes, plus des composants spécifiques ajoutés sans toucher aux autres.
+**SpaceObject.** Liste extensible de composants : Identité, Transform (position double, orientation, vitesse), Render, Controller (rail, rotation, pilotage…), HostedDimension (dimension, pose et rendu du ciel, PortPoints avec volume logique et volume de déclenchement), Forgettable (Micros seulement), Volumes, plus des composants spécifiques ajoutés sans toucher aux autres.
 
 **Systèmes stellaires.** Chacun a son référentiel ; deux objets de systèmes différents ne se rencontrent jamais. On passe d'un système à l'autre par un **saut** (téléportation masquée, par défaut) ou par un **parcours** (réacteur suffisant, changement de référentiel imperceptible). Numériquement validé (C4) ; le masquage visuel reste à juger en jeu.
 
@@ -79,8 +79,8 @@ Les dimensions ne se parlent jamais directement : elles lisent et publient leur 
 | **Archétype** | **Exemples** | **Composants typiques** |
 | --- | --- | --- |
 | **Astre** | Étoile, trou noir | Transform, Render, Controller (rail ou rotation) |
-| **Planète** | Planète, lune | Astre + HostedDimension + PortsPoints multiples |
-| **Mégastructure** | Anneau, sphère de Dyson | HostedDimension, rail, PortsPoints avec capacité d'approche |
+| **Planète** | Planète, lune | Astre + HostedDimension + PortPoints multiples |
+| **Mégastructure** | Anneau, sphère de Dyson | HostedDimension, rail, PortPoints avec capacité d'approche |
 | **Superstructure** | Station | HostedDimension, rail orbital, un PortsPoint à 360° |
 | **Structure** | Croiseur | HostedDimension, pilotage, un PortsPoint à 360° ; capacités selon son noyau |
 | **Mini** *(différé)* | Navette, chasseur, joueur perdu | Controller ; objet physique dans un hôte, ou donnée seule |

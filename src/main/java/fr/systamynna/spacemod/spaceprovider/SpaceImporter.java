@@ -8,6 +8,8 @@ import java.util.UUID;
 import fr.systamynna.spacemod.AmynnaSpaceMod;
 import fr.systamynna.spacemod.strategic.SpaceObject;
 import fr.systamynna.spacemod.strategic.StrategicLayer;
+import fr.systamynna.spacemod.strategic.component.ComponentTypes;
+import fr.systamynna.spacemod.strategic.component.Identity;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 /**
@@ -46,11 +48,13 @@ public final class SpaceImporter {
                 UUID parent = entry.parent() == null ? null : ProviderEntry.uuid(entry.parent());
                 try {
                     SpaceObject existing = layer.find(entry.uuid());
+                    SpaceObject parentObject = parent == null ? null : layer.find(parent);
+                    Identity parentIdentity = parentObject == null ? null : parentObject.get(ComponentTypes.IDENTITY);
                     if (existing != null) {
-                        SpaceObjectJson.update(existing, entry);
+                        SpaceObjectJson.update(existing, entry, parentIdentity);
                         updated++;
-                    } else if (parent == null || layer.find(parent) != null) {
-                        layer.addObject(parent, SpaceObjectJson.toObject(entry));
+                    } else if (parent == null || parentObject != null) {
+                        layer.addObject(parent, SpaceObjectJson.toObject(entry, parentIdentity));
                         created++;
                     } else {
                         continue;

@@ -36,10 +36,6 @@ public final class ComponentTypes {
     public static final ComponentType<Destroyable> DESTROYABLE = register("destroyable", Destroyable::load);
     /** Type du composant : dimension persistante hébergée. */
     public static final ComponentType<HostedDimension> HOSTED_DIMENSION = register("hosted_dimension", HostedDimension::load);
-    /** Type du composant : sites d'atterrissage et d'amarrage. */
-    public static final ComponentType<PortsPoints> PORTS_POINTS = register("ports_points", PortsPoints::load);
-    /** Type du composant : volume logique (taille de la dimension). */
-    public static final ComponentType<LogicalVolume> LOGICAL_VOLUME = register("logical_volume", LogicalVolume::load);
     /** Type du composant : volume d'exclusion. */
     public static final ComponentType<ExclusionVolume> EXCLUSION_VOLUME = register("exclusion_volume", ExclusionVolume::load);
 

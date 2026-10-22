@@ -1,5 +1,6 @@
 package fr.systamynna.spacemod.strategic.component;
 
+import fr.systamynna.spacemod.strategic.component.hostedPropriety.LogicalVolume;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 

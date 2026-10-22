@@ -10,7 +10,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 
-/** {@code /spaceprovider reload|remove|list}, réservé aux opérateurs. */
+/** {@code /spaceprovider reload|remove|list}, réservé aux opérateurs. Un id avec « / » se tape entre guillemets. */
 final class SpaceCommands {
     /** Classe utilitaire. */
     private SpaceCommands() {}

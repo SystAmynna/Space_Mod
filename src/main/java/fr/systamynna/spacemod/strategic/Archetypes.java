@@ -11,10 +11,8 @@ import fr.systamynna.spacemod.strategic.component.ExclusionVolume;
 import fr.systamynna.spacemod.strategic.component.Frame;
 import fr.systamynna.spacemod.strategic.component.HostedDimension;
 import fr.systamynna.spacemod.strategic.component.Identity;
-import fr.systamynna.spacemod.strategic.component.LogicalVolume;
 import fr.systamynna.spacemod.strategic.component.Pilotable;
-import fr.systamynna.spacemod.strategic.component.PortsPoints;
-import fr.systamynna.spacemod.strategic.component.PortsPoints.Port;
+import fr.systamynna.spacemod.strategic.component.hostedPropriety.PortPoint;
 import fr.systamynna.spacemod.strategic.component.RailFollower;
 import fr.systamynna.spacemod.strategic.component.Render;
 import fr.systamynna.spacemod.strategic.component.StellarSystem;
@@ -93,14 +91,14 @@ public final class Archetypes {
      * @param name nom d'affichage
      * @param controller mouvement ({@code null} = immobile, à la position du Transform)
      * @param render données de rendu dans le ciel
-     * @param ports sites d'atterrissage
+     * @param radius rayon logique R du port « principal » ajouté si {@code ports} est vide, aussi taille de la dimension
+     * @param ports portes de la dimension ; vide : un port omnidirectionnel de rayon R
      * @param dimension dimension persistante hébergée (une dimension n'a qu'un hôte)
-     * @param radius rayon logique R, aussi taille de la dimension ; l'exclusion en est le double
      * @return l'objet créé, sans parent ni couche
      */
     public static SpaceObject planet(String name, @Nullable Controller controller, Render render, ResourceLocation dimension,
-            double radius, List<Port> ports) {
-        return hosted(base(name, PLANET, Transform.ORIGIN, controller).put(render), dimension, radius, ports);
+            double radius, List<PortPoint> ports) {
+        return hosted(base(name, PLANET, Transform.ORIGIN, controller).put(render), dimension, ports.isEmpty() ? List.of(PortPoint.main(radius)) : ports);
     }
 
     /**
@@ -110,13 +108,14 @@ public final class Archetypes {
      * @param name nom d'affichage
      * @param rail rail orbital suivi par l'objet
      * @param dimension dimension persistante hébergée
-     * @param radius rayon logique R, aussi taille de la dimension
-     * @param ports sites d'atterrissage et d'amarrage
+     * @param radius rayon logique R du port « principal » ajouté si {@code ports} est vide
+     * @param ports portes de la dimension (avec capacité d'approche) ; vide : un port omnidirectionnel de rayon R
      * @return l'objet créé, sans parent ni couche
      */
     public static SpaceObject megastructure(String name, RailFollower rail, ResourceLocation dimension,
-            double radius, List<Port> ports) {
-        return hosted(base(name, MEGASTRUCTURE, Transform.ORIGIN, rail), dimension, radius, ports);
+            double radius, List<PortPoint> ports) {
+        return hosted(base(name, MEGASTRUCTURE, Transform.ORIGIN, rail), dimension,
+                ports.isEmpty() ? List.of(PortPoint.main(radius)) : ports);
     }
 
     /**
@@ -126,11 +125,11 @@ public final class Archetypes {
      * @param name nom d'affichage
      * @param rail rail orbital suivi par l'objet
      * @param dimension dimension persistante hébergée
-     * @param radius rayon logique R, aussi taille de la dimension
+     * @param radius rayon logique R du port, aussi taille de la dimension
      * @return l'objet créé, sans parent ni couche
      */
     public static SpaceObject station(String name, RailFollower rail, ResourceLocation dimension, double radius) {
-        return hosted(base(name, STATION, Transform.ORIGIN, rail), dimension, radius, List.of(port360()))
+        return hosted(base(name, STATION, Transform.ORIGIN, rail), dimension, List.of(PortPoint.main(radius)))
                 .put(Destroyable.alive());
     }
 
@@ -140,17 +139,12 @@ public final class Archetypes {
      * @param name nom d'affichage
      * @param transform position de départ, dans le référentiel du parent auquel il sera ajouté
      * @param dimension dimension persistante hébergée
-     * @param radius rayon logique R, aussi taille de la dimension
+     * @param radius rayon logique R du port, aussi taille de la dimension
      * @return l'objet créé, sans parent ni couche
      */
     public static SpaceObject cruiser(String name, Transform transform, ResourceLocation dimension, double radius) {
-        return hosted(base(name, CRUISER, transform, Pilotable.AT_REST), dimension, radius, List.of(port360()))
+        return hosted(base(name, CRUISER, transform, Pilotable.AT_REST), dimension, List.of(PortPoint.main(radius)))
                 .put(Destroyable.alive());
-    }
-
-    /** Port omnidirectionnel nommé « principal », au centre de l'objet, sans capacité d'approche. */
-    private static Port port360() {
-        return new Port("principal", 0, 0, 0, 360, 0);
     }
 
     /** Objet de base commun à tous les archétypes : identifiant aléatoire, Identity, Transform et contrôleur. */
@@ -162,15 +156,13 @@ public final class Archetypes {
     }
 
     /**
-     * Ajoute à un objet ce qu'il faut pour héberger une dimension : la dimension, ses ports, le volume logique de
-     * rayon R et l'exclusion à {@code DEFAULT_FACTOR} fois R.
+     * Ajoute à un objet ce qu'il faut pour héberger une dimension : la dimension et ses ports (volume logique de rayon
+     * R), et l'exclusion à {@code DEFAULT_FACTOR} fois R.
      */
-    private static SpaceObject hosted(SpaceObject object, ResourceLocation dimension, double radius, List<Port> ports) {
-        LogicalVolume logical = new LogicalVolume(radius);
+    private static SpaceObject hosted(SpaceObject object, ResourceLocation dimension, List<PortPoint> ports) {
         return object
-                .put(new HostedDimension(dimension))
-                .put(new PortsPoints(ports))
-                .put(logical)
-                .put(ExclusionVolume.scaled(logical, ExclusionVolume.DEFAULT_FACTOR));
+                .put(new HostedDimension(dimension, HostedDimension.Properties.SPACE, Transform.ORIGIN,
+                        HostedDimension.DEFAULT_RENDER, ports))
+                .put(ExclusionVolume.scaled(ports.get(0).logical(), ExclusionVolume.DEFAULT_FACTOR));
     }
 }
