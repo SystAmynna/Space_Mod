@@ -19,12 +19,14 @@ public class SpaceTestMod {
     public SpaceTestMod() {
         if (net.neoforged.fml.loading.FMLEnvironment.dist.isClient()) { A3Client.register(); A8Client.register(); A10Client.register(); }
         NeoForge.EVENT_BUS.addListener((RegisterCommandsEvent e) -> SpaceTestCommands.register(e.getDispatcher()));
-        NeoForge.EVENT_BUS.addListener((ServerTickEvent.Post e) -> { A1Runner.tick(e.getServer()); A2Runner.tick(e.getServer()); A4Runner.tickEnd(e.getServer()); A6Runner.tick(); A5Runner.tickEnd(); A3Server.tick(); A7Server.tick(e.getServer()); A9Runner.tick(); A8Server.tick(); CRunner.tick(); C5Runner.tick(); });
+        NeoForge.EVENT_BUS.addListener((ServerTickEvent.Post e) -> { A1Runner.tick(e.getServer()); A2Runner.tick(e.getServer()); A4Runner.tickEnd(e.getServer()); A6Runner.tick(); A5Runner.tickEnd(); A3Server.tick(); A7Server.tick(e.getServer()); A9Runner.tick(); A8Server.tick(); CRunner.tick(); C5Runner.tick(); DimLifecycle.tick(e.getServer()); });
         NeoForge.EVENT_BUS.addListener((ServerTickEvent.Pre e) -> { A4Runner.tickStart(); A5Runner.tickStart(); });
         A7Server.register(NeoForge.EVENT_BUS);
+        DimLifecycle.register();
         NeoForge.EVENT_BUS.addListener((ServerAboutToStartEvent e) -> { A2Runner.registerPhysics(); A4Runner.registerPhysics(); A6Runner.registerPhysics(); A5Runner.registerPhysics(); A3Server.registerPhysics(); A7Server.registerPhysics(); A9Runner.registerPhysics(); A8Server.registerPhysics(); CRunner.registerPhysics(); C5Runner.registerPhysics(); });
         // Lancement sans console : ./gradlew runServerDevMods -Pa1=<cycles> démarre A1 puis arrête le serveur.
         NeoForge.EVENT_BUS.addListener((ServerStartedEvent e) -> {
+            DimLifecycle.onServerStarted(e.getServer());
             String n = System.getProperty("spacetest.a1", "");
             if (!n.isEmpty()) {
                 String err = A1Runner.start(e.getServer(), Integer.parseInt(n));

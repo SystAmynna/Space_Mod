@@ -1,0 +1,212 @@
+t=0 DÉMARRAGE gérées={} niveaux chargés=[minecraft:overworld, minecraft:the_nether, minecraft:the_end]
+t=5 CREATE spacemod_test:t_persist (persist)
+t=5 AUTOTEST OK création persistante
+t=5 CREATE spacemod_test:tmp_t (temp)
+t=5 AUTOTEST OK création temporaire
+t=5 AUTOTEST OK joueur factice présent dans la dimension
+t=5 AUTOTEST OK bibliothèque : unload refusé avec joueur
+t=5 AUTOTEST OK bibliothèque : delete refusé avec joueur
+t=5 UNLOAD REFUSÉ (joueur présent ou attendu) spacemod_test:t_persist
+t=5 AUTOTEST OK safeUnload refusé avec joueur
+t=5 AUTOTEST OK joueur factice retiré
+t=5 UNLOAD OK spacemod_test:t_persist
+t=5 AUTOTEST OK safeUnload accepté à vide
+t=15 AUTOTEST OK dimension déchargée
+t=15 LOAD spacemod_test:t_persist -> true
+t=15 LOGIN-PRELOAD autotest : spacemod_test:t_persist chargée=true
+t=15 AUTOTEST OK login simulé : dimension rechargée par le mixin
+t=15 AUTOTEST OK login simulé : dimension réservée
+t=15 UNLOAD REFUSÉ (joueur présent ou attendu) spacemod_test:t_persist
+t=15 AUTOTEST OK unload refusé tant que la connexion est attendue
+t=20 AUTO spacemod_test:t_persist vide depuis 1 s
+t=20 UNLOAD OK spacemod_test:t_persist
+t=20 AUTO spacemod_test:tmp_t vide depuis 1 s
+t=20 DELETE OK spacemod_test:tmp_t
+t=105 AUTOTEST OK déchargement automatique de la persistante vide
+t=105 AUTOTEST OK suppression automatique de la temporaire vide
+t=105 AUTOTEST OK fichiers de la temporaire supprimés
+t=105 AUTOTEST OK registre : persistante gardée, temporaire retirée
+t=105 AUTOTEST FIN : RÉUSSI
+t=0 DÉMARRAGE gérées={spacemod_test:t_persist=persist} niveaux chargés=[minecraft:overworld, minecraft:the_nether, minecraft:the_end]
+t=0 DÉMARRAGE gérées={spacemod_test:t_persist=persist} niveaux chargés=[minecraft:overworld, minecraft:the_nether, minecraft:the_end]
+t=0 DÉMARRAGE gérées={spacemod_test:t_persist=persist} niveaux chargés=[minecraft:overworld, minecraft:the_end, minecraft:the_nether]
+t=0 DÉMARRAGE gérées={} niveaux chargés=[minecraft:overworld, minecraft:the_end, minecraft:the_nether]
+t=0 DÉMARRAGE gérées={} niveaux chargés=[minecraft:overworld, minecraft:the_nether, minecraft:the_end]
+t=90 LOGIN-OK Dev dans minecraft:overworld pos=BlockPos{x=328, y=68, z=-70} niveaux=[minecraft:overworld, minecraft:the_nether, minecraft:the_end]
+t=1443 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end] | auto=30 s;
+t=1868 CREATE spacemod_test:dd_a (persist)
+t=1868 CREATE spacemod_test:dd_b (persist)
+t=1868 CHANGE-DIM Dev minecraft:overworld -> spacemod_test:dd_a
+t=1868 GO Dev -> spacemod_test:dd_a
+t=2460 AUTO spacemod_test:dd_b vide depuis 30 s
+t=2460 UNLOAD OK spacemod_test:dd_b
+t=2483 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:dd_a] | auto=30 s;dd_a [persist] chargée, joueurs=1, vide depuis 0 s;dd_b [persist] DÉCHARGÉE;
+t=2929 LOAD spacemod_test:dd_b -> true
+t=2929 CHANGE-DIM Dev spacemod_test:dd_a -> spacemod_test:dd_b
+t=2929 GO Dev -> spacemod_test:dd_b
+t=2942 LOGOUT Dev dans spacemod_test:dd_b
+t=3150 LOGIN-OK Dev dans spacemod_test:dd_b pos=BlockPos{x=0, y=64, z=0} niveaux=[minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:dd_a, spacemod_test:dd_b]
+t=3207 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:dd_a, spacemod_test:dd_b] | auto=30 s;dd_a [persist] chargée, joueurs=0, vide depuis 14 s;dd_b [persist] chargée, joueurs=1, vide depuis 0 s;
+t=3520 AUTO spacemod_test:dd_a vide depuis 30 s
+t=3520 UNLOAD OK spacemod_test:dd_a
+t=3560 LOAD spacemod_test:dd_a -> true
+t=3560 CHANGE-DIM Dev spacemod_test:dd_b -> spacemod_test:dd_a
+t=3560 GO Dev -> spacemod_test:dd_a
+t=3620 CHANGE-DIM Dev spacemod_test:dd_a -> spacemod_test:dd_b
+t=3620 GO Dev -> spacemod_test:dd_b
+t=4220 AUTO spacemod_test:dd_a vide depuis 30 s
+t=4220 UNLOAD OK spacemod_test:dd_a
+t=6147 LOGOUT Dev dans spacemod_test:dd_b
+t=0 DÉMARRAGE gérées={spacemod_test:dd_a=persist, spacemod_test:dd_b=persist} niveaux chargés=[minecraft:overworld, minecraft:the_end, minecraft:the_nether]
+t=216 LOGIN-OK Dev dans minecraft:overworld pos=BlockPos{x=-164, y=70, z=32} niveaux=[minecraft:overworld, minecraft:the_end, minecraft:the_nether]
+t=470 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;
+t=1825 LOAD spacemod_test:dd_a -> true
+t=1825 LOAD spacemod_test:dd_b -> true
+t=1825 CHANGE-DIM Dev minecraft:overworld -> spacemod_test:dd_a
+t=1825 GO Dev -> spacemod_test:dd_a
+t=1914 GO Dev -> spacemod_test:dd_a
+t=2241 CHANGE-DIM Dev spacemod_test:dd_a -> spacemod_test:dd_b
+t=2241 GO Dev -> spacemod_test:dd_b
+t=2316 CHANGE-DIM Dev spacemod_test:dd_b -> spacemod_test:dd_a
+t=2316 GO Dev -> spacemod_test:dd_a
+t=2407 CHANGE-DIM Dev spacemod_test:dd_a -> spacemod_test:dd_b
+t=2407 GO Dev -> spacemod_test:dd_b
+t=2434 CHANGE-DIM Dev spacemod_test:dd_b -> spacemod_test:dd_a
+t=2434 GO Dev -> spacemod_test:dd_a
+t=3019 DELETE REFUSÉ (joueur présent ou attendu) spacemod_test:dd_a
+t=3020 AUTO spacemod_test:dd_b vide depuis 30 s
+t=3020 UNLOAD OK spacemod_test:dd_b
+t=3089 DELETE REFUSÉ par la bibliothèque spacemod_test:dd_b
+t=3262 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a] | auto=30 s;dd_a [persist] chargée, joueurs=1, vide depuis 0 s;dd_b [persist] DÉCHARGÉE;
+t=4126 CHANGE-DIM Dev spacemod_test:dd_a -> minecraft:overworld
+t=4209 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a] | auto=30 s;dd_a [persist] chargée, joueurs=0, vide depuis 4 s;dd_b [persist] DÉCHARGÉE;
+t=4280 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a] | auto=30 s;dd_a [persist] chargée, joueurs=0, vide depuis 8 s;dd_b [persist] DÉCHARGÉE;
+t=4297 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a] | auto=30 s;dd_a [persist] chargée, joueurs=0, vide depuis 8 s;dd_b [persist] DÉCHARGÉE;
+t=4313 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a] | auto=30 s;dd_a [persist] chargée, joueurs=0, vide depuis 9 s;dd_b [persist] DÉCHARGÉE;
+t=4335 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a] | auto=30 s;dd_a [persist] chargée, joueurs=0, vide depuis 10 s;dd_b [persist] DÉCHARGÉE;
+t=4354 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a] | auto=30 s;dd_a [persist] chargée, joueurs=0, vide depuis 11 s;dd_b [persist] DÉCHARGÉE;
+t=4505 UNLOAD OK spacemod_test:dd_a
+t=4565 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;
+t=5654 DELETE REFUSÉ par la bibliothèque spacemod_test:dd_a
+t=5712 DELETE REFUSÉ par la bibliothèque spacemod_test:dd_b
+t=7964 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether] | auto=30 s;
+t=8407 CREATE spacemod_test:dd_a (persist)
+t=8407 CREATE spacemod_test:dd_b (persist)
+t=8407 CHANGE-DIM Dev minecraft:overworld -> spacemod_test:dd_a
+t=8407 GO Dev -> spacemod_test:dd_a
+t=8690 AUTO 10 s
+t=8700 AUTO spacemod_test:dd_b vide depuis 15 s
+t=8700 UNLOAD OK spacemod_test:dd_b
+t=8867 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a] | auto=10 s;dd_a [persist] chargée, joueurs=1, vide depuis 0 s;dd_b [persist] DÉCHARGÉE;
+t=8966 LOAD spacemod_test:dd_b -> true
+t=8966 CHANGE-DIM Dev spacemod_test:dd_a -> spacemod_test:dd_b
+t=8966 GO Dev -> spacemod_test:dd_b
+t=8997 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a, spacemod_test:dd_b] | auto=10 s;dd_a [persist] chargée, joueurs=0, vide depuis 1 s;dd_b [persist] chargée, joueurs=1, vide depuis 0 s;
+t=9030 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a, spacemod_test:dd_b] | auto=10 s;dd_a [persist] chargée, joueurs=0, vide depuis 3 s;dd_b [persist] chargée, joueurs=1, vide depuis 0 s;
+t=9053 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a, spacemod_test:dd_b] | auto=10 s;dd_a [persist] chargée, joueurs=0, vide depuis 4 s;dd_b [persist] chargée, joueurs=1, vide depuis 0 s;
+t=9071 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a, spacemod_test:dd_b] | auto=10 s;dd_a [persist] chargée, joueurs=0, vide depuis 5 s;dd_b [persist] chargée, joueurs=1, vide depuis 0 s;
+t=9083 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a, spacemod_test:dd_b] | auto=10 s;dd_a [persist] chargée, joueurs=0, vide depuis 6 s;dd_b [persist] chargée, joueurs=1, vide depuis 0 s;
+t=9094 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a, spacemod_test:dd_b] | auto=10 s;dd_a [persist] chargée, joueurs=0, vide depuis 6 s;dd_b [persist] chargée, joueurs=1, vide depuis 0 s;
+t=9107 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a, spacemod_test:dd_b] | auto=10 s;dd_a [persist] chargée, joueurs=0, vide depuis 7 s;dd_b [persist] chargée, joueurs=1, vide depuis 0 s;
+t=9126 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a, spacemod_test:dd_b] | auto=10 s;dd_a [persist] chargée, joueurs=0, vide depuis 8 s;dd_b [persist] chargée, joueurs=1, vide depuis 0 s;
+t=9141 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a, spacemod_test:dd_b] | auto=10 s;dd_a [persist] chargée, joueurs=0, vide depuis 9 s;dd_b [persist] chargée, joueurs=1, vide depuis 0 s;
+t=9154 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a, spacemod_test:dd_b] | auto=10 s;dd_a [persist] chargée, joueurs=0, vide depuis 9 s;dd_b [persist] chargée, joueurs=1, vide depuis 0 s;
+t=9160 AUTO spacemod_test:dd_a vide depuis 10 s
+t=9160 UNLOAD OK spacemod_test:dd_a
+t=9168 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_b] | auto=10 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] chargée, joueurs=1, vide depuis 0 s;
+t=11088 GO Dev -> spacemod_test:dd_b
+t=11282 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_b] | auto=10 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] chargée, joueurs=1, vide depuis 0 s;
+t=11359 LOAD spacemod_test:dd_a -> true
+t=11359 CHANGE-DIM Dev spacemod_test:dd_b -> spacemod_test:dd_a
+t=11359 GO Dev -> spacemod_test:dd_a
+t=11540 AUTO spacemod_test:dd_b vide depuis 10 s
+t=11540 UNLOAD OK spacemod_test:dd_b
+t=13553 LOGOUT Dev dans spacemod_test:dd_a
+t=13740 AUTO spacemod_test:dd_a vide depuis 10 s
+t=13740 UNLOAD OK spacemod_test:dd_a
+t=14171 LOAD spacemod_test:dd_a -> true
+t=14171 LOGIN-PRELOAD Dev : spacemod_test:dd_a chargée=true
+t=14178 LOGIN-OK Dev dans spacemod_test:dd_a pos=BlockPos{x=2, y=64, z=2} niveaux=[minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:dd_a]
+t=15200 LOGOUT Dev dans spacemod_test:dd_a
+t=0 DÉMARRAGE gérées={spacemod_test:dd_a=persist, spacemod_test:dd_b=persist} niveaux chargés=[minecraft:overworld, minecraft:the_nether, minecraft:the_end]
+t=462 LOAD spacemod_test:dd_a -> true
+t=462 LOGIN-PRELOAD Dev : spacemod_test:dd_a chargée=true
+t=471 LOGIN-OK Dev dans spacemod_test:dd_a pos=BlockPos{x=2, y=64, z=2} niveaux=[minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:dd_a]
+t=0 DÉMARRAGE gérées={spacemod_test:dd_a=persist, spacemod_test:dd_b=persist} niveaux chargés=[minecraft:overworld, minecraft:the_nether, minecraft:the_end]
+t=69 LOAD spacemod_test:dd_a -> true
+t=69 LOGIN-PRELOAD Dev : spacemod_test:dd_a chargée=true
+t=77 LOGIN-OK Dev dans spacemod_test:dd_a pos=BlockPos{x=2, y=64, z=2} niveaux=[minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:dd_a]
+t=1672 CREATE spacemod_test:tmp_1 (temp)
+t=1672 CHANGE-DIM Dev spacemod_test:dd_a -> spacemod_test:tmp_1
+t=1672 GO Dev -> spacemod_test:tmp_1
+t=2131 UNLOAD REFUSÉ (joueur présent ou attendu) spacemod_test:tmp_1
+t=2260 AUTO spacemod_test:dd_a vide depuis 30 s
+t=2260 UNLOAD OK spacemod_test:dd_a
+t=2283 CHANGE-DIM Dev spacemod_test:tmp_1 -> minecraft:overworld
+t=2283 GO Dev -> minecraft:overworld
+t=2335 UNLOAD OK spacemod_test:tmp_1
+t=2468 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] DÉCHARGÉE;
+t=2935 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] DÉCHARGÉE;
+t=2955 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] DÉCHARGÉE;
+t=3144 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] DÉCHARGÉE;
+t=3958 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] DÉCHARGÉE;
+t=3977 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] DÉCHARGÉE;
+t=3992 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] DÉCHARGÉE;
+t=4352 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] DÉCHARGÉE;
+t=4379 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] DÉCHARGÉE;
+t=4399 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] DÉCHARGÉE;
+t=4569 LOAD spacemod_test:tmp_1 -> true
+t=4569 CHANGE-DIM Dev minecraft:overworld -> spacemod_test:tmp_1
+t=4569 GO Dev -> spacemod_test:tmp_1
+t=4660 CHANGE-DIM Dev spacemod_test:tmp_1 -> minecraft:overworld
+t=4660 GO Dev -> minecraft:overworld
+t=4699 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:tmp_1] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] chargée, joueurs=0, vide depuis 1 s;
+t=4734 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:tmp_1] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] chargée, joueurs=0, vide depuis 3 s;
+t=4794 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:tmp_1] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] chargée, joueurs=0, vide depuis 6 s;
+t=4819 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:tmp_1] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] chargée, joueurs=0, vide depuis 7 s;
+t=4839 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:tmp_1] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] chargée, joueurs=0, vide depuis 8 s;
+t=4861 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:tmp_1] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] chargée, joueurs=0, vide depuis 10 s;
+t=4883 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:tmp_1] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] chargée, joueurs=0, vide depuis 11 s;
+t=4906 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:tmp_1] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] chargée, joueurs=0, vide depuis 12 s;
+t=4927 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:tmp_1] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] chargée, joueurs=0, vide depuis 13 s;
+t=4946 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:tmp_1] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] chargée, joueurs=0, vide depuis 14 s;
+t=4963 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:tmp_1] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] chargée, joueurs=0, vide depuis 15 s;
+t=4977 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:tmp_1] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] chargée, joueurs=0, vide depuis 15 s;
+t=4995 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:tmp_1] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] chargée, joueurs=0, vide depuis 16 s;
+t=5082 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:tmp_1] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] chargée, joueurs=0, vide depuis 21 s;
+t=5147 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:tmp_1] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] chargée, joueurs=0, vide depuis 24 s;
+t=5205 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:tmp_1] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] chargée, joueurs=0, vide depuis 27 s;
+t=5232 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:tmp_1] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] chargée, joueurs=0, vide depuis 28 s;
+t=5258 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:tmp_1] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;tmp_1 [temp] chargée, joueurs=0, vide depuis 29 s;
+t=5260 AUTO spacemod_test:tmp_1 vide depuis 30 s
+t=5260 DELETE OK spacemod_test:tmp_1
+t=5281 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;
+t=5350 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end] | auto=30 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;
+t=8265 CREATE spacemod_test:tmp_1 (temp)
+t=8265 CHANGE-DIM Dev minecraft:overworld -> spacemod_test:tmp_1
+t=8265 GO Dev -> spacemod_test:tmp_1
+t=8428 LOGOUT Dev dans spacemod_test:tmp_1
+t=9020 AUTO spacemod_test:tmp_1 vide depuis 30 s
+t=9020 DELETE OK spacemod_test:tmp_1
+t=9828 LOGIN-OK Dev dans minecraft:overworld pos=BlockPos{x=0, y=64, z=0} niveaux=[minecraft:overworld, minecraft:the_nether, minecraft:the_end]
+t=12212 LOAD spacemod_test:dd_a -> true
+t=12212 LOAD spacemod_test:dd_b -> true
+t=12212 CHANGE-DIM Dev minecraft:overworld -> spacemod_test:dd_a
+t=12212 GO Dev -> spacemod_test:dd_a
+t=12712 AUTO 5 s
+t=12720 AUTO spacemod_test:dd_b vide depuis 26 s
+t=12720 UNLOAD OK spacemod_test:dd_b
+t=12821 CHANGE-DIM Dev spacemod_test:dd_a -> minecraft:overworld
+t=12821 GO Dev -> minecraft:overworld
+t=12890 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end, spacemod_test:dd_a] | auto=5 s;dd_a [persist] chargée, joueurs=0, vide depuis 3 s;dd_b [persist] DÉCHARGÉE;
+t=12920 AUTO spacemod_test:dd_a vide depuis 5 s
+t=12920 UNLOAD OK spacemod_test:dd_a
+t=12924 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end] | auto=5 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;
+t=13099 DELETE REFUSÉ par la bibliothèque spacemod_test:dd_a
+t=13466 DELETE REFUSÉ par la bibliothèque spacemod_test:dd_a
+t=13517 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end] | auto=5 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;
+t=14305 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end] | auto=5 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;
+t=14339 DELETE REFUSÉ par la bibliothèque spacemod_test:dd_a
+t=15293 DELETE REFUSÉ par la bibliothèque spacemod_test:dd_a
+t=15322 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end] | auto=5 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;
+t=23441 LOGOUT Dev dans minecraft:overworld

@@ -1,6 +1,6 @@
-# Instructions pour les tests manuels (A3, A7, A8, A10 prêts ; C1 à C7 : voir la section Phase C en fin de fichier)
+# Instructions pour les tests manuels (A3, A7, A8, A10 prêts ; D1 à D7 prêts, à faire en premier ; C1 à C7 : voir la section Phase C en fin de fichier)
 
-Tout se passe dans le dossier du projet. Les journaux sont écrits dans `test-results/`. Les mods (Sable, Madnessverse, Architectury, Spark) sont chargés automatiquement depuis `dev-mods/`.
+Tout se passe dans le dossier du projet. Les journaux sont écrits dans `test-results/`. Les mods (Sable, Architectury, Spark) sont chargés automatiquement depuis `dev-mods/`. **Depuis le 22 octobre, la bibliothèque de dimensions est DynamicDimensions, intégrée au mod** (Madnessverse est désactivé : `madnessverse-neoforge-1.0.0.jar.disabled`). Les anciens tests A3, A7, A8, A9, A10 et C tournent donc maintenant sur DynamicDimensions et n'ont pas été rejoués avec elle côté client : signale tout comportement différent de ce qui est décrit.
 
 ## Préparation (une fois)
 1. Terminal 1, serveur de test : `./gradlew runServerDevMods`. Attendre « Done ». Le mode hors-ligne est actif (`online-mode=false`) et les commandes `/spacetest` ne demandent pas d'être opérateur.
@@ -30,6 +30,74 @@ Objectif : la Mini d'un joueur parti est sérialisée après 30 s ; à la reconn
 Pour chaque cas, réponds RÉUSSI / PARTIEL / ÉCHEC avec ta position avant la déconnexion et après la reconnexion. Pour tester vite, tu peux réduire le délai : `-Pa7delay=10` au lancement du serveur.
 Le serveur n'a pas de commande pour afficher la Mini : si tu tombes dans le vide, c'est un échec (note-le).
 
+## D : cycle de vie des dimensions, DynamicDimensions intégré (prêt, à faire en premier)
+Deux règles à vérifier avec un vrai client :
+1. **Une dimension contenant un joueur n'est JAMAIS déchargée (ni supprimée) tant qu'il y est.**
+2. **Un joueur qui se connecte dans une dimension non chargée n'a aucun problème : le serveur la charge.**
+Ce que le serveur a déjà passé seul (`test-results/D1/autotest.log`, `A1`, `A2`) : refus d'unload avec un joueur factice, rechargement par le point d'entrée de login, déchargement automatique, suppression d'une temporaire avec ses fichiers, 10 cycles create/unload/load/delete avec Sable, persistance après arrêt propre et brutal. Il reste ce qui demande un client : les registres, l'écran de connexion, la position réelle du joueur, et la physique de Sable avec un joueur.
+
+**Commandes** (tapées dans le jeu ; `/spacetest dd ...`) :
+- `setup` : crée (ou recharge) `dd_a` et `dd_b` (plateforme de pierre 9×9 en y=63, Mini à (20,64,20)) et te place en (0,64,0) de `dd_a`.
+- `status` : niveaux chargés, état de chaque dimension gérée (chargée / DÉCHARGÉE, joueurs, vide depuis combien de secondes, réservée).
+- `go a` / `go b` / `go overworld` / `go tmp_1` : te téléporte (charge la dimension si besoin).
+- `unload a|b`, `load a|b`, `delete a|b` : appel direct ; doit répondre REFUSÉ si un joueur est dedans.
+- `temp` : crée une dimension temporaire `tmp_N` et t'y met.
+- `auto <secondes>` : déchargement automatique d'une dimension vide après N secondes (0 = désactivé). Défaut : 30. Les temporaires vides sont supprimées au lieu d'être déchargées.
+- `reset` : supprime les dimensions chargées gérées (laisse les autres).
+Journal : `test-results/D1/dd-run.log` (une ligne par événement : `LOAD`, `UNLOAD OK`, `UNLOAD REFUSÉ`, `LOGIN-PRELOAD`, `LOGIN-OK`, `CHANGE-DIM`, `DELETE`, `AUTO`). Joins-le à chaque réponse, avec `test-results/` et `run-dev-server/logs/latest.log` pour les échecs.
+
+**Préparation** : arrête le serveur, supprime `run-dev-server/world` et `run-dev-server/ddtest`, supprime `test-results/D1`. Lance `./gradlew runServerDevMods` puis `./gradlew runClientDevMods` et connecte-toi à `localhost`. Pour accélérer, `/spacetest dd auto 15` (15 s au lieu de 30 s) ; les délais ci-dessous sont à adapter.
+
+### D1 : rien de chargé au démarrage, chargement à la demande
+1. Serveur tout juste lancé : `/spacetest dd status`. Attendu : seulement `overworld`, `the_nether`, `the_end` chargés, aucune `dd_*`.
+2. `/spacetest dd setup`. Attendu : tu arrives sur la plateforme de `dd_a`, sans écran d'erreur ; `status` montre `dd_a` et `dd_b` chargées.
+3. `/spacetest dd go b` puis `go a` : aucun blocage, tu retrouves chaque plateforme. Noter la durée de l'écran de chargement.
+Critère : RÉUSSI si tout se passe sans erreur dans `latest.log`.
+
+### D2 : refus d'unload avec un joueur dedans (règle 1)
+1. Tu es dans `dd_a`. `/spacetest dd unload a`. Attendu : « REFUSÉ : joueur présent… » ; tu ne bouges pas, tu ne tombes pas, la dimension reste chargée (`status`).
+2. `/spacetest dd delete a`. Attendu : REFUSÉ aussi.
+3. `/spacetest dd auto 10`, reste immobile dans `dd_a` 40 s. Attendu : `dd_a` jamais déchargée, le journal ne contient aucun `UNLOAD OK spacemod_test:dd_a`.
+4. Reste en jeu sans bouger plusieurs minutes avec `auto 10` : toujours rien.
+Critère : RÉUSSI si la dimension n'a jamais été déchargée ni supprimée. ÉCHEC dès que tu te retrouves expulsé vers l'Overworld sans l'avoir demandé.
+
+### D3 : déchargement automatique d'une dimension vide
+1. `/spacetest dd auto 15`. Tu es dans `dd_a`, fais `go b`.
+2. Attends environ 20 s. `status` : `dd_a` DÉCHARGÉE ; `dd_b` (où tu es) reste chargée.
+3. `go a` : `dd_a` est rechargée, la Mini (à (20,64,20)) est là et intacte, tu arrives sur la plateforme.
+Critère : RÉUSSI si le déchargement a lieu après le délai, jamais pendant que tu es dans la dimension, et si le rechargement restitue la Mini.
+
+### D4 : reconnexion dans une dimension déchargée (règle 2)
+1. `auto 15`. Dans `dd_a`, place-toi à un endroit reconnaissable de la plateforme (`/tp @s 3 64 3`). Note la position (F3).
+2. Quitte le monde (Menu → Quitter). Attends que `test-results/D1/dd-run.log` affiche `AUTO … dd_a` puis `UNLOAD OK … dd_a` (≈ 20 s).
+3. Reconnecte-toi à `localhost`. Attendu : tu arrives dans `dd_a` à la même position, sans écran d'erreur, sans « Can't find id » et sans message `Unknown respawn dimension` dans `run-dev-server/logs/latest.log`. Le journal contient `LOGIN-PRELOAD … chargée=true` puis `LOGIN-OK … dans spacemod_test:dd_a`.
+4. Variante : déconnecte-toi puis reconnecte-toi tout de suite (avant le délai) : la dimension ne doit pas avoir été déchargée entre-temps (`UNLOAD REFUSÉ` ou aucun `UNLOAD`).
+Critère : RÉUSSI si tu es dans la bonne dimension, à la bonne position.
+ÉCHEC si tu es dans l'Overworld (même brièvement), à une position étrange, ou si le client refuse de se connecter.
+
+### D5 : reconnexion après redémarrage du serveur
+1. Dans `dd_a`, quitte le monde, arrête le serveur (`stop`), puis relance `./gradlew runServerDevMods` (ne supprime rien).
+2. Dès « Done » : `dd-run.log` doit montrer `DÉMARRAGE gérées={dd_a, dd_b}` et seulement 3 niveaux chargés.
+3. Connecte-toi. Attendu comme en D4 : `LOGIN-PRELOAD`, puis tu es dans `dd_a`, au bon endroit, avec la Mini.
+4. Même chose avec un arrêt brutal : dans `dd_a`, tue le serveur (`kill -9` du processus Java), relance, reconnecte-toi. Attendu : la dernière sauvegarde automatique est restaurée, pas de plantage.
+Critère : RÉUSSI si tu es dans `dd_a` ; note ta position avant/après.
+
+### D6 : dimension temporaire
+1. `/spacetest dd temp` : tu es dans `tmp_1` (plateforme de pierre vide), `status` la montre `[temp]`.
+2. `/spacetest dd unload tmp_1` doit être REFUSÉ (tu es dedans). `go overworld`, attends le délai `auto` : `tmp_1` doit disparaître (`status`, journal `DELETE OK`) et le dossier `run-dev-server/world/dimensions/spacemod_test/tmp_1` ne doit plus exister.
+3. Recrée une temporaire, quitte le monde dedans, attends le délai, reconnecte-toi. Comportement attendu (à confirmer par toi) : la temporaire a été supprimée (vide), tu es replacé dans l'Overworld au spawn ; le journal indique `LOGIN-PRELOAD … est temporaire et a été supprimée`. Dis-moi si tu préfères autre chose (par exemple ne jamais supprimer une temporaire dont le dernier occupant est hors ligne).
+Critère : RÉUSSI si 2 est conforme et si 3 se fait sans erreur de connexion.
+
+### D7 : client connecté pendant la création et la suppression
+1. Connecté dans l'Overworld : `/spacetest dd setup`, `go overworld`, `/spacetest dd delete a`, `/spacetest dd setup` (recrée `dd_a`), `go a`, `go overworld`. Répéter 3 fois.
+Prévoir un `auto` long (`/spacetest dd auto 120`) : une dimension déjà déchargée ne peut pas être supprimée (refus attendu, dette technique).
+2. Observe le client : écran figé, « Can't find id », erreur de registre, image noire prolongée. Joins `latest.log` du client (`run-dev/logs/latest.log`) et du serveur.
+3. Avec Sable : dans `dd_a`, regarde la Mini (20,64,20) ; elle doit rester immobile (gravité nulle) et solide quand tu marches dessus.
+Critère : RÉUSSI si aucune erreur dans les deux journaux. Noter toute erreur textuellement.
+
+### Réponse attendue pour D
+Pour chaque test : RÉUSSI / PARTIEL / ÉCHEC, ce que tu as vu (écran, position avant/après), et les fichiers `test-results/D1/dd-run.log`, `run-dev-server/logs/latest.log` et `run-dev/logs/latest.log` en cas de problème. Si tout est RÉUSSI, je passe à l'intégration dans la couche stratégique (chargement à la demande par unité occupée).
+
 ## Pas encore prêts (je te redemanderai)
 - **A8** (changement de dimension sans écran de chargement) : demande d'écrire des mixins client ; je dois d'abord les construire, je ne te demande rien pour l'instant.
 - **A10** (shaders) : dépend d'A8. Quand ce sera prêt : installer Sodium et Iris (versions à me donner) et un pack de shaders.
@@ -38,7 +106,7 @@ Le serveur n'a pas de commande pour afficher la Mini : si tu tombes dans le vide
 ## Valeurs que j'attends de toi (section 8 du plan)
 1. R (volume logique) et formule de M pour les hôtes de test.
 2. Vitesse maximale du mass lock près d'une planète, d'un croiseur et d'une autre Mini.
-3. Délais de test confirmés (30 s de sérialisation, 60 s de déchargement ?).
+3. Délais de test confirmés (30 s de sérialisation, 60 s de déchargement ?) ; délai d'inactivité avant le déchargement d'une dimension (30 s par défaut dans les tests D) ; sort d'un joueur déconnecté dans une dimension temporaire (aujourd'hui : temporaire supprimée, repli Overworld).
 4. Modèle de mouvement d'une Mini sans joueur (trajectoire rectiligne uniforme ?) pour B2.
 5. Accord (ou non) pour compiler Sable depuis la demande n° 1474, avec Docker (A9).
 6. Packs de shaders et versions d'Iris et de Sodium (A10).

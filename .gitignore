@@ -7,6 +7,7 @@ run/
 .directory
 *.docx#
 dev-mods/*.jar
+dev-mods/*.jar.disabled
 run-dev/
 run-dev-server/
 test-libs/*.jar

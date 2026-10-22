@@ -29,6 +29,13 @@ Règles appliquées (§1.1 du plan) : aucun seuil ni architecture modifié pour 
 | C5 | Arrêt propre et plantage | RÉUSSI (sans joueur réel) | Joueur à bord |
 | C6 | Multijoueur | PARTIEL (charge simulée) | Clients réels, bande passante |
 | C7 | Effet d'inertie | RÉUSSI (auto) | Joueur à bord (facultatif) |
+| D1 | DynamicDimensions : chargement à la demande | RÉUSSI (après correctif du thread réseau) | — |
+| D2 | Refus d'unload avec joueur | RÉUSSI | — |
+| D3 | Déchargement automatique | RÉUSSI (la Mini persiste) | — |
+| D4 | Reconnexion dans une dimension déchargée | RÉUSSI | — |
+| D5 | Reconnexion après redémarrage / arrêt brutal | RÉUSSI | — |
+| D6 | Dimension temporaire | RÉUSSI (reconnexion après suppression : Overworld, dette) | Position de repli dans une Mini |
+| D7 | Client connecté pendant création/suppression | RÉUSSI (aucune erreur) | Suppression d'une persistante déchargée refusée (dette) |
 
 ## Constats à retenir pour l'architecture
 1. Dimensions : DynamicDimensions plante avec un sub-level présent ; Madnessverse fonctionne mais ne supprime pas les fichiers (A1).

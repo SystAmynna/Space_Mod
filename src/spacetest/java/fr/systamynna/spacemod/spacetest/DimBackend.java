@@ -6,7 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.dimension.DimensionType;
 
-/** Bibliothèque de dimensions dynamiques utilisée par les tests : Madnessverse (DynamicDimensions abandonné, voir A1). */
+/** Bibliothèque de dimensions dynamiques utilisée par les tests : DynamicDimensions intégré au mod (défaut), ou Madnessverse avec -Pbackend=mv (jar à réactiver dans dev-mods/). */
 interface DimBackend {
     String name();
 
@@ -27,6 +27,6 @@ interface DimBackend {
     boolean deletesFiles();
 
     static DimBackend select() {
-        return new MvBackend();
+        return "mv".equals(System.getProperty("spacetest.backend")) ? new MvBackend() : new DdBackend();
     }
 }

@@ -1,0 +1,25 @@
+DÉBUT A2 mode=setup bibliothèque=DynamicDimensions
+niveaux chargés avant (re)création : 3
+gravité Sable au démarrage : persist=( 0,000E+0  0,000E+0  0,000E+0) tampon=( 0,000E+0  0,000E+0  0,000E+0)
+spacemod_test:persist : sub-level aa9874d1-c069-484b-bb1a-630ee61d7f00 pose=(4,9938, 64,5116, 5,0062) blocs=105,coffres=5,items=320
+spacemod_test:tampon : sub-level 8a222460-b5a5-45f0-a836-72aa1e29cc6e pose=(4,9938, 64,5116, 5,0062) blocs=105,coffres=5,items=320
+bloc repère or présent : true
+arrêt propre
+DÉBUT A2 mode=verify bibliothèque=DynamicDimensions
+niveaux chargés avant (re)création : 3
+gravité Sable au démarrage : persist=( 0,000E+0  0,000E+0  0,000E+0) tampon=( 0,000E+0  0,000E+0  0,000E+0)
+sub-level témoin ajouté (diagnostic)
+tick restant 100 : 2 sub-level(s), y = 64,51 64,51
+tick restant 80 : 2 sub-level(s), y = 64,51 64,51
+tick restant 60 : 2 sub-level(s), y = 64,51 64,51
+tick restant 40 : 2 sub-level(s), y = 64,51 64,51
+tick restant 20 : 2 sub-level(s), y = 64,51 64,51
+tick restant 0 : 2 sub-level(s), y = 64,51 64,51
+gravité Sable à la vérification : persist=( 0,000E+0  0,000E+0  0,000E+0)
+spacemod_test:persist : avant=aa9874d1-c069-484b-bb1a-630ee61d7f00|(4,9938, 64,5116, 5,0062)|blocs=105,coffres=5,items=320
+        après=aa9874d1-c069-484b-bb1a-630ee61d7f00|(4,9938, 64,5116, 5,0062)|blocs=105,coffres=5,items=320 -> IDENTIQUE
+spacemod_test:tampon : avant=8a222460-b5a5-45f0-a836-72aa1e29cc6e|(4,9938, 64,5116, 5,0062)|blocs=105,coffres=5,items=320
+        après=8a222460-b5a5-45f0-a836-72aa1e29cc6e|(4,9938, 64,5116, 5,0062)|blocs=105,coffres=5,items=320 -> IDENTIQUE
+Tampon : conservée (acceptable, voir consigne)
+bloc repère or présent après redémarrage : true
+FIN A2 verify : RÉUSSI

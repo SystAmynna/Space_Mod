@@ -55,8 +55,8 @@ import net.minecraft.world.Container;
 final class A1Runner {
     private enum Phase { IDLE, CREATE, MEASURE, UNLOAD_WAIT, RELOAD_WAIT, DELETE_WAIT }
 
-    private static final ResourceLocation VOID_ID = ResourceLocation.fromNamespaceAndPath(SpaceTestMod.MODID, "void");
-    private static final ResourceLocation GRAV_ID = ResourceLocation.fromNamespaceAndPath(SpaceTestMod.MODID, "gravity");
+    private static final ResourceLocation VOID_ID = ResourceLocation.fromNamespaceAndPath(SpaceTestMod.MODID, "a1_void"); // pas « void » : DynamicDimensions enregistre aussi un type du même id, en conflit avec le type du datapack
+    private static final ResourceLocation GRAV_ID = ResourceLocation.fromNamespaceAndPath(SpaceTestMod.MODID, "a1_gravity");
     private static final int MEASURE_TICKS = 200;
     private static final int TIMEOUT_TICKS = 200;
     private static final double MAX_DRIFT = 0.01;

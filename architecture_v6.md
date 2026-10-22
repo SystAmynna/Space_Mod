@@ -196,6 +196,8 @@ Données avec événements prédits et condition d'oubli (seul objet à en avoir
 | **Maturité de Madnessverse** | Interface propre au mod ; fork possible (MIT). |
 | **Coût de N dimensions chargées** | Mesurer le démarrage et la mémoire avec de nombreuses planètes. |
 | **Déchargement et destruction avec sub-levels** (dette technique) | Retirer sub-levels et tickets avant de fermer le niveau ; supprimer les fichiers soi-même. |
+| **Reconnexion dans une Mini supprimée** (dette technique) | Une temporaire vide est supprimée (D6) et le joueur déconnecté dedans réapparaît dans l'Overworld au spawn ; prévoir une position de repli (corps porteur) ou ne pas supprimer tant que le dernier occupant est hors ligne, à brancher sur le préchargement à la connexion (`PlayerListMixin`). |
+| **Suppression d'une persistante déchargée** (dette technique) | Refusée par la bibliothèque (D7) ; recharger puis supprimer, ou supprimer les fichiers soi-même. |
 | **Préchargement insuffisant** | Rayon d'environ 16 chunks, pré-génération, mass lock plus lent ; mesurer côté client. |
 | **Modèles spatiaux** | Prototype précoce : génération, LOD, régénération différée. |
 | **Multijoueur** | Conception réseau dès la première version ; tests à plusieurs joueurs. |

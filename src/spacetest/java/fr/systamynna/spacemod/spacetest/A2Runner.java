@@ -66,8 +66,13 @@ final class A2Runner {
             throw new IllegalStateException(e);
         }
         log("DÉBUT A2 mode=" + m + " bibliothèque=" + backend.name());
-        ServerLevel persist = backend.create(server, PERSIST, A1Runner.voidGenerator(server), A1Runner.dimensionType(0f));
-        ServerLevel tampon = backend.create(server, TAMPON, A1Runner.voidGenerator(server), A1Runner.dimensionType(0.001f));
+        log("niveaux chargés avant (re)création : " + server.levelKeys().size());
+        // verify : load (et non create, qui efface les données avec DynamicDimensions) ; identique à create avec Madnessverse
+        boolean reload = m.equals("verify");
+        ServerLevel persist = reload ? backend.load(server, PERSIST, A1Runner.voidGenerator(server), A1Runner.dimensionType(0f))
+            : backend.create(server, PERSIST, A1Runner.voidGenerator(server), A1Runner.dimensionType(0f));
+        ServerLevel tampon = reload ? backend.load(server, TAMPON, A1Runner.voidGenerator(server), A1Runner.dimensionType(0.001f))
+            : backend.create(server, TAMPON, A1Runner.voidGenerator(server), A1Runner.dimensionType(0.001f));
         if (persist == null || tampon == null) {
             log("ÉCHEC : création impossible");
             server.halt(false);

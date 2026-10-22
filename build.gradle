@@ -36,8 +36,15 @@ repositories {
 
 // Mod de test jetable (plan_de_tests.md), jamais inclus dans le jar du mod.
 sourceSets {
+    // Bibliothèque de dimensions dynamiques (fork de DynamicDimensions, src/dyndim) : même mod et même jar que main, mais compilée
+    // à part. Elle ne voit pas main (sens de dépendance imposé par le compilateur) ; main et spacetest la voient.
+    dyndim
+    main {
+        compileClasspath += sourceSets.dyndim.output
+        runtimeClasspath += sourceSets.dyndim.output
+    }
     spacetest {
-        compileClasspath += sourceSets.main.compileClasspath
+        compileClasspath += sourceSets.main.compileClasspath + sourceSets.main.output + sourceSets.dyndim.output
         runtimeClasspath += sourceSets.main.runtimeClasspath
     }
 }
@@ -55,6 +62,7 @@ neoForge {
     version = project.neo_version
 
     addModdingDependenciesTo(sourceSets.spacetest)
+    addModdingDependenciesTo(sourceSets.dyndim)
 
     parchment {
         mappingsVersion = project.parchment_mappings_version
@@ -70,6 +78,7 @@ neoForge {
         // multi mod projects should define one per mod
         "${mod_id}" {
             sourceSet(sourceSets.main)
+            sourceSet(sourceSets.dyndim)
         }
         spacemod_test {
             sourceSet(sourceSets.spacetest)
@@ -117,6 +126,8 @@ neoForge {
             programArgument '--nogui'
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
             systemProperty 'spacetest.a1', findProperty('a1') ?: ''
+            systemProperty 'spacetest.backend', findProperty('backend') ?: ''
+            systemProperty 'spacetest.dd', findProperty('dd') ?: ''
             systemProperty 'spacetest.a2', findProperty('a2') ?: ''
             systemProperty 'spacetest.a4', findProperty('a4') ?: ''
             systemProperty 'spacetest.a5', findProperty('a5') ?: ''
@@ -176,8 +187,14 @@ configurations {
     runtimeClasspath.extendsFrom localRuntime
 }
 
+// La bibliothèque src/dyndim fait partie du jar du mod.
+tasks.named('jar') {
+    from sourceSets.dyndim.output
+}
+
 tasks.named('test') {
     useJUnitPlatform()
+    systemProperty 'project.dir', projectDir.absolutePath
 }
 
 dependencies {
@@ -196,6 +213,9 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.2')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // Bibliothèque de dimensions intégrée (src/dyndim) : Sable est facultatif à l'exécution (compat chargée si présent).
+    dyndimCompileOnly 'dev.ryanhcode.sable:sable-neoforge-1.21.1:2.0.6'
 
     // Mod de test : compilé contre test-libs/ (copies des jars de dev-mods/, qui peuvent y être désactivés) et Sable (Maven).
     spacetestCompileOnly 'dev.ryanhcode.sable:sable-neoforge-1.21.1:2.0.6'

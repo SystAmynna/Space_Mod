@@ -59,3 +59,30 @@ Réserves :
 - Avec DynamicDimensions 0.9.1 : cycles 2 à 10 et mesure de fuite non exécutés (plantage au cycle 1) ; le plan visait la version 0.10.0, non essayée.
 - Avec Madnessverse : le point de rappel de chargement des dimensions persistantes est couvert par A2 ; nettoyage des fichiers d'une dimension supprimée (Tampon) à concevoir dans le mod, non testé.
 - Écart du plan (Madnessverse à la place de DynamicDimensions) : décision de l'utilisateur à confirmer [MANUEL-DÉCISION].
+
+
+---
+# Complément 2026-10-22 : A1 et A2 avec le fork de DynamicDimensions 0.10.0
+Statut : RÉUSSI (A1 : 10 cycles sur 10, A2 : arrêt propre et arrêt brutal). Logs : a1-run-dd-fork.log, ../A2/a2-dd-propre.log, ../A2/a2-dd-brutal.log.
+Fork : `/var/home/SystAmynna/Projets/SpaceRP/DynamicDimensions-fork` (commits cbc7ede, 51b9f1c), jar copié dans `dev-mods/` et `test-libs/`. Madnessverse est désactivé (`.jar.disabled`) ; lancer avec `-Pbackend=dd`.
+
+Changements du fork par rapport à TeamGalacticraft/DynamicDimensions (minecraft/1.21, ecfbdf6) :
+1. Build NeoForge seul : plugins `mojarn` et `fabric-loom` retirés (Maven Galacticraft hors ligne, le domaine de repli redirige vers un site tiers).
+2. `MinecraftServer#markWorldsDirty()` après ajout et retrait d'un niveau : NeoForge met en cache le tableau des niveaux à ticker ; sans cela une dimension créée après le démarrage n'est jamais ticquée (sub-levels immobiles, 0,0 bloc de déplacement). C'est l'issue amont « dynamic levels do not work unless created during serverStartedEvent ». Le jar 0.9.1 local avait déjà un correctif équivalent par réflexion.
+3. `SableMixinPlugin` : détection de Sable via `FMLLoader.getLoadingModList()` (`ModList.get()` est null à ce stade, donc le mixin Sable n'était jamais appliqué).
+4. Compat Sable 2.0.6 : constructeur `DimensionPhysics` à 8 paramètres (`ignoreChunks`), sinon `NoSuchMethodError` ; `sable.version=2.0.6`. Le fork n'est plus compatible avec Sable 1.x.
+
+Résultats A1 (DynamicDimensions fork + Sable 2.0.6) : plus de NPE Rapier au déchargement ni à la suppression ; déplacement `void` 3,8e-7 bloc ; `gravity` tombe (555 blocs avec gravité -11 passée par `DynamicDimensionProperties`) ; sub-level retrouvé après `load` 10/10 ; 3 niveaux chargés après chaque cycle ; fichiers supprimés par `delete` (le test ne les supprime plus lui-même) ; création 4 à 13 ms, rechargement 25 à 64 ms.
+Résultats A2 : au démarrage du monde seuls 3 niveaux sont chargés (aucune dimension dynamique, il faut les `load`) ; `persist` et `tampon` identiques après redémarrage (UUID, pose, 105 blocs, 5 coffres, 320 objets, bloc repère), propre et brutal.
+
+Pièges notés :
+- `createDynamicDimension` efface les données existantes : il faut `loadDynamicDimension` pour recharger.
+- DynamicDimensions enregistre aussi un `DimensionType` du même identifiant que la dimension : un identifiant déjà pris par un type du datapack (`spacemod_test:void`) est refusé (`canCreateDimension` faux). Les ids de test A1 sont devenus `a1_void` et `a1_gravity`.
+- Une instance `DimensionType` neuve par dimension.
+- Gravité : passer `DynamicDimensionProperties` à `create`/`load` (appliquée avant l'initialisation de la physique grâce au mixin).
+
+Non testé : joueur présent dans la dimension au moment de l'unload (`PlayerRemover`), client connecté pendant la création/suppression (paquets S2C, besoin du mod côté client), dimensions temporaires de bout en bout dans le mod, coût de N dimensions, Sable avec un joueur qui voyage entre dimensions dynamiques (A8/A9).
+
+
+## Mise à jour 2026-10-22 (soir) : fork intégré au mod
+Le fork n'est plus un jar : il est dans `src/dyndim/java/fr/systamynna/dynamicdimensions` (voir son README). A1 (10 cycles) et A2 (propre, brutal) ont été rejoués ainsi, sans aucun jar DynamicDimensions externe : RÉUSSI. Ajouts : refus de retirer une dimension occupée (`PlayerRemover.REFUSE_IF_OCCUPIED`), événement de login `PlayerLoginDimensionEvent` ; auto-test serveur `test-results/D1/autotest.log` : RÉUSSI. Les tests avec client sont décrits dans la section D de `test-results/instructions-manuelles.md`.

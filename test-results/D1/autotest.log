@@ -1,0 +1,29 @@
+t=0 DÉMARRAGE gérées={} niveaux chargés=[minecraft:overworld, minecraft:the_nether, minecraft:the_end]
+t=5 CREATE spacemod_test:t_persist (persist)
+t=5 AUTOTEST OK création persistante
+t=5 CREATE spacemod_test:tmp_t (temp)
+t=5 AUTOTEST OK création temporaire
+t=5 AUTOTEST OK joueur factice présent dans la dimension
+t=5 AUTOTEST OK bibliothèque : unload refusé avec joueur
+t=5 AUTOTEST OK bibliothèque : delete refusé avec joueur
+t=5 UNLOAD REFUSÉ (joueur présent ou attendu) spacemod_test:t_persist
+t=5 AUTOTEST OK safeUnload refusé avec joueur
+t=5 AUTOTEST OK joueur factice retiré
+t=5 UNLOAD OK spacemod_test:t_persist
+t=5 AUTOTEST OK safeUnload accepté à vide
+t=15 AUTOTEST OK dimension déchargée
+t=15 LOAD spacemod_test:t_persist -> true
+t=15 LOGIN-PRELOAD autotest : spacemod_test:t_persist chargée=true
+t=15 AUTOTEST OK login simulé : dimension rechargée par le mixin
+t=15 AUTOTEST OK login simulé : dimension réservée
+t=15 UNLOAD REFUSÉ (joueur présent ou attendu) spacemod_test:t_persist
+t=15 AUTOTEST OK unload refusé tant que la connexion est attendue
+t=20 AUTO spacemod_test:t_persist vide depuis 1 s
+t=20 UNLOAD OK spacemod_test:t_persist
+t=20 AUTO spacemod_test:tmp_t vide depuis 1 s
+t=20 DELETE OK spacemod_test:tmp_t
+t=105 AUTOTEST OK déchargement automatique de la persistante vide
+t=105 AUTOTEST OK suppression automatique de la temporaire vide
+t=105 AUTOTEST OK fichiers de la temporaire supprimés
+t=105 AUTOTEST OK registre : persistante gardée, temporaire retirée
+t=105 AUTOTEST FIN : RÉUSSI

@@ -1,0 +1,122 @@
+DÉBUT A1 2026-10-22T08:47:56.138682833Z bibliothèque=DynamicDimensions cycles=10 niveaux_de_base=3
+-- cycle 1/10
+création des 2 dimensions : 12 ms
+sub-level void=56c61b2e-c29a-47cf-b0c9-79cf3065d859 départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=0839df27-e49e-4829-80af-c5eb231bac55 départ=(4,9938, 64,5116, 5,0062)
+DIAG gravLevel chunks=788 tickingBlocks=true subs=1 physicsSystem=dev.ryanhcode.sable.sublevel.system.SubLevelPhysicsSystem@74401636 pos=(4,9938, -491,0569, 5,0062) allLevels=[minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:a1_void, spacemod_test:a1_gravity] sameObj=true levelTicks={minecraft:overworld=202, spacemod_test:a1_void=201, spacemod_test:a1_gravity=201, minecraft:the_nether=202, minecraft:the_end=202} paused=false gameTime=202 overworldTime=202
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=555.5685198748554
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 41 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:a1_void) -> true
+deleteDynamicDimension(spacemod_test:a1_gravity) -> true
+niveaux chargés : 3 (base 3)
+-- cycle 2/10
+création des 2 dimensions : 5 ms
+sub-level void=f004d8a3-5922-49e1-b6d7-f8da45a5a11b départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=752a3798-812e-4100-bfc1-9a6b60335630 départ=(4,9938, 64,5116, 5,0062)
+DIAG gravLevel chunks=788 tickingBlocks=true subs=1 physicsSystem=dev.ryanhcode.sable.sublevel.system.SubLevelPhysicsSystem@48ed2eaf pos=(4,9938, -491,0569, 5,0062) allLevels=[minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:a1_void, spacemod_test:a1_gravity] sameObj=true levelTicks={minecraft:overworld=452, spacemod_test:a1_void=443, spacemod_test:a1_gravity=444, minecraft:the_nether=452, minecraft:the_end=452} paused=false gameTime=452 overworldTime=452
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=555.5685198748554
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 17 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:a1_void) -> true
+deleteDynamicDimension(spacemod_test:a1_gravity) -> true
+niveaux chargés : 3 (base 3)
+-- cycle 3/10
+création des 2 dimensions : 4 ms
+sub-level void=91b41a0d-b79b-48a5-972c-0f1887eadb1d départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=ba177717-5930-435b-b4ba-940fe94cb64c départ=(4,9938, 64,5116, 5,0062)
+DIAG gravLevel chunks=788 tickingBlocks=true subs=1 physicsSystem=dev.ryanhcode.sable.sublevel.system.SubLevelPhysicsSystem@5c925e72 pos=(4,9938, -491,0569, 5,0062) allLevels=[minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:a1_void, spacemod_test:a1_gravity] sameObj=true levelTicks={minecraft:overworld=702, spacemod_test:a1_void=685, spacemod_test:a1_gravity=687, minecraft:the_nether=702, minecraft:the_end=702} paused=false gameTime=702 overworldTime=702
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=555.5685198748554
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 15 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:a1_void) -> true
+deleteDynamicDimension(spacemod_test:a1_gravity) -> true
+niveaux chargés : 3 (base 3)
+-- cycle 4/10
+création des 2 dimensions : 4 ms
+sub-level void=2beacc90-e66d-4d9d-b275-2d2507874f2c départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=84747e86-5e62-4e69-b168-48c606933b1c départ=(4,9938, 64,5116, 5,0062)
+DIAG gravLevel chunks=788 tickingBlocks=true subs=1 physicsSystem=dev.ryanhcode.sable.sublevel.system.SubLevelPhysicsSystem@71f58e60 pos=(4,9938, -491,0569, 5,0062) allLevels=[minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:a1_void, spacemod_test:a1_gravity] sameObj=true levelTicks={minecraft:overworld=952, spacemod_test:a1_void=927, spacemod_test:a1_gravity=930, minecraft:the_nether=952, minecraft:the_end=952} paused=false gameTime=952 overworldTime=952
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=555.5685198748554
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 17 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:a1_void) -> true
+deleteDynamicDimension(spacemod_test:a1_gravity) -> true
+niveaux chargés : 3 (base 3)
+-- cycle 5/10
+création des 2 dimensions : 4 ms
+sub-level void=7fcba13f-0ad6-4fe4-9aad-74ebbe57d90f départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=e50a772f-c07b-4f62-9343-b1150b765994 départ=(4,9938, 64,5116, 5,0062)
+DIAG gravLevel chunks=788 tickingBlocks=true subs=1 physicsSystem=dev.ryanhcode.sable.sublevel.system.SubLevelPhysicsSystem@3fa7cbe1 pos=(4,9938, -491,0569, 5,0062) allLevels=[minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:a1_void, spacemod_test:a1_gravity] sameObj=true levelTicks={minecraft:overworld=1202, spacemod_test:a1_void=1169, spacemod_test:a1_gravity=1173, minecraft:the_nether=1202, minecraft:the_end=1202} paused=false gameTime=1202 overworldTime=1202
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=555.5685198748554
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 12 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:a1_void) -> true
+deleteDynamicDimension(spacemod_test:a1_gravity) -> true
+niveaux chargés : 3 (base 3)
+-- cycle 6/10
+création des 2 dimensions : 4 ms
+sub-level void=b391ceb5-290f-40cd-a155-cd652e9afdfb départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=44ba6923-2244-47bb-ba73-c4ccc13dc36c départ=(4,9938, 64,5116, 5,0062)
+DIAG gravLevel chunks=788 tickingBlocks=true subs=1 physicsSystem=dev.ryanhcode.sable.sublevel.system.SubLevelPhysicsSystem@3f6ade0e pos=(4,9938, -491,0569, 5,0062) allLevels=[minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:a1_void, spacemod_test:a1_gravity] sameObj=true levelTicks={minecraft:overworld=1452, spacemod_test:a1_void=1411, spacemod_test:a1_gravity=1416, minecraft:the_nether=1452, minecraft:the_end=1452} paused=false gameTime=1452 overworldTime=1452
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=555.5685198748554
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 11 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:a1_void) -> true
+deleteDynamicDimension(spacemod_test:a1_gravity) -> true
+niveaux chargés : 3 (base 3)
+-- cycle 7/10
+création des 2 dimensions : 5 ms
+sub-level void=21fc0884-2fd0-4c65-a404-44e05b06f9d5 départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=4b9e6616-2609-4c23-a3ef-0d48e3e9cfc7 départ=(4,9938, 64,5116, 5,0062)
+DIAG gravLevel chunks=788 tickingBlocks=true subs=1 physicsSystem=dev.ryanhcode.sable.sublevel.system.SubLevelPhysicsSystem@2a6b41e2 pos=(4,9938, -491,0569, 5,0062) allLevels=[minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:a1_void, spacemod_test:a1_gravity] sameObj=true levelTicks={minecraft:overworld=1702, spacemod_test:a1_void=1653, spacemod_test:a1_gravity=1659, minecraft:the_nether=1702, minecraft:the_end=1702} paused=false gameTime=1702 overworldTime=1702
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=555.5685198748554
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 20 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:a1_void) -> true
+deleteDynamicDimension(spacemod_test:a1_gravity) -> true
+niveaux chargés : 3 (base 3)
+-- cycle 8/10
+création des 2 dimensions : 5 ms
+sub-level void=96b55077-2756-4261-85aa-8a25c8f6d894 départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=be7260cf-0696-4705-b204-1229217dec38 départ=(4,9938, 64,5116, 5,0062)
+DIAG gravLevel chunks=788 tickingBlocks=true subs=1 physicsSystem=dev.ryanhcode.sable.sublevel.system.SubLevelPhysicsSystem@5375608c pos=(4,9938, -491,0569, 5,0062) allLevels=[minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:a1_void, spacemod_test:a1_gravity] sameObj=true levelTicks={minecraft:overworld=1952, spacemod_test:a1_void=1895, spacemod_test:a1_gravity=1902, minecraft:the_nether=1952, minecraft:the_end=1952} paused=false gameTime=1952 overworldTime=1952
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=555.5685198748554
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 15 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:a1_void) -> true
+deleteDynamicDimension(spacemod_test:a1_gravity) -> true
+niveaux chargés : 3 (base 3)
+-- cycle 9/10
+création des 2 dimensions : 4 ms
+sub-level void=b0581a62-9925-4350-9563-7374b4404238 départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=073c611b-d03c-48f8-a2a9-b5f1d022fab2 départ=(4,9938, 64,5116, 5,0062)
+DIAG gravLevel chunks=788 tickingBlocks=true subs=1 physicsSystem=dev.ryanhcode.sable.sublevel.system.SubLevelPhysicsSystem@1a3b89e pos=(4,9938, -491,0569, 5,0062) allLevels=[minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:a1_void, spacemod_test:a1_gravity] sameObj=true levelTicks={minecraft:overworld=2202, spacemod_test:a1_void=2137, spacemod_test:a1_gravity=2145, minecraft:the_nether=2202, minecraft:the_end=2202} paused=false gameTime=2202 overworldTime=2202
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=555.5685198748554
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 11 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:a1_void) -> true
+deleteDynamicDimension(spacemod_test:a1_gravity) -> true
+niveaux chargés : 3 (base 3)
+-- cycle 10/10
+création des 2 dimensions : 4 ms
+sub-level void=b05ba52a-137e-46a1-8a61-d61fd5f5be60 départ=(4,9938, 64,5116, 5,0062)
+sub-level gravity=a1ba6abf-2f50-4591-80a3-b3d94697264c départ=(4,9938, 64,5116, 5,0062)
+DIAG gravLevel chunks=788 tickingBlocks=true subs=1 physicsSystem=dev.ryanhcode.sable.sublevel.system.SubLevelPhysicsSystem@6a8ffd45 pos=(4,9938, -491,0569, 5,0062) allLevels=[minecraft:overworld, minecraft:the_end, minecraft:the_nether, spacemod_test:a1_void, spacemod_test:a1_gravity] sameObj=true levelTicks={minecraft:overworld=2452, spacemod_test:a1_void=2379, spacemod_test:a1_gravity=2388, minecraft:the_nether=2452, minecraft:the_end=2452} paused=false gameTime=2452 overworldTime=2452
+déplacement après 200 ticks : void=3.811921117014134E-7 gravity=555.5685198748554
+unloadDynamicDimension(void) -> true
+loadDynamicDimension(void) : 16 ms, niveau=true
+sub-level retrouvé après rechargement : true
+deleteDynamicDimension(spacemod_test:a1_void) -> true
+deleteDynamicDimension(spacemod_test:a1_gravity) -> true
+niveaux chargés : 3 (base 3)
+FIN A1 : RÉUSSI

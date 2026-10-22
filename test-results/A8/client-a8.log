@@ -721,3 +721,455 @@
 1792513398510 image 45099 : sub-levels clients = 9d02860f plot=[10000, 10000] finalisé; 
 1792513400440 écran ouvert : PauseScreen
 1792513437477 écran ouvert : ProgressScreen
+1792663032226 écran ouvert : TitleScreen
+1792663035240 écran ouvert : JoinMultiplayerScreen
+1792663037147 écran ouvert : ProgressScreen
+1792663037150 écran ouvert : ConnectScreen
+1792663037964 écran ouvert : ReceivingLevelScreen
+1792663038216 écran ouvert : ReceivingLevelScreen
+1792663038453 image longue : 487 ms, écran=ReceivingLevelScreen
+1792663038479 niveau client changé : minecraft:overworld, chunks chargés=25, écran=ReceivingLevelScreen
+1792663038487 +1 ticks : chunks chargés=25, écran=ReceivingLevelScreen, joueur=(328,5 68,0 -69,5)
+1792663038494 +2 ticks : chunks chargés=25, écran=ReceivingLevelScreen, joueur=(328,5 68,0 -69,5)
+1792663038510 +5 ticks : chunks chargés=25, écran=ReceivingLevelScreen, joueur=(328,5 68,0 -69,5)
+1792663038569 image longue : 116 ms, écran=ReceivingLevelScreen
+1792663038588 +10 ticks : chunks chargés=25, écran=aucun, joueur=(328,5 68,0 -69,5)
+1792663038987 +20 ticks : chunks chargés=27, écran=aucun, joueur=(328,5 68,0 -69,5)
+1792663039982 +40 ticks : chunks chargés=54, écran=aucun, joueur=(328,5 68,0 -69,5)
+1792663042669 écran ouvert : GameModeSwitcherScreen
+1792663045323 écran ouvert : PauseScreen
+1792663046210 écran ouvert : OptionsScreen
+1792663047473 écran ouvert : SoundOptionsScreen
+1792663048825 écran ouvert : OptionsScreen
+1792663049054 écran ouvert : PauseScreen
+1792663050399 écran ouvert : GameModeSwitcherScreen
+1792663053892 écran ouvert : PauseScreen
+1792663054786 écran ouvert : OptionsScreen
+1792663056786 écran ouvert : PauseScreen
+1792663057831 écran ouvert : ChatScreen
+1792663107181 écran ouvert : ChatScreen
+1792663127095 écran ouvert : ReceivingLevelScreen
+1792663127096 image longue : 330 ms, écran=ReceivingLevelScreen
+1792663127261 écran ouvert : ReceivingLevelScreen
+1792663127321 image longue : 224 ms, écran=ReceivingLevelScreen
+1792663127322 image 10743 : sub-levels clients = bd140c34 plot=[10000, 10000] finalisé; 
+1792663127333 niveau client changé : spacemod_test:dd_a, chunks chargés=39, écran=aucun
+1792663127338 +1 ticks : chunks chargés=39, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663127339 +2 ticks : chunks chargés=39, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663127342 +5 ticks : chunks chargés=39, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663127383 +10 ticks : chunks chargés=39, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663127879 +20 ticks : chunks chargés=53, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663128879 +40 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663130933 image longue : 110 ms, écran=aucun
+1792663134240 image longue : 415 ms, écran=aucun
+1792663137135 écran ouvert : PauseScreen
+1792663156578 écran ouvert : ChatScreen
+1792663158380 écran ouvert : ChatScreen
+1792663171834 écran ouvert : ChatScreen
+1792663180022 image longue : 177 ms, écran=aucun
+1792663180480 écran ouvert : DisconnectedScreen
+1792663189698 écran ouvert : JoinMultiplayerScreen
+1792663190532 écran ouvert : ProgressScreen
+1792663190543 écran ouvert : ConnectScreen
+1792663190891 écran ouvert : ReceivingLevelScreen
+1792663190911 écran ouvert : ReceivingLevelScreen
+1792663190945 niveau client changé : spacemod_test:dd_b, chunks chargés=14, écran=ReceivingLevelScreen
+1792663190957 image longue : 64 ms, écran=ReceivingLevelScreen
+1792663190957 image 17603 : sub-levels clients = 88e3bedc plot=[10000, 10000] finalisé; 
+1792663190958 +1 ticks : chunks chargés=14, écran=ReceivingLevelScreen, joueur=(0,5 64,0 0,5)
+1792663190984 +2 ticks : chunks chargés=14, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663191135 +5 ticks : chunks chargés=37, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663191378 +10 ticks : chunks chargés=97, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663191883 +20 ticks : chunks chargés=287, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663191933 écran ouvert : ChatScreen
+1792663192883 +40 ticks : chunks chargés=453, écran=ChatScreen, joueur=(0,5 64,0 0,5)
+1792663200527 écran ouvert : ChatScreen
+1792663208681 écran ouvert : ChatScreen
+1792663211529 écran ouvert : ReceivingLevelScreen
+1792663211529 image longue : 161 ms, écran=ReceivingLevelScreen
+1792663211539 écran ouvert : ReceivingLevelScreen
+1792663211555 image 20034 : sub-levels clients = bd140c34 plot=[10000, 10000] finalisé; 
+1792663211557 niveau client changé : spacemod_test:dd_a, chunks chargés=98, écran=ReceivingLevelScreen
+1792663211557 +1 ticks : chunks chargés=98, écran=ReceivingLevelScreen, joueur=(0,5 64,0 0,5)
+1792663211558 +2 ticks : chunks chargés=98, écran=ReceivingLevelScreen, joueur=(0,5 64,0 0,5)
+1792663211632 +5 ticks : chunks chargés=129, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663211884 +10 ticks : chunks chargés=294, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663212383 +20 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663212534 écran ouvert : ChatScreen
+1792663213382 +40 ticks : chunks chargés=453, écran=ChatScreen, joueur=(0,5 64,0 0,5)
+1792663214381 écran ouvert : ReceivingLevelScreen
+1792663214397 écran ouvert : ReceivingLevelScreen
+1792663214403 niveau client changé : spacemod_test:dd_b, chunks chargés=9, écran=ReceivingLevelScreen
+1792663214413 image 20372 : sub-levels clients = AUCUN
+1792663214432 +1 ticks : chunks chargés=9, écran=ReceivingLevelScreen, joueur=(0,5 64,0 0,5)
+1792663214482 +2 ticks : chunks chargés=9, écran=ReceivingLevelScreen, joueur=(0,5 64,0 0,5)
+1792663214633 +5 ticks : chunks chargés=167, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663214885 +10 ticks : chunks chargés=377, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663215381 +20 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663216382 +40 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663219823 écran ouvert : PauseScreen
+1792663340708 écran ouvert : ProgressScreen
+1792663843006 écran ouvert : TitleScreen
+1792663847843 écran ouvert : JoinMultiplayerScreen
+1792663849544 écran ouvert : ProgressScreen
+1792663849553 écran ouvert : ConnectScreen
+1792663850344 écran ouvert : ReceivingLevelScreen
+1792663850513 écran ouvert : ReceivingLevelScreen
+1792663850736 image longue : 391 ms, écran=ReceivingLevelScreen
+1792663850759 niveau client changé : minecraft:overworld, chunks chargés=33, écran=ReceivingLevelScreen
+1792663850762 +1 ticks : chunks chargés=33, écran=ReceivingLevelScreen, joueur=(-163,5 70,0 32,5)
+1792663850765 +2 ticks : chunks chargés=33, écran=ReceivingLevelScreen, joueur=(-163,5 70,0 32,5)
+1792663850772 +5 ticks : chunks chargés=33, écran=ReceivingLevelScreen, joueur=(-163,5 70,0 32,5)
+1792663850800 image longue : 63 ms, écran=ReceivingLevelScreen
+1792663850823 +10 ticks : chunks chargés=42, écran=aucun, joueur=(-163,5 70,0 32,5)
+1792663851308 +20 ticks : chunks chargés=75, écran=aucun, joueur=(-163,5 70,0 32,5)
+1792663852311 +40 ticks : chunks chargés=143, écran=aucun, joueur=(-163,5 70,0 32,5)
+1792663852664 écran ouvert : ChatScreen
+1792663861962 écran ouvert : ChatScreen
+1792663876311 écran ouvert : ChatScreen
+1792663931030 écran ouvert : ReceivingLevelScreen
+1792663931031 image longue : 334 ms, écran=ReceivingLevelScreen
+1792663931053 écran ouvert : ReceivingLevelScreen
+1792663931077 image longue : 45 ms, écran=ReceivingLevelScreen
+1792663931080 niveau client changé : spacemod_test:dd_a, chunks chargés=58, écran=aucun
+1792663931083 +1 ticks : chunks chargés=58, écran=aucun, joueur=(0,5 63,9 0,5)
+1792663931084 +2 ticks : chunks chargés=58, écran=aucun, joueur=(0,5 63,8 0,5)
+1792663931086 +5 ticks : chunks chargés=58, écran=aucun, joueur=(0,5 62,9 0,5)
+1792663931208 +10 ticks : chunks chargés=145, écran=aucun, joueur=(0,5 59,9 0,5)
+1792663931712 +20 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 49,4 0,5)
+1792663932712 +40 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 13,7 0,5)
+1792663933114 écran ouvert : GameModeSwitcherScreen
+1792663934309 écran ouvert : ChatScreen
+1792663938460 écran ouvert : ChatScreen
+1792663944417 écran ouvert : PauseScreen
+1792663948456 écran ouvert : ChatScreen
+1792663951486 écran ouvert : ReceivingLevelScreen
+1792663951505 écran ouvert : ReceivingLevelScreen
+1792663951525 niveau client changé : spacemod_test:dd_b, chunks chargés=0, écran=ReceivingLevelScreen
+1792663951558 +1 ticks : chunks chargés=0, écran=ReceivingLevelScreen, joueur=(0,5 64,0 0,5)
+1792663951608 +2 ticks : chunks chargés=0, écran=ReceivingLevelScreen, joueur=(0,5 64,0 0,5)
+1792663951760 +5 ticks : chunks chargés=132, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663952012 +10 ticks : chunks chargés=397, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663952508 +20 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663953508 +40 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663954113 écran ouvert : ChatScreen
+1792663955238 écran ouvert : ReceivingLevelScreen
+1792663955255 écran ouvert : ReceivingLevelScreen
+1792663955268 niveau client changé : spacemod_test:dd_a, chunks chargés=0, écran=ReceivingLevelScreen
+1792663955310 +1 ticks : chunks chargés=0, écran=ReceivingLevelScreen, joueur=(0,5 64,0 0,5)
+1792663955360 +2 ticks : chunks chargés=0, écran=ReceivingLevelScreen, joueur=(0,5 64,0 0,5)
+1792663955512 +5 ticks : chunks chargés=209, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663955764 +10 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663956209 écran ouvert : ChatScreen
+1792663956260 +20 ticks : chunks chargés=453, écran=ChatScreen, joueur=(0,5 64,0 0,5)
+1792663957258 +40 ticks : chunks chargés=453, écran=ChatScreen, joueur=(0,5 64,0 0,5)
+1792663959776 écran ouvert : ReceivingLevelScreen
+1792663959793 écran ouvert : ReceivingLevelScreen
+1792663959814 niveau client changé : spacemod_test:dd_b, chunks chargés=0, écran=ReceivingLevelScreen
+1792663959864 +1 ticks : chunks chargés=63, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663959906 +2 ticks : chunks chargés=127, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663960058 +5 ticks : chunks chargés=319, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663960310 +10 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663960410 écran ouvert : ChatScreen
+1792663960814 +20 ticks : chunks chargés=453, écran=ChatScreen, joueur=(0,5 64,0 0,5)
+1792663961149 écran ouvert : ReceivingLevelScreen
+1792663961165 écran ouvert : ReceivingLevelScreen
+1792663961178 niveau client changé : spacemod_test:dd_a, chunks chargés=47, écran=ReceivingLevelScreen
+1792663961212 +1 ticks : chunks chargés=47, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663961261 +2 ticks : chunks chargés=111, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663961413 +5 ticks : chunks chargés=303, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663961657 +10 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663962162 +20 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663963163 +40 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792663964180 écran ouvert : PauseScreen
+1792663980011 écran ouvert : ChatScreen
+1792663990758 écran ouvert : ChatScreen
+1792663999659 écran ouvert : ChatScreen
+1792664006559 écran ouvert : ChatScreen
+1792664024511 écran ouvert : ChatScreen
+1792664034212 écran ouvert : ChatScreen
+1792664045764 écran ouvert : ReceivingLevelScreen
+1792664045783 écran ouvert : ReceivingLevelScreen
+1792664045787 niveau client changé : minecraft:overworld, chunks chargés=0, écran=ReceivingLevelScreen
+1792664045810 +1 ticks : chunks chargés=20, écran=ReceivingLevelScreen, joueur=(0,5 64,0 0,5)
+1792664045863 +2 ticks : chunks chargés=35, écran=ReceivingLevelScreen, joueur=(0,5 64,0 0,5)
+1792664046015 +5 ticks : chunks chargés=43, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664046260 +10 ticks : chunks chargés=86, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664046758 +20 ticks : chunks chargés=178, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664047759 +40 ticks : chunks chargés=365, écran=aucun, joueur=(0,5 64,7 0,5)
+1792664047808 écran ouvert : ChatScreen
+1792664053061 écran ouvert : ChatScreen
+1792664054011 écran ouvert : ChatScreen
+1792664054558 écran ouvert : ChatScreen
+1792664055458 écran ouvert : ChatScreen
+1792664056809 écran ouvert : ChatScreen
+1792664057608 écran ouvert : ChatScreen
+1792664066806 écran ouvert : ChatScreen
+1792664069263 écran ouvert : ChatScreen
+1792664084614 écran ouvert : ChatScreen
+1792664118611 écran ouvert : ChatScreen
+1792664123410 écran ouvert : ChatScreen
+1792664130557 écran ouvert : ChatScreen
+1792664225963 écran ouvert : ChatScreen
+1792664234659 écran ouvert : ChatScreen
+1792664243515 écran ouvert : PauseScreen
+1792664255359 écran ouvert : ChatScreen
+1792664260192 écran ouvert : ReceivingLevelScreen
+1792664260194 image longue : 392 ms, écran=ReceivingLevelScreen
+1792664260216 écran ouvert : ReceivingLevelScreen
+1792664260278 niveau client changé : spacemod_test:dd_a, chunks chargés=153, écran=ReceivingLevelScreen
+1792664260348 image longue : 154 ms, écran=ReceivingLevelScreen
+1792664260351 image 49055 : sub-levels clients = 9a100838 plot=[10000, 10000] finalisé; 
+1792664260355 +1 ticks : chunks chargés=217, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664260356 +2 ticks : chunks chargés=217, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664260359 +5 ticks : chunks chargés=217, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664260363 +10 ticks : chunks chargés=217, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664260810 +20 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664261810 +40 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664263608 écran ouvert : ChatScreen
+1792664279662 écran ouvert : ChatScreen
+1792664284663 écran ouvert : ChatScreen
+1792664287955 écran ouvert : ReceivingLevelScreen
+1792664287956 image longue : 177 ms, écran=ReceivingLevelScreen
+1792664287969 écran ouvert : ReceivingLevelScreen
+1792664287994 image 52320 : sub-levels clients = 27e80e5a plot=[10000, 10000] finalisé; 
+1792664287995 niveau client changé : spacemod_test:dd_b, chunks chargés=2, écran=ReceivingLevelScreen
+1792664287998 +1 ticks : chunks chargés=2, écran=ReceivingLevelScreen, joueur=(0,5 64,0 0,5)
+1792664287999 +2 ticks : chunks chargés=2, écran=ReceivingLevelScreen, joueur=(0,5 64,0 0,5)
+1792664288062 +5 ticks : chunks chargés=66, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664288314 +10 ticks : chunks chargés=386, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664288406 écran ouvert : ChatScreen
+1792664288809 +20 ticks : chunks chargés=453, écran=ChatScreen, joueur=(0,5 64,0 0,5)
+1792664289809 +40 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664290659 écran ouvert : ChatScreen
+1792664291307 écran ouvert : ChatScreen
+1792664292509 écran ouvert : ChatScreen
+1792664293257 écran ouvert : ChatScreen
+1792664293761 écran ouvert : ChatScreen
+1792664294358 écran ouvert : ChatScreen
+1792664295257 écran ouvert : ChatScreen
+1792664296106 écran ouvert : ChatScreen
+1792664296812 écran ouvert : ChatScreen
+1792664297409 écran ouvert : ChatScreen
+1792664301124 écran ouvert : PauseScreen
+1792664391409 écran ouvert : ChatScreen
+1792664394661 écran ouvert : ChatScreen
+1792664401509 écran ouvert : ChatScreen
+1792664404907 écran ouvert : ChatScreen
+1792664407578 écran ouvert : ReceivingLevelScreen
+1792664407579 image longue : 186 ms, écran=ReceivingLevelScreen
+1792664407592 écran ouvert : ReceivingLevelScreen
+1792664407614 image 66538 : sub-levels clients = 9a100838 plot=[10000, 10000] finalisé; 
+1792664407616 niveau client changé : spacemod_test:dd_a, chunks chargés=169, écran=aucun
+1792664407616 +1 ticks : chunks chargés=169, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664407617 +2 ticks : chunks chargés=169, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664407657 +5 ticks : chunks chargés=233, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664407909 +10 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664408413 +20 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664409169 écran ouvert : PauseScreen
+1792664409412 +40 ticks : chunks chargés=453, écran=PauseScreen, joueur=(0,5 64,0 0,5)
+1792664496167 écran ouvert : InventoryScreen
+1792664496215 écran ouvert : CreativeModeInventoryScreen
+1792664496244 image longue : 91 ms, écran=CreativeModeInventoryScreen
+1792664497607 écran ouvert : ChatScreen
+1792664505711 écran ouvert : InventoryScreen
+1792664505711 écran ouvert : CreativeModeInventoryScreen
+1792664516491 écran ouvert : PauseScreen
+1792664517096 écran ouvert : ProgressScreen
+1792664517109 écran ouvert : JoinMultiplayerScreen
+1792664547963 écran ouvert : ProgressScreen
+1792664547966 écran ouvert : ConnectScreen
+1792664548366 écran ouvert : ReceivingLevelScreen
+1792664548386 écran ouvert : ReceivingLevelScreen
+1792664548420 niveau client changé : spacemod_test:dd_a, chunks chargés=9, écran=ReceivingLevelScreen
+1792664548437 image longue : 70 ms, écran=ReceivingLevelScreen
+1792664548438 +1 ticks : chunks chargés=14, écran=ReceivingLevelScreen, joueur=(2,5 64,0 2,6)
+1792664548463 +2 ticks : chunks chargés=14, écran=aucun, joueur=(2,5 64,0 2,6)
+1792664548614 +5 ticks : chunks chargés=37, écran=aucun, joueur=(2,5 64,0 2,6)
+1792664548858 +10 ticks : chunks chargés=97, écran=aucun, joueur=(2,5 64,0 2,6)
+1792664549362 +20 ticks : chunks chargés=287, écran=aucun, joueur=(2,5 64,0 2,6)
+1792664550361 +40 ticks : chunks chargés=453, écran=aucun, joueur=(2,5 64,0 2,6)
+1792664555985 écran ouvert : PauseScreen
+1792664599465 écran ouvert : ProgressScreen
+1792664599477 écran ouvert : JoinMultiplayerScreen
+1792664641832 écran ouvert : JoinMultiplayerScreen
+1792664642666 écran ouvert : ProgressScreen
+1792664642680 écran ouvert : ConnectScreen
+1792664643216 écran ouvert : ReceivingLevelScreen
+1792664643238 écran ouvert : ReceivingLevelScreen
+1792664643257 niveau client changé : spacemod_test:dd_a, chunks chargés=0, écran=ReceivingLevelScreen
+1792664643273 image longue : 56 ms, écran=ReceivingLevelScreen
+1792664643273 image 90113 : sub-levels clients = AUCUN
+1792664643277 +1 ticks : chunks chargés=9, écran=ReceivingLevelScreen, joueur=(2,5 64,0 2,6)
+1792664643283 image 90114 : sub-levels clients = 9a100838 plot=[10000, 10000] finalisé; 
+1792664643310 +2 ticks : chunks chargés=9, écran=ReceivingLevelScreen, joueur=(2,5 64,0 2,6)
+1792664643461 +5 ticks : chunks chargés=28, écran=aucun, joueur=(2,5 64,0 2,6)
+1792664643713 +10 ticks : chunks chargés=83, écran=aucun, joueur=(2,5 64,0 2,6)
+1792664644209 +20 ticks : chunks chargés=264, écran=aucun, joueur=(2,5 64,0 2,6)
+1792664645209 +40 ticks : chunks chargés=453, écran=aucun, joueur=(2,5 64,0 2,6)
+1792664645309 écran ouvert : ChatScreen
+1792664650089 écran ouvert : PauseScreen
+1792664716707 écran ouvert : DisconnectedScreen
+1792664722333 écran ouvert : JoinMultiplayerScreen
+1792664730932 écran ouvert : JoinMultiplayerScreen
+1792664733878 écran ouvert : JoinMultiplayerScreen
+1792664735607 écran ouvert : ProgressScreen
+1792664735608 écran ouvert : ConnectScreen
+1792664736136 écran ouvert : ReceivingLevelScreen
+1792664736156 écran ouvert : ReceivingLevelScreen
+1792664736179 image longue : 42 ms, écran=ReceivingLevelScreen
+1792664736179 image 100013 : sub-levels clients = AUCUN
+1792664736182 niveau client changé : spacemod_test:dd_a, chunks chargés=0, écran=ReceivingLevelScreen
+1792664736183 image 100014 : sub-levels clients = 9a100838 plot=[10000, 10000] finalisé; 
+1792664736214 +1 ticks : chunks chargés=10, écran=ReceivingLevelScreen, joueur=(2,5 64,0 2,6)
+1792664736265 +2 ticks : chunks chargés=16, écran=aucun, joueur=(2,5 64,0 2,6)
+1792664736408 +5 ticks : chunks chargés=43, écran=aucun, joueur=(2,5 64,0 2,6)
+1792664736660 +10 ticks : chunks chargés=108, écran=aucun, joueur=(2,5 64,0 2,6)
+1792664737164 +20 ticks : chunks chargés=330, écran=aucun, joueur=(2,5 64,0 2,6)
+1792664738157 +40 ticks : chunks chargés=453, écran=aucun, joueur=(2,5 64,0 2,6)
+1792664740092 écran ouvert : PauseScreen
+1792664808208 écran ouvert : ChatScreen
+1792664815988 écran ouvert : ReceivingLevelScreen
+1792664815989 image longue : 170 ms, écran=ReceivingLevelScreen
+1792664816001 écran ouvert : ReceivingLevelScreen
+1792664816014 image 109497 : sub-levels clients = AUCUN
+1792664816015 niveau client changé : spacemod_test:tmp_1, chunks chargés=28, écran=ReceivingLevelScreen
+1792664816016 +1 ticks : chunks chargés=28, écran=ReceivingLevelScreen, joueur=(0,5 64,0 0,5)
+1792664816016 +2 ticks : chunks chargés=28, écran=ReceivingLevelScreen, joueur=(0,5 64,0 0,5)
+1792664816107 +5 ticks : chunks chargés=57, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664816360 +10 ticks : chunks chargés=212, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664816864 +20 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664817857 +40 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664819889 écran ouvert : PauseScreen
+1792664828557 écran ouvert : ChatScreen
+1792664839706 écran ouvert : ChatScreen
+1792664846316 écran ouvert : ReceivingLevelScreen
+1792664846331 écran ouvert : ReceivingLevelScreen
+1792664846362 niveau client changé : minecraft:overworld, chunks chargés=0, écran=ReceivingLevelScreen
+1792664846416 +1 ticks : chunks chargés=37, écran=ReceivingLevelScreen, joueur=(-159,5 72,0 32,5)
+1792664846464 +2 ticks : chunks chargés=37, écran=aucun, joueur=(-159,5 72,0 32,5)
+1792664846615 +5 ticks : chunks chargés=113, écran=aucun, joueur=(-159,5 72,0 32,5)
+1792664846859 +10 ticks : chunks chargés=231, écran=aucun, joueur=(-159,5 72,0 32,5)
+1792664847263 écran ouvert : ChatScreen
+1792664847365 +20 ticks : chunks chargés=453, écran=ChatScreen, joueur=(-159,5 72,0 32,5)
+1792664848364 +40 ticks : chunks chargés=453, écran=ChatScreen, joueur=(-159,5 72,0 32,5)
+1792664853007 écran ouvert : ChatScreen
+1792664858783 écran ouvert : PauseScreen
+1792664878208 écran ouvert : ChatScreen
+1792664879411 écran ouvert : ChatScreen
+1792664888911 écran ouvert : ChatScreen
+1792664891180 écran ouvert : PauseScreen
+1792664929709 écran ouvert : ChatScreen
+1792664930659 écran ouvert : ChatScreen
+1792664931408 écran ouvert : ChatScreen
+1792664932712 écran ouvert : ChatScreen
+1792664948511 écran ouvert : ChatScreen
+1792664950461 écran ouvert : ChatScreen
+1792664951714 écran ouvert : ChatScreen
+1792664953464 écran ouvert : ChatScreen
+1792664960827 écran ouvert : ReceivingLevelScreen
+1792664960828 image longue : 185 ms, écran=ReceivingLevelScreen
+1792664960840 écran ouvert : ReceivingLevelScreen
+1792664960858 niveau client changé : spacemod_test:tmp_1, chunks chargés=64, écran=aucun
+1792664960859 +1 ticks : chunks chargés=64, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664960859 +2 ticks : chunks chargés=64, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664960908 +5 ticks : chunks chargés=110, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664961160 +10 ticks : chunks chargés=348, écran=aucun, joueur=(0,5 64,0 0,5)
+1792664961614 écran ouvert : ChatScreen
+1792664961656 +20 ticks : chunks chargés=453, écran=ChatScreen, joueur=(0,5 64,0 0,5)
+1792664962664 +40 ticks : chunks chargés=453, écran=ChatScreen, joueur=(0,5 64,0 0,5)
+1792664965174 écran ouvert : ReceivingLevelScreen
+1792664965190 écran ouvert : ReceivingLevelScreen
+1792664965214 niveau client changé : minecraft:overworld, chunks chargés=0, écran=ReceivingLevelScreen
+1792664965265 +1 ticks : chunks chargés=52, écran=ReceivingLevelScreen, joueur=(-159,5 72,0 32,5)
+1792664965307 +2 ticks : chunks chargés=52, écran=aucun, joueur=(-159,5 72,0 32,5)
+1792664965459 +5 ticks : chunks chargés=263, écran=aucun, joueur=(-159,5 72,0 32,5)
+1792664965710 +10 ticks : chunks chargés=453, écran=aucun, joueur=(-159,5 72,0 32,5)
+1792664965912 écran ouvert : ChatScreen
+1792664966214 +20 ticks : chunks chargés=453, écran=ChatScreen, joueur=(-159,5 72,0 32,5)
+1792664967214 +40 ticks : chunks chargés=453, écran=aucun, joueur=(-159,5 72,0 32,5)
+1792664968508 écran ouvert : ChatScreen
+1792664971007 écran ouvert : ChatScreen
+1792664972561 écran ouvert : ChatScreen
+1792664973560 écran ouvert : ChatScreen
+1792664974611 écran ouvert : ChatScreen
+1792664975763 écran ouvert : ChatScreen
+1792664976914 écran ouvert : ChatScreen
+1792664977964 écran ouvert : ChatScreen
+1792664978964 écran ouvert : ChatScreen
+1792664979863 écran ouvert : ChatScreen
+1792664980611 écran ouvert : ChatScreen
+1792664981308 écran ouvert : ChatScreen
+1792664983409 écran ouvert : ChatScreen
+1792664987913 écran ouvert : ChatScreen
+1792664989962 écran ouvert : ChatScreen
+1792664992909 écran ouvert : ChatScreen
+1792664994261 écran ouvert : ChatScreen
+1792664995563 écran ouvert : ChatScreen
+1792664999211 écran ouvert : ChatScreen
+1792665002965 écran ouvert : PauseScreen
+1792665141462 écran ouvert : ChatScreen
+1792665145652 écran ouvert : ReceivingLevelScreen
+1792665145653 image longue : 184 ms, écran=ReceivingLevelScreen
+1792665145662 écran ouvert : ReceivingLevelScreen
+1792665145678 niveau client changé : spacemod_test:tmp_1, chunks chargés=19, écran=aucun
+1792665145678 +1 ticks : chunks chargés=19, écran=aucun, joueur=(0,5 64,0 0,5)
+1792665145679 +2 ticks : chunks chargés=19, écran=aucun, joueur=(0,5 64,0 0,5)
+1792665145762 +5 ticks : chunks chargés=136, écran=aucun, joueur=(0,5 64,0 0,5)
+1792665146015 +10 ticks : chunks chargés=445, écran=aucun, joueur=(0,5 64,0 0,5)
+1792665146511 +20 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792665147506 +40 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792665152574 écran ouvert : PauseScreen
+1792665153589 écran ouvert : ProgressScreen
+1792665153593 écran ouvert : JoinMultiplayerScreen
+1792665221926 écran ouvert : JoinMultiplayerScreen
+1792665223249 écran ouvert : ProgressScreen
+1792665223254 écran ouvert : ConnectScreen
+1792665223620 écran ouvert : ReceivingLevelScreen
+1792665223640 écran ouvert : ReceivingLevelScreen
+1792665223655 niveau client changé : minecraft:overworld, chunks chargés=9, écran=ReceivingLevelScreen
+1792665223668 image longue : 47 ms, écran=ReceivingLevelScreen
+1792665223669 +1 ticks : chunks chargés=14, écran=ReceivingLevelScreen, joueur=(0,5 63,9 0,5)
+1792665223711 +2 ticks : chunks chargés=14, écran=ReceivingLevelScreen, joueur=(0,5 63,8 0,5)
+1792665223863 +5 ticks : chunks chargés=37, écran=aucun, joueur=(0,5 62,9 0,5)
+1792665224115 +10 ticks : chunks chargés=97, écran=aucun, joueur=(0,5 61,3 0,5)
+1792665224610 +20 ticks : chunks chargés=287, écran=aucun, joueur=(0,5 60,7 0,5)
+1792665225610 +40 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,8 0,5)
+1792665228443 écran ouvert : PauseScreen
+1792665337608 écran ouvert : ChatScreen
+1792665343096 écran ouvert : ReceivingLevelScreen
+1792665343096 image longue : 298 ms, écran=ReceivingLevelScreen
+1792665343107 écran ouvert : ReceivingLevelScreen
+1792665343123 image 168013 : sub-levels clients = 9a100838 plot=[10000, 10000] finalisé; 
+1792665343124 niveau client changé : spacemod_test:dd_a, chunks chargés=187, écran=aucun
+1792665343125 +1 ticks : chunks chargés=187, écran=aucun, joueur=(0,5 64,0 0,5)
+1792665343125 +2 ticks : chunks chargés=187, écran=aucun, joueur=(0,5 64,0 0,5)
+1792665343126 +5 ticks : chunks chargés=187, écran=aucun, joueur=(0,5 64,0 0,5)
+1792665343309 +10 ticks : chunks chargés=288, écran=aucun, joueur=(0,5 64,0 0,5)
+1792665343813 +20 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792665344814 +40 ticks : chunks chargés=453, écran=aucun, joueur=(0,5 64,0 0,5)
+1792665348913 écran ouvert : ChatScreen
+1792665359609 écran ouvert : ChatScreen
+1792665368212 écran ouvert : ChatScreen
+1792665373236 écran ouvert : ReceivingLevelScreen
+1792665373251 écran ouvert : ReceivingLevelScreen
+1792665373262 image 171595 : sub-levels clients = AUCUN
+1792665373263 niveau client changé : minecraft:overworld, chunks chargés=0, écran=ReceivingLevelScreen
+1792665373314 +1 ticks : chunks chargés=38, écran=aucun, joueur=(-159,5 72,0 32,5)
+1792665373364 +2 ticks : chunks chargés=76, écran=aucun, joueur=(-159,5 72,0 32,5)
+1792665373507 +5 ticks : chunks chargés=195, écran=aucun, joueur=(-159,5 72,0 32,5)
+1792665373759 +10 ticks : chunks chargés=404, écran=aucun, joueur=(-159,5 72,0 32,5)
+1792665374263 +20 ticks : chunks chargés=453, écran=aucun, joueur=(-159,5 72,0 32,5)
+1792665374608 écran ouvert : ChatScreen
+1792665375264 +40 ticks : chunks chargés=453, écran=ChatScreen, joueur=(-159,5 72,0 32,5)
+1792665377859 écran ouvert : ChatScreen
+1792665380762 écran ouvert : ChatScreen
+1792665390607 écran ouvert : ChatScreen
+1792665406207 écran ouvert : ChatScreen
+1792665409164 écran ouvert : ChatScreen
+1792665447861 écran ouvert : ChatScreen
+1792665449659 écran ouvert : ChatScreen
+1792665494564 écran ouvert : ChatScreen
+1792665497210 écran ouvert : ChatScreen
+1792665500473 écran ouvert : PauseScreen
+1792665904241 écran ouvert : ProgressScreen
