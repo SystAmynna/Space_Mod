@@ -24,8 +24,14 @@
       "archetype": "star",
       "name": "Soleil",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 695700000.0
+        "radius": 695700000.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/generic/star.png",
+            "shade": false
+          }
+        ]
       },
       "spin": {
         "period": 43856640,
@@ -38,8 +44,13 @@
       "archetype": "planet",
       "name": "Mercure",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 2439700.0
+        "radius": 2439700.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/sol/mercure.png"
+          }
+        ]
       },
       "orbit": {
         "period": 152010432,
@@ -59,8 +70,13 @@
       "archetype": "planet",
       "name": "Vénus",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 6051800.0
+        "radius": 6051800.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/sol/venus.png"
+          }
+        ]
       },
       "orbit": {
         "period": 388283328,
@@ -80,8 +96,13 @@
       "archetype": "planet",
       "name": "Terre",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 6371000.0
+        "radius": 6371000.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/sol/terre.png"
+          }
+        ]
       },
       "orbit": {
         "period": 631162368,
@@ -101,8 +122,13 @@
       "archetype": "planet",
       "name": "Mars",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 3389500.0
+        "radius": 3389500.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/sol/mars.png"
+          }
+        ]
       },
       "orbit": {
         "period": 1187101440,
@@ -122,8 +148,13 @@
       "archetype": "planet",
       "name": "Jupiter",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 69911000.0
+        "radius": 69911000.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/sol/jupiter.png"
+          }
+        ]
       },
       "orbit": {
         "period": 7486715520,
@@ -143,8 +174,13 @@
       "archetype": "planet",
       "name": "Saturne",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 58232000.0
+        "radius": 58232000.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/sol/saturne.png"
+          }
+        ]
       },
       "orbit": {
         "period": 18591932160,
@@ -164,8 +200,13 @@
       "archetype": "planet",
       "name": "Uranus",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 25362000.0
+        "radius": 25362000.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/sol/uranus.png"
+          }
+        ]
       },
       "orbit": {
         "period": 53029728000,
@@ -185,8 +226,13 @@
       "archetype": "planet",
       "name": "Neptune",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 24622000.0
+        "radius": 24622000.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/sol/neptune.png"
+          }
+        ]
       },
       "orbit": {
         "period": 103994496000,
@@ -206,8 +252,13 @@
       "archetype": "planet",
       "name": "Lune",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 1737400.0
+        "radius": 1737400.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/sol/lune.png"
+          }
+        ]
       },
       "orbit": {
         "period": 47212416,
@@ -227,8 +278,13 @@
       "archetype": "planet",
       "name": "Io",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 1821600.0
+        "radius": 1821600.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/sol/io.png"
+          }
+        ]
       },
       "orbit": {
         "period": 3056832,
@@ -248,8 +304,13 @@
       "archetype": "planet",
       "name": "Europe",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 1560800.0
+        "radius": 1560800.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/sol/europe.png"
+          }
+        ]
       },
       "orbit": {
         "period": 6136128,
@@ -269,8 +330,13 @@
       "archetype": "planet",
       "name": "Ganymède",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 2634100.0
+        "radius": 2634100.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/sol/ganymede.png"
+          }
+        ]
       },
       "orbit": {
         "period": 12363840,
@@ -290,8 +356,13 @@
       "archetype": "planet",
       "name": "Callisto",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 2410300.0
+        "radius": 2410300.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/sol/callisto.png"
+          }
+        ]
       },
       "orbit": {
         "period": 28838592,
@@ -311,8 +382,13 @@
       "archetype": "planet",
       "name": "Titan",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 2574700.0
+        "radius": 2574700.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/sol/titan.png"
+          }
+        ]
       },
       "orbit": {
         "period": 27552960,
