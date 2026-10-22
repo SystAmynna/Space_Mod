@@ -77,7 +77,7 @@ public final class SpaceObjectCommands {
     }
 
     /** Ids texte connus, pour la complétion : entre guillemets, Brigadier refusant le « / » d'une chaîne nue. */
-    private static List<String> ids() {
+    static List<String> ids() {
         return tree().stream().map(e -> ((SpaceObject) e[0]).get(ComponentTypes.IDENTITY).id()).filter(id -> !id.isEmpty())
                 .map(id -> '"' + id + '"').toList();
     }
@@ -97,7 +97,7 @@ public final class SpaceObjectCommands {
     }
 
     /** Objet d'identifiant texte donné, ou {@code null}. */
-    private static SpaceObject byId(String id) {
+    static SpaceObject byId(String id) {
         return tree().stream().map(e -> (SpaceObject) e[0]).filter(o -> o.get(ComponentTypes.IDENTITY).id().equals(id))
                 .findFirst().orElse(null);
     }

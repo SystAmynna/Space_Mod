@@ -1,0 +1,51 @@
+{
+  "version": 2,
+  "entries": [
+    {
+      "id": "andromeda",
+      "archetype": "galaxy",
+      "name": "Andromède",
+      "position": [
+        1.5e+22,
+        1.2e+22,
+        -1.4e+22
+      ],
+      "render": {
+        "radius": 2.5e+21,
+        "layers": [
+          {
+            "type": "amynnaspacemod:galaxy",
+            "color": "#bcd0ff",
+            "brightness": 1.0,
+            "arms": 0.8,
+            "inclination": 1.25,
+            "rotation": 0.6
+          }
+        ]
+      }
+    },
+    {
+      "id": "triangulum",
+      "archetype": "galaxy",
+      "name": "Triangulum",
+      "position": [
+        -1.7e+22,
+        1.6e+22,
+        1.1e+22
+      ],
+      "render": {
+        "radius": 1.2e+21,
+        "layers": [
+          {
+            "type": "amynnaspacemod:galaxy",
+            "color": "#ffd9b0",
+            "brightness": 0.9,
+            "arms": 1.0,
+            "inclination": 0.3,
+            "rotation": 2.1
+          }
+        ]
+      }
+    }
+  ]
+}

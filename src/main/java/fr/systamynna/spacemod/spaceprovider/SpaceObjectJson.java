@@ -1,7 +1,12 @@
 package fr.systamynna.spacemod.spaceprovider;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -18,6 +23,10 @@ import fr.systamynna.spacemod.strategic.component.RailFollower.Spin;
 import fr.systamynna.spacemod.strategic.component.Render;
 import fr.systamynna.spacemod.strategic.component.StellarSystem;
 import fr.systamynna.spacemod.strategic.component.Transform;
+import net.minecraft.nbt.ByteTag;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NumericTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 
@@ -29,7 +38,7 @@ import net.minecraft.util.GsonHelper;
  *  "position": [x, y, z],                                   // mètres, optionnel
  *  "orbit": {"period": ticks, "radius": m, "phase": ticks, "inclination": rad},
  *  "spin": {"period": ticks, "phase": ticks},
- *  "render": {"model": "ns:path", "radius": m}, "exclusion_radius": m, "main_star": "sol/sun",
+ *  "render": {"radius": m, "layers": [{"type": "ns:path", ...}]}, "exclusion_radius": m, "main_star": "sol/sun",
  *  "dimension": {"gravity": [x, y, z], "pressure": p, "drag": d, "magnetic_north": [x, y, z]}} // tout optionnel
  * }</pre>
  */
@@ -68,12 +77,32 @@ public final class SpaceObjectJson {
         Render render = null;
         if (json.has("render")) {
             JsonObject r = GsonHelper.getAsJsonObject(json, "render");
-            render = new Render(ResourceLocation.parse(GsonHelper.getAsString(r, "model")), GsonHelper.getAsDouble(r, "radius"));
+            render = renderOf(r);
         }
         return new ProviderEntry(GsonHelper.getAsString(json, "id"), GsonHelper.getAsString(json, "parent", null), archetype,
                 GsonHelper.getAsString(json, "name"), transform, orbit == null && spin == null ? null : new RailFollower(orbit, spin),
                 render, json.has("exclusion_radius") ? GsonHelper.getAsDouble(json, "exclusion_radius") : null,
                 GsonHelper.getAsString(json, "main_star", null), json.has("dimension") ? dimension(GsonHelper.getAsJsonObject(json, "dimension")) : null);
+    }
+
+    /** {@code {"radius", "layers": [{"type", ...paramètres}]}} ; l'ancien {@code {"model", "radius"}} donne une couche unique. */
+    private static Render renderOf(JsonObject r) {
+        double radius = GsonHelper.getAsDouble(r, "radius");
+        if (!r.has("layers")) return new Render(ResourceLocation.parse(GsonHelper.getAsString(r, "model")), radius);
+        List<Render.Layer> layers = new ArrayList<>();
+        for (JsonElement el : GsonHelper.getAsJsonArray(r, "layers")) {
+            JsonObject l = GsonHelper.convertToJsonObject(el, "layer");
+            CompoundTag params = new CompoundTag();
+            for (var entry : l.entrySet()) {
+                if (entry.getKey().equals("type")) continue;
+                JsonPrimitive v = entry.getValue().getAsJsonPrimitive();
+                if (v.isBoolean()) params.putBoolean(entry.getKey(), v.getAsBoolean());
+                else if (v.isNumber()) params.putDouble(entry.getKey(), v.getAsDouble());
+                else params.putString(entry.getKey(), v.getAsString());
+            }
+            layers.add(new Render.Layer(ResourceLocation.parse(GsonHelper.getAsString(l, "type")), params));
+        }
+        return new Render(radius, layers);
     }
 
     private static float[] vec(JsonObject json, String key, float[] fallback) {
@@ -121,8 +150,20 @@ public final class SpaceObjectJson {
         }
         if (e.render() != null) {
             JsonObject r = new JsonObject();
-            r.addProperty("model", e.render().model().toString());
             r.addProperty("radius", e.render().apparentRadius());
+            JsonArray layers = new JsonArray();
+            for (Render.Layer layer : e.render().layers()) {
+                JsonObject l = new JsonObject();
+                l.addProperty("type", layer.type().toString());
+                for (String key : layer.params().getAllKeys()) {
+                    Tag tag = layer.params().get(key);
+                    if (tag instanceof ByteTag b) l.addProperty(key, b.getAsByte() != 0);
+                    else if (tag instanceof NumericTag n) l.addProperty(key, n.getAsDouble());
+                    else l.addProperty(key, tag.getAsString());
+                }
+                layers.add(l);
+            }
+            r.add("layers", layers);
             json.add("render", r);
         }
         if (e.dimension() != null) {

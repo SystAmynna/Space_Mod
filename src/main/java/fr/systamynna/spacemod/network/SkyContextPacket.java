@@ -16,7 +16,6 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
  * @param objectId UUID de l'objet hôte
  * @param name nom affiché de l'objet
  * @param sky rendu de ciel ({@code SpaceRender})
- * @param model modèle de l'objet vu de l'extérieur ({@code Render}), ou {@code minecraft:empty} s'il n'en a pas
  * @param radius rayon apparent de l'objet, 0 sans {@code Render}
  * @param port nom du port d'arrivée
  * @param x position du port dans le repère local de l'objet
@@ -27,7 +26,7 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
  * @param qz idem
  * @param qw idem
  */
-public record SkyContextPacket(UUID objectId, String name, ResourceLocation sky, ResourceLocation model, double radius,
+public record SkyContextPacket(UUID objectId, String name, ResourceLocation sky, double radius,
         String port, double x, double y, double z,
         double qx, double qy, double qz, double qw) implements CustomPacketPayload {
     /** Type du paquet. */
@@ -39,7 +38,6 @@ public record SkyContextPacket(UUID objectId, String name, ResourceLocation sky,
                 buf.writeUUID(p.objectId);
                 buf.writeUtf(p.name);
                 buf.writeResourceLocation(p.sky);
-                buf.writeResourceLocation(p.model);
                 buf.writeDouble(p.radius);
                 buf.writeUtf(p.port);
                 buf.writeDouble(p.x);
@@ -51,7 +49,7 @@ public record SkyContextPacket(UUID objectId, String name, ResourceLocation sky,
                 buf.writeDouble(p.qw);
             },
             buf -> new SkyContextPacket(buf.readUUID(), buf.readUtf(), buf.readResourceLocation(),
-                    buf.readResourceLocation(), buf.readDouble(), buf.readUtf(), buf.readDouble(), buf.readDouble(),
+                    buf.readDouble(), buf.readUtf(), buf.readDouble(), buf.readDouble(),
                     buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble()));
 
     @Override

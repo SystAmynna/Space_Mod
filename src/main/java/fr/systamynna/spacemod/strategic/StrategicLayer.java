@@ -49,7 +49,7 @@ import net.minecraft.world.level.Level;
  * Le suivi des modifications est par objet : {@link #save()} n'écrit que les objets modifiés. Ajouter ou déplacer un
  * objet modifie aussi son (ou ses) parent(s), dont la liste d'enfants change : ils sont réécrits eux aussi.
  */
-public final class StrategicLayer {
+public final class StrategicLayer implements RailMath.Lookup {
     /** Profondeur maximale d'une chaîne de parents ; au-delà, on suppose un cycle (donnée corrompue) et on échoue. */
     private static final int MAX_DEPTH = 64;
 
@@ -169,6 +169,7 @@ public final class StrategicLayer {
      * Rafraîchit la date d'accès de l'unité.
      */
     @Nullable
+    @Override
     public SpaceObject find(UUID objectId) {
         SpaceObject loaded = objects.get(objectId);
         if (loaded != null) {

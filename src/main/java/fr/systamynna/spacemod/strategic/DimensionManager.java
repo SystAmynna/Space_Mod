@@ -1,6 +1,10 @@
 package fr.systamynna.spacemod.strategic;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -17,13 +21,17 @@ import fr.systamynna.dynamicdimensions.api.DynamicDimensionRegistry;
 import fr.systamynna.dynamicdimensions.api.event.DynamicDimensionLoadCallback;
 import fr.systamynna.spacemod.AmynnaSpaceMod;
 import fr.systamynna.spacemod.network.SkyContextPacket;
+import fr.systamynna.spacemod.network.SkyExtrasPacket;
+import fr.systamynna.spacemod.network.SystemSnapshotPacket;
 import fr.systamynna.spacemod.strategic.component.ComponentTypes;
 import fr.systamynna.spacemod.strategic.component.HostedDimension;
 import fr.systamynna.spacemod.strategic.component.Pilotable;
 import fr.systamynna.spacemod.strategic.component.hostedPropriety.PortPoint;
 import fr.systamynna.spacemod.strategic.component.Render;
+import fr.systamynna.spacemod.strategic.component.StellarSystem;
 import fr.systamynna.spacemod.strategic.component.Transform;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -54,6 +62,11 @@ public final class DimensionManager {
     public static final ResourceLocation SPACE_EFFECTS = ResourceLocation.fromNamespaceAndPath(AmynnaSpaceMod.MODID, "space");
     /** Dernier port visé par chaque joueur, lu à l'arrivée dans la dimension. */
     private static final Map<UUID, String> PORTS = new ConcurrentHashMap<>();
+
+    /** Nom du port par lequel le joueur est entré (vide si inconnu). */
+    public static String portOf(UUID player) {
+        return PORTS.getOrDefault(player, "");
+    }
     /** Dimensions réveillées, par clé : références vers les {@link HostedDimension} des objets, dont l'état est partagé. */
     private static final Map<ResourceLocation, HostedDimension> AWAKE = new ConcurrentHashMap<>();
 
@@ -167,9 +180,59 @@ public final class DimensionManager {
         double[] q = hosted.skyRotation(port);
         PacketDistributor.sendToPlayer(player, new SkyContextPacket(object.id(),
                 object.get(ComponentTypes.IDENTITY).name(), hosted.render(),
-                render == null ? ResourceLocation.withDefaultNamespace("empty") : render.model(),
                 render == null ? 0 : render.apparentRadius(), port.name(), port.x(), port.y(), port.z(),
                 q[0], q[1], q[2], q[3]));
+        sendSnapshot(player, object);
+        sendSkyExtras(player, object);
+    }
+
+    private static final double LIGHT_YEAR = 9.4607e15;
+
+    /**
+     * Envoie le décor lointain : graine du motif de fond (celle de la dimension), autres galaxies, et étoiles à moins de
+     * {@link SpaceConfig#STAR_RADIUS_LY} de l'hôte (avec leur système).
+     * shortcut: balayage de tous les systèmes résidents, à remplacer par un index spatial au-delà de quelques dizaines de milliers.
+     */
+    private static void sendSkyExtras(ServerPlayer player, SpaceObject host) {
+        StrategicLayer layer = StrategicLayer.get();
+        double t = layer.clock().spaceTime(SpaceClock.gameTime(player.server));
+        double max = SpaceConfig.STAR_RADIUS_LY.get() * LIGHT_YEAR;
+        SpaceObject hostSystem = layer.systemOf(host.id());
+        SpaceObject hostGalaxy = layer.galaxyOf(host.id());
+        List<CompoundTag> objects = new ArrayList<>();
+        for (SpaceObject g : layer.galaxies()) if (g != hostGalaxy && g.has(ComponentTypes.RENDER)) objects.add(g.save());
+        for (SpaceObject o : layer.loadedObjects()) {
+            StellarSystem s = o.get(ComponentTypes.STELLAR_SYSTEM);
+            if (s == null || s.mainStar() == null || o == hostSystem) continue;
+            double[] d = RailMath.relativePosition(layer, o, host, t);
+            if (Math.sqrt(d[0] * d[0] + d[1] * d[1] + d[2] * d[2]) > max) continue;
+            SpaceObject star = layer.find(s.mainStar());
+            if (star == null || !star.has(ComponentTypes.RENDER)) continue;
+            objects.add(o.save());
+            objects.add(star.save());
+        }
+        PacketDistributor.sendToPlayer(player, new SkyExtrasPacket(player.level().dimension().location().toString().hashCode(), objects));
+    }
+
+    /** Envoie le système de l'hôte (ses ancêtres et les descendants de son système) et l'ancre de l'horloge spatiale. */
+    private static void sendSnapshot(ServerPlayer player, SpaceObject host) {
+        StrategicLayer layer = StrategicLayer.get();
+        Map<UUID, CompoundTag> objects = new LinkedHashMap<>();
+        for (SpaceObject o = host; o != null; o = o.parent() == null ? null : layer.find(o.parent())) objects.put(o.id(), o.save());
+        SpaceObject system = layer.systemOf(host.id());
+        Deque<SpaceObject> queue = new ArrayDeque<>();
+        if (system != null) queue.add(system);
+        while (!queue.isEmpty()) {
+            SpaceObject o = queue.poll();
+            objects.putIfAbsent(o.id(), o.save());
+            for (UUID child : o.children()) {
+                SpaceObject c = layer.find(child);
+                if (c != null && !objects.containsKey(c.id())) queue.add(c);
+            }
+        }
+        SpaceClock clock = layer.clock();
+        PacketDistributor.sendToPlayer(player, new SystemSnapshotPacket(host.id(), clock.anchorGameTick(),
+                clock.anchorSpaceTicks(), clock.rate(), new ArrayList<>(objects.values())));
     }
 
     private static void joined(ServerPlayer player, ResourceKey<Level> dimension) {

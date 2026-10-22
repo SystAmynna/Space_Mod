@@ -34,6 +34,13 @@ public final class RailMath {
      */
     private static final int MAX_DEPTH = 64;
 
+    /** Accès aux objets par identifiant : la couche du serveur, ou la réplique du client. */
+    public interface Lookup {
+        /** Objet d'identifiant donné, ou {@code null} s'il est inconnu. */
+        @Nullable
+        SpaceObject find(UUID objectId);
+    }
+
     /** Classe utilitaire : uniquement des fonctions statiques. */
     private RailMath() {}
 
@@ -97,7 +104,7 @@ public final class RailMath {
      * Position de l'objet dans le référentiel racine (le plus global). Pour comparer deux objets, préférer
      * {@link #relativePosition}, qui garde la précision entre échelles.
      */
-    public static double[] positionAt(StrategicLayer layer, SpaceObject object, double ticks) {
+    public static double[] positionAt(Lookup layer, SpaceObject object, double ticks) {
         return positionIn(layer, null, object, ticks);
     }
 
@@ -110,7 +117,7 @@ public final class RailMath {
      * @throws IllegalStateException si {@code frame} n'est pas un ancêtre de l'objet, ou si la chaîne de parents est
      *         invalide (parent absent, cycle)
      */
-    public static double[] positionIn(StrategicLayer layer, @Nullable SpaceObject frame, SpaceObject object, double ticks) {
+    public static double[] positionIn(Lookup layer, @Nullable SpaceObject frame, SpaceObject object, double ticks) {
         if (object == frame) return new double[3];
         // ancêtres du plus proche au plus lointain, `frame` exclu
         List<SpaceObject> chain = ancestorsUpTo(layer, object, frame);
@@ -136,7 +143,7 @@ public final class RailMath {
      * positions sont calculées dans ce repère commun et non dans le repère global : deux objets proches l'un de l'autre
      * mais très éloignés de l'origine gardent toute la précision d'un double sur leur écart.
      */
-    public static double[] relativePosition(StrategicLayer layer, SpaceObject a, SpaceObject b, double ticks) {
+    public static double[] relativePosition(Lookup layer, SpaceObject a, SpaceObject b, double ticks) {
         SpaceObject common = commonAncestor(layer, a, b);
         double[] pa = positionIn(layer, common, a, ticks);
         double[] pb = positionIn(layer, common, b, ticks);
@@ -148,7 +155,7 @@ public final class RailMath {
      * {@code newParent} ({@code null} = racine). Seule la translation change ; rotation et échelle sont reprises telles
      * quelles. Sert à {@code StrategicLayer.reparent}.
      */
-    static Transform rebased(StrategicLayer layer, SpaceObject object, @Nullable SpaceObject newParent, double ticks) {
+    static Transform rebased(Lookup layer, SpaceObject object, @Nullable SpaceObject newParent, double ticks) {
         // On travaille dans le repère du plus proche ancêtre commun de l'objet et du nouveau parent : la position de
         // l'objet y est connue sans passer par le repère global.
         SpaceObject common = commonAncestor(layer, object, newParent);
@@ -176,7 +183,7 @@ public final class RailMath {
      *
      * @param b peut être {@code null} (la racine) : le résultat est alors toujours {@code null}
      */
-    static @Nullable SpaceObject commonAncestor(StrategicLayer layer, SpaceObject a, @Nullable SpaceObject b) {
+    static @Nullable SpaceObject commonAncestor(Lookup layer, SpaceObject a, @Nullable SpaceObject b) {
         // On recense tous les ancêtres de b (lui compris), puis on remonte depuis a jusqu'au premier qui y figure.
         Set<UUID> ancestorsOfB = new HashSet<>();
         int depth = 0;
@@ -199,7 +206,7 @@ public final class RailMath {
      *
      * @throws IllegalStateException si {@code frame} n'est pas dans la chaîne, ou si la chaîne est trop profonde (cycle)
      */
-    private static List<SpaceObject> ancestorsUpTo(StrategicLayer layer, SpaceObject object, @Nullable SpaceObject frame) {
+    private static List<SpaceObject> ancestorsUpTo(Lookup layer, SpaceObject object, @Nullable SpaceObject frame) {
         List<SpaceObject> chain = new ArrayList<>();
         for (SpaceObject current = parentOf(layer, object); current != frame; current = parentOf(layer, current)) {
             // la racine a été atteinte sans croiser `frame` : ce n'est pas un ancêtre
@@ -237,7 +244,7 @@ public final class RailMath {
      * @throws IllegalStateException si l'identifiant de parent ne désigne aucun objet de la couche
      */
     @Nullable
-    private static SpaceObject parentOf(StrategicLayer layer, SpaceObject object) {
+    private static SpaceObject parentOf(Lookup layer, SpaceObject object) {
         UUID parentId = object.parent();
         if (parentId == null) return null;
         SpaceObject parent = layer.find(parentId);

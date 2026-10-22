@@ -22,8 +22,8 @@ import net.minecraft.resources.ResourceLocation;
  * dimension est créée au premier accès (voir {@code DimensionManager}) : tant qu'elle ne l'est pas, la clé est {@code null}.
  */
 public final class HostedDimension implements Component {
-    /** Rendu de ciel par défaut : ciel entièrement noir. */
-    public static final ResourceLocation DEFAULT_RENDER = ResourceLocation.fromNamespaceAndPath(AmynnaSpaceMod.MODID, "black");
+    /** Rendu de ciel par défaut : le système de l'hôte, vu depuis la dimension. {@code amynnaspacemod:black} = ciel noir. */
+    public static final ResourceLocation DEFAULT_RENDER = ResourceLocation.fromNamespaceAndPath(AmynnaSpaceMod.MODID, "system");
 
     private final @Nullable ResourceLocation dimension;
     private final Properties properties;
@@ -37,7 +37,7 @@ public final class HostedDimension implements Component {
      *        (une dimension n'a qu'un hôte)
      * @param properties paramètres physiques de la dimension
      * @param placement position (translation) du rendu dans le système stellaire et rotation relative à la direction 0 de l'objet
-     * @param render identifiant du rendu de ciel vu de l'intérieur ; {@link #DEFAULT_RENDER} = ciel noir
+     * @param render identifiant du rendu de ciel vu de l'intérieur ; {@link #DEFAULT_RENDER} = ciel du système
      * @param ports portes de la dimension, copiées de façon immuable ; au moins une
      */
     public HostedDimension(@Nullable ResourceLocation dimension, Properties properties, Transform placement,

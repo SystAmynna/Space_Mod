@@ -19,8 +19,21 @@
       "archetype": "star",
       "name": "Alpha du Centaure",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 850000000.0
+        "radius": 850000000.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/generic/star.png",
+            "shade": false,
+            "color": "#fff1cf"
+          },
+          {
+            "type": "amynnaspacemod:star",
+            "color": "#fff1cf",
+            "brightness": 1.0,
+            "glow_size": 0.012
+          }
+        ]
       }
     },
     {
@@ -41,8 +54,21 @@
       "archetype": "star",
       "name": "Étoile de Barnard",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 140000000.0
+        "radius": 140000000.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/generic/star.png",
+            "shade": false,
+            "color": "#ff9a6b"
+          },
+          {
+            "type": "amynnaspacemod:star",
+            "color": "#ff9a6b",
+            "brightness": 1.0,
+            "glow_size": 0.012
+          }
+        ]
       }
     },
     {
@@ -63,8 +89,21 @@
       "archetype": "star",
       "name": "Sirius",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 1190000000.0
+        "radius": 1190000000.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/generic/star.png",
+            "shade": false,
+            "color": "#cfe2ff"
+          },
+          {
+            "type": "amynnaspacemod:star",
+            "color": "#cfe2ff",
+            "brightness": 1.0,
+            "glow_size": 0.012
+          }
+        ]
       }
     },
     {
@@ -85,8 +124,21 @@
       "archetype": "star",
       "name": "Procyon",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 1400000000.0
+        "radius": 1400000000.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/generic/star.png",
+            "shade": false,
+            "color": "#fff6e0"
+          },
+          {
+            "type": "amynnaspacemod:star",
+            "color": "#fff6e0",
+            "brightness": 1.0,
+            "glow_size": 0.012
+          }
+        ]
       }
     },
     {
@@ -107,8 +159,21 @@
       "archetype": "star",
       "name": "Tau Ceti",
       "render": {
-        "model": "amynnaspacemod:proxy/rock",
-        "radius": 590000000.0
+        "radius": 590000000.0,
+        "layers": [
+          {
+            "type": "amynnaspacemod:sphere",
+            "texture": "amynnaspacemod:textures/space/generic/star.png",
+            "shade": false,
+            "color": "#ffe9b0"
+          },
+          {
+            "type": "amynnaspacemod:star",
+            "color": "#ffe9b0",
+            "brightness": 1.0,
+            "glow_size": 0.012
+          }
+        ]
       }
     }
   ]

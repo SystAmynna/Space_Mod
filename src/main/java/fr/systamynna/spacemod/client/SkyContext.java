@@ -6,7 +6,7 @@ import fr.systamynna.spacemod.network.SkyContextPacket;
 
 /**
  * Dernier contexte de ciel reçu du serveur (objet hôte et port d'arrivée). Aucune classe client importée : chargeable
- * partout. Pas encore lu, le ciel étant noir ; c'est ce que le rendu du ciel calibrera plus tard.
+ * partout. Lu par {@code SkyRenderer}.
  */
 public final class SkyContext {
     private static volatile SkyContextPacket current;

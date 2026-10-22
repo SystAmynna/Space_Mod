@@ -1173,3 +1173,212 @@
 1792665497210 écran ouvert : ChatScreen
 1792665500473 écran ouvert : PauseScreen
 1792665904241 écran ouvert : ProgressScreen
+1792689590087 écran ouvert : TitleScreen
+1792689593380 écran ouvert : JoinMultiplayerScreen
+1792689594288 écran ouvert : TitleScreen
+1792689595826 écran ouvert : ModListScreen
+1792689618932 écran ouvert : ProgressScreen
+1792689657693 écran ouvert : TitleScreen
+1792689659950 écran ouvert : ModListScreen
+1792689669597 écran ouvert : ProgressScreen
+1792689686208 écran ouvert : TitleScreen
+1792689688999 écran ouvert : ModListScreen
+1792689712328 écran ouvert : TitleScreen
+1792689713129 écran ouvert : SelectWorldScreen
+1792689713138 écran ouvert : GenericMessageScreen
+1792689713658 écran ouvert : CreateWorldScreen
+1792689715769 écran ouvert : GenericMessageScreen
+1792689715785 écran ouvert : ProgressScreen
+1792689716009 écran ouvert : LevelLoadingScreen
+1792689719203 écran ouvert : ReceivingLevelScreen
+1792689719345 écran ouvert : ReceivingLevelScreen
+1792689719406 niveau client changé : minecraft:overworld, chunks chargés=25, écran=ReceivingLevelScreen
+1792689719454 image longue : 250 ms, écran=ReceivingLevelScreen
+1792689719459 +1 ticks : chunks chargés=25, écran=ReceivingLevelScreen, joueur=(6,5 120,0 2,5)
+1792689719461 +2 ticks : chunks chargés=25, écran=ReceivingLevelScreen, joueur=(6,5 120,0 2,5)
+1792689719467 +5 ticks : chunks chargés=25, écran=ReceivingLevelScreen, joueur=(6,5 120,0 2,5)
+1792689719658 +10 ticks : chunks chargés=25, écran=aucun, joueur=(6,5 120,0 2,5)
+1792689720157 +20 ticks : chunks chargés=49, écran=aucun, joueur=(6,5 120,0 2,5)
+1792689720611 écran ouvert : ChatScreen
+1792689721159 +40 ticks : chunks chargés=93, écran=ChatScreen, joueur=(6,5 122,1 2,5)
+1792689737531 écran ouvert : ReceivingLevelScreen
+1792689737663 écran ouvert : ReceivingLevelScreen
+1792689737695 image longue : 163 ms, écran=ReceivingLevelScreen
+1792689737699 niveau client changé : amynnaspacemod:586e7e3f2ff031bbaa2f031b0a1aa504, chunks chargés=1, écran=ReceivingLevelScreen
+1792689737701 +1 ticks : chunks chargés=1, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792689737702 +2 ticks : chunks chargés=1, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792689737807 +5 ticks : chunks chargés=1, écran=aucun, joueur=(0,0 64,0 0,0)
+1792689738060 +10 ticks : chunks chargés=586, écran=aucun, joueur=(0,0 64,0 0,0)
+1792689738562 +20 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792689739561 +40 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792689741104 écran ouvert : PauseScreen
+1792689741749 écran ouvert : OptionsScreen
+1792689745387 écran ouvert : SubLevelSettingsScreen
+1792689747649 écran ouvert : OptionsScreen
+1792689750089 écran ouvert : ControlsScreen
+1792689750754 écran ouvert : KeyBindsScreen
+1792689754740 écran ouvert : ControlsScreen
+1792689755519 écran ouvert : OptionsScreen
+1792689755810 écran ouvert : PauseScreen
+1792689783015 écran ouvert : ChatScreen
+1792689788768 écran ouvert : ReceivingLevelScreen
+1792689788902 écran ouvert : ReceivingLevelScreen
+1792689788908 niveau client changé : amynnaspacemod:521da6de150236e08db98a4f5cdd2552, chunks chargés=1, écran=ReceivingLevelScreen
+1792689788912 image longue : 143 ms, écran=ReceivingLevelScreen
+1792689788915 +1 ticks : chunks chargés=1, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792689788916 +2 ticks : chunks chargés=1, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792689789015 +5 ticks : chunks chargés=1, écran=aucun, joueur=(0,0 64,0 0,0)
+1792689789270 +10 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792689789766 +20 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792689790765 +40 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792689842738 écran ouvert : ProgressScreen
+1792689949180 écran ouvert : TitleScreen
+1792689951802 écran ouvert : SelectWorldScreen
+1792689952417 écran ouvert : GenericMessageScreen
+1792689952431 écran ouvert : GenericMessageScreen
+1792689952448 écran ouvert : GenericMessageScreen
+1792689952977 écran ouvert : ProgressScreen
+1792689953175 écran ouvert : LevelLoadingScreen
+1792689954103 écran ouvert : ReceivingLevelScreen
+1792689954220 écran ouvert : ReceivingLevelScreen
+1792689954262 niveau client changé : amynnaspacemod:521da6de150236e08db98a4f5cdd2552, chunks chargés=146, écran=ReceivingLevelScreen
+1792689954314 image longue : 211 ms, écran=ReceivingLevelScreen
+1792689954320 +1 ticks : chunks chargés=303, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792689954322 +2 ticks : chunks chargés=303, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792689954327 +5 ticks : chunks chargés=303, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792689954536 +10 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792689955033 +20 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792689956034 +40 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792689956337 écran ouvert : ChatScreen
+1792689964243 écran ouvert : ReceivingLevelScreen
+1792689964369 écran ouvert : ReceivingLevelScreen
+1792689964380 image longue : 136 ms, écran=ReceivingLevelScreen
+1792689964385 niveau client changé : amynnaspacemod:159c72a54ec83df2be4d6619df7bda41, chunks chargés=1, écran=ReceivingLevelScreen
+1792689964387 +1 ticks : chunks chargés=1, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792689964389 +2 ticks : chunks chargés=1, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792689964536 +5 ticks : chunks chargés=287, écran=aucun, joueur=(0,0 64,0 0,0)
+1792689964784 +10 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792689965288 +20 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792689966287 +40 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792690002931 écran ouvert : PauseScreen
+1792690010109 écran ouvert : ProgressScreen
+1792690232580 écran ouvert : TitleScreen
+1792690237447 écran ouvert : SelectWorldScreen
+1792690238055 écran ouvert : GenericMessageScreen
+1792690238061 écran ouvert : GenericMessageScreen
+1792690238078 écran ouvert : GenericMessageScreen
+1792690238599 écran ouvert : ProgressScreen
+1792690238804 écran ouvert : LevelLoadingScreen
+1792690239683 écran ouvert : ReceivingLevelScreen
+1792690239804 écran ouvert : ReceivingLevelScreen
+1792690239895 image longue : 210 ms, écran=ReceivingLevelScreen
+1792690239922 niveau client changé : amynnaspacemod:159c72a54ec83df2be4d6619df7bda41, chunks chargés=298, écran=ReceivingLevelScreen
+1792690239925 +1 ticks : chunks chargés=298, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792690239928 +2 ticks : chunks chargés=298, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792690239939 image longue : 44 ms, écran=ReceivingLevelScreen
+1792690239948 +5 ticks : chunks chargés=413, écran=aucun, joueur=(0,0 64,0 0,0)
+1792690240192 +10 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792690240696 +20 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792690241695 +40 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792690244344 écran ouvert : ChatScreen
+1792690280998 écran ouvert : ChatScreen
+1792690296693 écran ouvert : ChatScreen
+1792690304592 écran ouvert : ChatScreen
+1792690314098 écran ouvert : ChatScreen
+1792690317342 écran ouvert : ProgressScreen
+1792691533886 écran ouvert : TitleScreen
+1792691548552 écran ouvert : SelectWorldScreen
+1792691549868 écran ouvert : ConfirmScreen
+1792691551437 écran ouvert : ProgressScreen
+1792691551450 écran ouvert : GenericMessageScreen
+1792691551971 écran ouvert : CreateWorldScreen
+1792691555940 écran ouvert : GenericMessageScreen
+1792691555954 écran ouvert : ProgressScreen
+1792691556175 écran ouvert : LevelLoadingScreen
+1792691558921 écran ouvert : ReceivingLevelScreen
+1792691559058 écran ouvert : ReceivingLevelScreen
+1792691559144 image longue : 221 ms, écran=ReceivingLevelScreen
+1792691559152 niveau client changé : minecraft:overworld, chunks chargés=25, écran=ReceivingLevelScreen
+1792691559156 +1 ticks : chunks chargés=25, écran=ReceivingLevelScreen, joueur=(162,5 78,0 -165,5)
+1792691559159 +2 ticks : chunks chargés=25, écran=ReceivingLevelScreen, joueur=(162,5 78,0 -165,5)
+1792691559192 +5 ticks : chunks chargés=25, écran=ReceivingLevelScreen, joueur=(162,5 78,0 -165,5)
+1792691559444 +10 ticks : chunks chargés=38, écran=aucun, joueur=(162,5 78,0 -165,5)
+1792691559946 +20 ticks : chunks chargés=61, écran=aucun, joueur=(162,5 78,0 -165,5)
+1792691560942 +40 ticks : chunks chargés=137, écran=aucun, joueur=(162,5 80,0 -165,5)
+1792691561143 écran ouvert : ChatScreen
+1792691580374 écran ouvert : ReceivingLevelScreen
+1792691580500 écran ouvert : ReceivingLevelScreen
+1792691580591 image longue : 215 ms, écran=ReceivingLevelScreen
+1792691580595 niveau client changé : amynnaspacemod:a75ccc0b33fc32c8a85fad1da3cf699a, chunks chargés=1, écran=ReceivingLevelScreen
+1792691580599 +1 ticks : chunks chargés=1, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792691580600 +2 ticks : chunks chargés=1, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792691580645 +5 ticks : chunks chargés=1, écran=aucun, joueur=(0,0 64,0 0,0)
+1792691580889 +10 ticks : chunks chargés=551, écran=aucun, joueur=(0,0 64,0 0,0)
+1792691581394 +20 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792691582394 +40 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792691627043 écran ouvert : ChatScreen
+1792691633080 écran ouvert : ReceivingLevelScreen
+1792691633194 écran ouvert : ReceivingLevelScreen
+1792691633211 image longue : 130 ms, écran=ReceivingLevelScreen
+1792691633216 niveau client changé : amynnaspacemod:586e7e3f2ff031bbaa2f031b0a1aa504, chunks chargés=81, écran=ReceivingLevelScreen
+1792691633217 +1 ticks : chunks chargés=81, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792691633218 +2 ticks : chunks chargés=81, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792691633338 +5 ticks : chunks chargés=81, écran=aucun, joueur=(0,0 64,0 0,0)
+1792691633591 +10 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792691634090 +20 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792691635089 +40 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792691658391 écran ouvert : ChatScreen
+1792691664485 écran ouvert : ReceivingLevelScreen
+1792691664606 écran ouvert : ReceivingLevelScreen
+1792691664615 image longue : 129 ms, écran=ReceivingLevelScreen
+1792691664618 niveau client changé : amynnaspacemod:521da6de150236e08db98a4f5cdd2552, chunks chargés=119, écran=ReceivingLevelScreen
+1792691664619 +1 ticks : chunks chargés=119, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792691664620 +2 ticks : chunks chargés=119, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792691664743 +5 ticks : chunks chargés=121, écran=aucun, joueur=(0,0 64,0 0,0)
+1792691664988 +10 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792691665492 +20 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792691666492 +40 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792691746142 écran ouvert : PauseScreen
+1792691782826 écran ouvert : PauseScreen
+1792692042555 écran ouvert : PauseScreen
+1792692233236 écran ouvert : PauseScreen
+1792692406217 écran ouvert : GenericMessageScreen
+1792692406632 écran ouvert : TitleScreen
+1792692408005 écran ouvert : ProgressScreen
+1792692588669 écran ouvert : TitleScreen
+1792692694450 écran ouvert : SelectWorldScreen
+1792692695603 écran ouvert : ConfirmScreen
+1792692696176 écran ouvert : ProgressScreen
+1792692696189 écran ouvert : GenericMessageScreen
+1792692696701 écran ouvert : CreateWorldScreen
+1792692698669 écran ouvert : GenericMessageScreen
+1792692698680 écran ouvert : ProgressScreen
+1792692698890 écran ouvert : LevelLoadingScreen
+1792692701644 écran ouvert : ReceivingLevelScreen
+1792692701763 écran ouvert : ReceivingLevelScreen
+1792692701815 niveau client changé : minecraft:overworld, chunks chargés=25, écran=ReceivingLevelScreen
+1792692701867 image longue : 222 ms, écran=ReceivingLevelScreen
+1792692701873 +1 ticks : chunks chargés=25, écran=ReceivingLevelScreen, joueur=(-35,5 69,0 -48,5)
+1792692701877 +2 ticks : chunks chargés=25, écran=ReceivingLevelScreen, joueur=(-35,5 69,0 -48,5)
+1792692701887 +5 ticks : chunks chargés=25, écran=ReceivingLevelScreen, joueur=(-35,5 69,0 -48,5)
+1792692702091 +10 ticks : chunks chargés=40, écran=aucun, joueur=(-35,5 69,0 -48,5)
+1792692702592 +20 ticks : chunks chargés=73, écran=aucun, joueur=(-35,5 69,0 -48,5)
+1792692703585 +40 ticks : chunks chargés=144, écran=aucun, joueur=(-35,5 69,0 -48,5)
+1792692722838 écran ouvert : ChatScreen
+1792692726300 écran ouvert : ReceivingLevelScreen
+1792692726431 écran ouvert : ReceivingLevelScreen
+1792692726532 image longue : 230 ms, écran=ReceivingLevelScreen
+1792692726535 niveau client changé : amynnaspacemod:521da6de150236e08db98a4f5cdd2552, chunks chargés=8, écran=ReceivingLevelScreen
+1792692726536 +1 ticks : chunks chargés=8, écran=ReceivingLevelScreen, joueur=(0,0 63,9 0,0)
+1792692726537 +2 ticks : chunks chargés=8, écran=ReceivingLevelScreen, joueur=(0,0 63,8 0,0)
+1792692726583 +5 ticks : chunks chargés=11, écran=aucun, joueur=(0,0 62,9 0,0)
+1792692726836 +10 ticks : chunks chargés=15, écran=aucun, joueur=(0,0 59,9 0,0)
+1792692727332 +20 ticks : chunks chargés=24, écran=aucun, joueur=(0,0 50,2 0,0)
+1792692728333 +40 ticks : chunks chargés=27, écran=aucun, joueur=(0,0 49,3 0,0)
+1792692769838 écran ouvert : ChatScreen
+1792692775686 écran ouvert : ChatScreen
+1792692799848 écran ouvert : PauseScreen
+1792693014580 écran ouvert : PauseScreen
+1792693015319 écran ouvert : GenericMessageScreen
+1792693015721 écran ouvert : TitleScreen
+1792693016307 écran ouvert : ProgressScreen

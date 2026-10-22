@@ -4,6 +4,7 @@ import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import fr.systamynna.spacemod.client.render.SkyRenderer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
@@ -13,7 +14,7 @@ import net.minecraft.world.phys.Vec3;
 /**
  * Effets des dimensions d'objets : le rendu vanilla du ciel, des astres, des nuages et de la pluie est annulé (les
  * surcharges renvoient {@code true}, « déjà rendu »), le fond est un noir parfait, sans brouillard. Même schéma que le
- * {@code CancelingEffects} de hololib. Le ciel spatial sera dessiné plus tard à partir de {@link SkyContext}.
+ * {@code CancelingEffects} de hololib. Le ciel spatial est dessiné par {@link SkyRenderer} à partir de {@link SkyContext}.
  */
 public final class SpaceEffects extends DimensionSpecialEffects {
     /** Altitude de nuages NaN et type de ciel NONE : en plus des surcharges, pour les chemins qui lisent ces valeurs. */
@@ -41,6 +42,7 @@ public final class SpaceEffects extends DimensionSpecialEffects {
     public boolean renderSky(ClientLevel level, int ticks, float partialTick, Matrix4f frustumMatrix, Camera camera,
             Matrix4f projectionMatrix, boolean isFoggy, Runnable setupFog) {
         SkyBlackFill.render();
+        SkyRenderer.render(level, frustumMatrix, projectionMatrix, partialTick);
         return true;
     }
 

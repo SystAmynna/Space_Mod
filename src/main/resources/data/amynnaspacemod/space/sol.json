@@ -4,7 +4,20 @@
     {
       "id": "milky_way",
       "archetype": "galaxy",
-      "name": "Voie lactée"
+      "name": "Voie lactée",
+      "render": {
+        "radius": 5e+20,
+        "layers": [
+          {
+            "type": "amynnaspacemod:galactic_cloud",
+            "color": "#cdd8ff",
+            "brightness": 1.0,
+            "thickness": 0.28,
+            "bulge": 3.0,
+            "seed": 42
+          }
+        ]
+      }
     },
     {
       "id": "sol",
@@ -29,7 +42,14 @@
           {
             "type": "amynnaspacemod:sphere",
             "texture": "amynnaspacemod:textures/space/generic/star.png",
-            "shade": false
+            "shade": false,
+            "color": "#fff4d6"
+          },
+          {
+            "type": "amynnaspacemod:star",
+            "color": "#fff4d6",
+            "brightness": 1.0,
+            "glow_size": 0.02
           }
         ]
       },

@@ -210,3 +210,25 @@ t=14339 DELETE REFUSÉ par la bibliothèque spacemod_test:dd_a
 t=15293 DELETE REFUSÉ par la bibliothèque spacemod_test:dd_a
 t=15322 STATUS niveaux chargés : [minecraft:overworld, minecraft:the_nether, minecraft:the_end] | auto=5 s;dd_a [persist] DÉCHARGÉE;dd_b [persist] DÉCHARGÉE;
 t=23441 LOGOUT Dev dans minecraft:overworld
+t=0 DÉMARRAGE gérées={} niveaux chargés=[minecraft:overworld, minecraft:the_nether, minecraft:the_end]
+t=7 LOGIN-OK Dev dans minecraft:overworld pos=BlockPos{x=6, y=120, z=2} niveaux=[minecraft:overworld, minecraft:the_nether, minecraft:the_end]
+t=374 CHANGE-DIM Dev minecraft:overworld -> amynnaspacemod:586e7e3f2ff031bbaa2f031b0a1aa504
+t=1098 CHANGE-DIM Dev amynnaspacemod:586e7e3f2ff031bbaa2f031b0a1aa504 -> amynnaspacemod:521da6de150236e08db98a4f5cdd2552
+t=2178 LOGOUT Dev dans amynnaspacemod:521da6de150236e08db98a4f5cdd2552
+t=0 DÉMARRAGE gérées={} niveaux chargés=[minecraft:overworld, minecraft:the_end, minecraft:the_nether, amynnaspacemod:586e7e3f2ff031bbaa2f031b0a1aa504, amynnaspacemod:521da6de150236e08db98a4f5cdd2552]
+t=6 LOGIN-OK Dev dans amynnaspacemod:521da6de150236e08db98a4f5cdd2552 pos=BlockPos{x=0, y=64, z=0} niveaux=[minecraft:overworld, minecraft:the_end, minecraft:the_nether, amynnaspacemod:586e7e3f2ff031bbaa2f031b0a1aa504, amynnaspacemod:521da6de150236e08db98a4f5cdd2552]
+t=211 CHANGE-DIM Dev amynnaspacemod:521da6de150236e08db98a4f5cdd2552 -> amynnaspacemod:159c72a54ec83df2be4d6619df7bda41
+t=985 LOGOUT Dev dans amynnaspacemod:159c72a54ec83df2be4d6619df7bda41
+t=0 DÉMARRAGE gérées={} niveaux chargés=[minecraft:overworld, minecraft:the_end, minecraft:the_nether, amynnaspacemod:159c72a54ec83df2be4d6619df7bda41, amynnaspacemod:586e7e3f2ff031bbaa2f031b0a1aa504, amynnaspacemod:521da6de150236e08db98a4f5cdd2552]
+t=6 LOGIN-OK Dev dans amynnaspacemod:159c72a54ec83df2be4d6619df7bda41 pos=BlockPos{x=0, y=64, z=0} niveaux=[minecraft:overworld, minecraft:the_end, minecraft:the_nether, amynnaspacemod:159c72a54ec83df2be4d6619df7bda41, amynnaspacemod:586e7e3f2ff031bbaa2f031b0a1aa504, amynnaspacemod:521da6de150236e08db98a4f5cdd2552]
+t=1560 LOGOUT Dev dans amynnaspacemod:159c72a54ec83df2be4d6619df7bda41
+t=0 DÉMARRAGE gérées={} niveaux chargés=[minecraft:overworld, minecraft:the_end, minecraft:the_nether]
+t=7 LOGIN-OK Dev dans minecraft:overworld pos=BlockPos{x=162, y=78, z=-166} niveaux=[minecraft:overworld, minecraft:the_end, minecraft:the_nether]
+t=436 CHANGE-DIM Dev minecraft:overworld -> amynnaspacemod:a75ccc0b33fc32c8a85fad1da3cf699a
+t=1491 CHANGE-DIM Dev amynnaspacemod:a75ccc0b33fc32c8a85fad1da3cf699a -> amynnaspacemod:586e7e3f2ff031bbaa2f031b0a1aa504
+t=2119 CHANGE-DIM Dev amynnaspacemod:586e7e3f2ff031bbaa2f031b0a1aa504 -> amynnaspacemod:521da6de150236e08db98a4f5cdd2552
+t=4881 LOGOUT Dev dans amynnaspacemod:521da6de150236e08db98a4f5cdd2552
+t=0 DÉMARRAGE gérées={} niveaux chargés=[minecraft:overworld, minecraft:the_end, minecraft:the_nether]
+t=7 LOGIN-OK Dev dans minecraft:overworld pos=BlockPos{x=-36, y=69, z=-49} niveaux=[minecraft:overworld, minecraft:the_end, minecraft:the_nether]
+t=500 CHANGE-DIM Dev minecraft:overworld -> amynnaspacemod:521da6de150236e08db98a4f5cdd2552
+t=2212 LOGOUT Dev dans amynnaspacemod:521da6de150236e08db98a4f5cdd2552

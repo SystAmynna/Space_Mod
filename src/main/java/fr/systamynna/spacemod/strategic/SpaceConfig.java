@@ -30,6 +30,9 @@ public final class SpaceConfig {
     /** Ticks sans accès ni joueur après lesquels les corps d'un système sont déchargés. */
     public static final ModConfigSpec.IntValue UNLOAD_DELAY_TICKS;
 
+    /** Rayon (années-lumière) autour de l'hôte dans lequel les étoiles voisines sont envoyées au client pour le ciel. */
+    public static final ModConfigSpec.DoubleValue STAR_RADIUS_LY;
+
     /** Période, en ticks, de la surveillance des dimensions d'objets. */
     public static final ModConfigSpec.IntValue DIMENSION_CHECK_PERIOD_TICKS;
     /** Ticks sans joueur après lesquels une dimension d'objet est fermée. */
@@ -65,6 +68,12 @@ public final class SpaceConfig {
         UNLOAD_DELAY_TICKS = builder
                 .comment("Ticks sans accès ni joueur après lesquels les corps d'un système sont déchargés (6000 = 5 minutes).")
                 .defineInRange("unloadDelayTicks", 6000, 20, Integer.MAX_VALUE);
+        builder.pop();
+
+        builder.comment("Rendu du ciel.").push("sky");
+        STAR_RADIUS_LY = builder
+                .comment("Rayon, en années-lumière, des étoiles voisines dessinées dans le ciel.")
+                .defineInRange("starRadiusLy", 100.0, 1.0, 100000.0);
         builder.pop();
 
         builder.comment("Dimensions des objets de l'espace.").push("dimensions");
