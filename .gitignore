@@ -14,3 +14,4 @@ test-libs/*.jar
 dev-mods-client/*.jar
 dev-mods-client-alt/*.jar
 run-dev/shaderpacks/
+inspirations/*.jar
