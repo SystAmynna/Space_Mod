@@ -55,6 +55,9 @@ public interface StrategicStore extends AutoCloseable {
      */
     void save(Collection<StoredObject> objects, @Nullable SpaceClock clock);
 
+    /** Supprime la ligne d'un objet ; sans effet si elle n'existe pas. */
+    void delete(UUID objectId);
+
     /** Ferme la connexion. Idempotent. */
     @Override
     void close();

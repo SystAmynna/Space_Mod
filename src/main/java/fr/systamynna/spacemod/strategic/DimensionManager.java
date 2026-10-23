@@ -18,6 +18,7 @@ import org.joml.Vector3f;
 
 import fr.systamynna.dynamicdimensions.api.DynamicDimensionProperties;
 import fr.systamynna.dynamicdimensions.api.DynamicDimensionRegistry;
+import fr.systamynna.dynamicdimensions.api.PlayerRemover;
 import fr.systamynna.dynamicdimensions.api.event.DynamicDimensionLoadCallback;
 import fr.systamynna.spacemod.AmynnaSpaceMod;
 import fr.systamynna.spacemod.network.SkyContextPacket;
@@ -167,6 +168,23 @@ public final class DimensionManager {
         // shortcut: parent et dimension à la même échelle (1 unité = 1 bloc), à revoir avec les shapes ; spin de l'hôte ignoré
         double[] v = new Transform(0, 0, 0, q[0], q[1], q[2], q[3], 1, 1, 1).invert(offset);
         return new double[] { origin[0] + v[0], origin[1] + v[1], origin[2] + v[2] };
+    }
+
+    /**
+     * Supprime la dimension de l'objet, s'il en a une créée ; les joueurs présents sont évacués vers leur point d'apparition.
+     * La suppression effective peut avoir lieu au tick suivant.
+     */
+    public static void delete(MinecraftServer server, SpaceObject object) {
+        HostedDimension hosted = object.get(ComponentTypes.HOSTED_DIMENSION);
+        if (hosted == null || hosted.dimension() == null) return;
+        DynamicDimensionRegistry.from(server).deleteDynamicDimension(hosted.dimension(), PlayerRemover.DEFAULT);
+        AWAKE.remove(hosted.dimension());
+        hosted.state().setActive(false);
+    }
+
+    /** Renvoie au joueur le contexte de ciel et le système de la dimension où il se trouve, si c'est celle d'un objet. */
+    public static void resync(ServerPlayer player) {
+        sync(player);
     }
 
     /** Envoie au joueur le contexte de ciel de la dimension où il se trouve, si c'est celle d'un objet. */

@@ -40,6 +40,21 @@ public final class SpaceConfig {
     /** Mise à jour de la base du monde depuis des données du web (pas encore implémenté : sans effet pour le moment). */
     public static final ModConfigSpec.BooleanValue WEB_PROVIDER;
 
+    /** Vitesse maximale d'un vaisseau, en unités du parent (mètres) par tick. */
+    public static final ModConfigSpec.DoubleValue SHIP_MAX_SPEED;
+    /** Accélération (et freinage) d'un vaisseau, en mètres par tick au carré. */
+    public static final ModConfigSpec.DoubleValue SHIP_ACCELERATION;
+    /** Rotation d'un vaisseau à pleine déflexion du joystick, en degrés par tick. */
+    public static final ModConfigSpec.DoubleValue SHIP_TURN_RATE_DEG;
+    /** Vitesse de roulis d'un vaisseau, en degrés par tick. */
+    public static final ModConfigSpec.DoubleValue SHIP_ROLL_RATE_DEG;
+    /** Marge, en mètres, entre le volume d'exclusion de l'objet voisin et celui d'un vaisseau qui apparaît à côté. */
+    public static final ModConfigSpec.DoubleValue SHIP_SPAWN_MARGIN;
+    /** Période, en ticks, de la recherche de l'astre le plus proche d'un vaisseau (son parent). */
+    public static final ModConfigSpec.IntValue SHIP_PARENT_CHECK_PERIOD_TICKS;
+    /** Un autre astre devient le parent d'un vaisseau s'il est plus proche d'au moins cette fraction (0,2 = 20 %). */
+    public static final ModConfigSpec.DoubleValue SHIP_PARENT_HYSTERESIS;
+
     static {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
@@ -89,6 +104,23 @@ public final class SpaceConfig {
         WEB_PROVIDER = builder
                 .comment("Met à jour la base du monde depuis des bases de données en ligne (non implémenté pour le moment).")
                 .define("WEB_PROVIDER", false);
+        builder.pop();
+
+        builder.comment("Vaisseaux pilotés (unités : mètres et ticks).").push("ships");
+        SHIP_MAX_SPEED = builder.comment("Vitesse maximale, en mètres par tick.")
+                .defineInRange("maxSpeed", 1.0e6, 1.0, 1.0e12);
+        SHIP_ACCELERATION = builder.comment("Accélération et freinage, en mètres par tick au carré.")
+                .defineInRange("acceleration", 5.0e3, 0.001, 1.0e12);
+        SHIP_TURN_RATE_DEG = builder.comment("Lacet et tangage à pleine déflexion, en degrés par tick.")
+                .defineInRange("turnRateDegrees", 1.5, 0.01, 30.0);
+        SHIP_ROLL_RATE_DEG = builder.comment("Roulis, en degrés par tick.")
+                .defineInRange("rollRateDegrees", 2.0, 0.01, 30.0);
+        SHIP_SPAWN_MARGIN = builder.comment("Marge d'apparition à côté d'un objet, en mètres.")
+                .defineInRange("spawnMargin", 1000.0, 0.0, 1.0e12);
+        SHIP_PARENT_CHECK_PERIOD_TICKS = builder.comment("Période, en ticks, de la recherche de l'astre parent le plus proche.")
+                .defineInRange("parentCheckPeriodTicks", 20, 1, Integer.MAX_VALUE);
+        SHIP_PARENT_HYSTERESIS = builder.comment("Un astre devient le parent s'il est plus proche d'au moins cette fraction que l'actuel.")
+                .defineInRange("parentHysteresis", 0.2, 0.0, 0.9);
         builder.pop();
 
         SPEC = builder.build();

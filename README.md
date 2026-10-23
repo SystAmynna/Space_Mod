@@ -2,6 +2,11 @@
 
 Mod NeoForge 1.21.1 (Java 21).
 
-- `./gradlew runClient` / `runServer` / `runData`
-- `./gradlew build` -> `build/libs`
-- `./gradlew runClientDevMods` / `runServerDevMods` -> lance le mod avec les jars de `dev-mods/` en plus (tests de compatibilité)
+Ce mod a vocation à proposer les features suivantes :
+- Espace explorable
+- Univers hierachisé (Univers -> Galaxie -> Système stellaires -> étoiles -> planètes -> ...)
+- Pas de chargements (passage seamless entre les dimensions)
+- Chargement dynamiques des dimensions
+- Deux grand type de vaisseau :
+  - Croiseur : énorme structure (avec sa propre dimension)
+  - Navettes : petits vaisseau simulés grâce à Sable

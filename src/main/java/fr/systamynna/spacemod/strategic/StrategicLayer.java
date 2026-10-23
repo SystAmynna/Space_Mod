@@ -343,6 +343,33 @@ public final class StrategicLayer implements RailMath.Lookup {
         require(objectId).put(new Destroyable(false));
     }
 
+    /**
+     * Supprime définitivement un objet (base comprise), contrairement à {@link #destroy} qui ne le marque que détruit.
+     * La dimension qu'il héberge n'est pas touchée ici (voir {@code DimensionManager.delete}). La liste d'enfants de son
+     * parent est réécrite tout de suite.
+     *
+     * @throws IllegalArgumentException si l'objet est inconnu, est un cadre ou a des enfants
+     */
+    public void remove(UUID objectId) {
+        SpaceObject object = require(objectId);
+        if (object.has(ComponentTypes.FRAME)) throw new IllegalArgumentException("Un cadre ne se supprime pas : " + objectId);
+        if (!object.children().isEmpty()) throw new IllegalArgumentException("Objet avec des enfants : " + objectId);
+        // la base d'abord : si elle échoue, la mémoire reste intacte
+        store.delete(objectId);
+        SpaceObject parent = object.parent() == null ? null : objects.get(object.parent());
+        if (parent != null) parent.removeChild(objectId);
+        else roots.remove(objectId);
+        UUID unit = unitByObject.remove(objectId);
+        if (unit != null) unitMembers.get(unit).remove(objectId);
+        objects.remove(objectId);
+        needsSave.remove(objectId);
+        ResourceLocation dimension = hostedBy.remove(objectId);
+        if (dimension != null) dimensionHosts.remove(dimension, objectId);
+        // les références périmées ne doivent plus remonter à la couche
+        object.attach(o -> {});
+        if (parent != null) write(List.of(parent.id()), false);
+    }
+
     /** Objet qui héberge cette dimension, détruit ou non ({@link SpaceObject#isDestroyed()}), ou {@code null}. Charge son unité. */
     @Nullable
     public SpaceObject hostOf(ResourceLocation dimension) {

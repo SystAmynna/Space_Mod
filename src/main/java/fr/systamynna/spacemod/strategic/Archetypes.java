@@ -17,6 +17,7 @@ import fr.systamynna.spacemod.strategic.component.RailFollower;
 import fr.systamynna.spacemod.strategic.component.Render;
 import fr.systamynna.spacemod.strategic.component.StellarSystem;
 import fr.systamynna.spacemod.strategic.component.Transform;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 
 /**
@@ -39,6 +40,15 @@ public final class Archetypes {
     public static final String STATION = "station";
     /** Archétype d'un croiseur piloté. Valeur stockée dans {@code Identity.archetype}. */
     public static final String CRUISER = "cruiser";
+    /** Archétype d'un grand vaisseau piloté. Valeur stockée dans {@code Identity.archetype}. */
+    public static final String SHIP = "ship";
+    /** Archétype d'une navette pilotée : ignore les volumes d'exclusion {@code LARGE_ONLY}. Valeur stockée dans {@code Identity.archetype}. */
+    public static final String SHUTTLE = "shuttle";
+    /** Préfixe de {@code Identity.id} d'un vaisseau : l'id texte d'un vaisseau n'est pas un chemin. */
+    public static final String SHIP_ID_PREFIX = "ship:";
+
+    /** Type de couche de rendu du vaisseau : la sphère (côté client, {@code RenderObjects}). */
+    private static final ResourceLocation SPHERE = ResourceLocation.fromNamespaceAndPath("amynnaspacemod", "sphere");
 
     /** Classe utilitaire : uniquement des fabriques statiques. */
     private Archetypes() {}
@@ -147,6 +157,29 @@ public final class Archetypes {
                 .put(Destroyable.alive());
     }
 
+    /**
+     * Vaisseau piloté, nommé par son seul nom (unique parmi les vaisseaux) : {@code Identity.id} vaut {@code ship:<nom>}.
+     * Pilotage, dimension (créée au premier accès), un port à 360°, exclusion, rendu en sphère grise. Destructible.
+     * Une navette ({@code large == false}) n'est pas repoussée par les volumes d'exclusion {@link ExclusionVolume.Scope#LARGE_ONLY}.
+     *
+     * @param id identifiant de l'objet (déterministe, voir {@code ShipRegistry.uuid})
+     * @param name nom du vaisseau
+     * @param transform position de départ, dans le référentiel du parent auquel il sera ajouté
+     * @param radius rayon logique R du port, aussi taille de la dimension
+     * @param large {@code true} pour un grand vaisseau, {@code false} pour une navette
+     * @return l'objet créé, sans parent ni couche
+     */
+    public static SpaceObject ship(UUID id, String name, Transform transform, double radius, boolean large) {
+        CompoundTag hull = new CompoundTag();
+        hull.putString("color", "#9aa4b0");
+        SpaceObject ship = new SpaceObject(id)
+                .put(new Identity(name, SHIP_ID_PREFIX + name, large ? SHIP : SHUTTLE))
+                .put(transform)
+                .controller(Pilotable.AT_REST)
+                .put(new Render(radius, List.of(new Render.Layer(SPHERE, hull))));
+        return hosted(ship, null, List.of(PortPoint.main(radius))).put(Destroyable.alive());
+    }
+
     /** Objet de base commun à tous les archétypes : identifiant aléatoire, Identity, Transform et contrôleur. */
     private static SpaceObject base(String name, String archetype, Transform transform, @Nullable Controller controller) {
         return new SpaceObject(UUID.randomUUID())
@@ -159,7 +192,7 @@ public final class Archetypes {
      * Ajoute à un objet ce qu'il faut pour héberger une dimension : la dimension et ses ports (volume logique de rayon
      * R), et l'exclusion à {@code DEFAULT_FACTOR} fois R.
      */
-    private static SpaceObject hosted(SpaceObject object, ResourceLocation dimension, List<PortPoint> ports) {
+    private static SpaceObject hosted(SpaceObject object, @Nullable ResourceLocation dimension, List<PortPoint> ports) {
         return object
                 .put(new HostedDimension(dimension, HostedDimension.Properties.SPACE, Transform.ORIGIN,
                         HostedDimension.DEFAULT_RENDER, ports))

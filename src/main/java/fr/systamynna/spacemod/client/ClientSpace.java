@@ -4,17 +4,21 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
 
 import fr.systamynna.spacemod.AmynnaSpaceMod;
+import fr.systamynna.spacemod.network.ShipPosePacket;
 import fr.systamynna.spacemod.network.SkyExtrasPacket;
 import fr.systamynna.spacemod.network.SystemSnapshotPacket;
 import fr.systamynna.spacemod.strategic.RailMath;
 import fr.systamynna.spacemod.strategic.SpaceObject;
 import fr.systamynna.spacemod.strategic.component.ComponentTypes;
+import fr.systamynna.spacemod.strategic.component.Pilotable;
 import fr.systamynna.spacemod.strategic.component.StellarSystem;
+import fr.systamynna.spacemod.strategic.component.Transform;
 import net.minecraft.nbt.CompoundTag;
 
 /**
@@ -31,6 +35,10 @@ public final class ClientSpace implements RailMath.Lookup {
     private volatile int seed;
     private final Map<UUID, SpaceObject> objects = new ConcurrentHashMap<>();
     private final List<SpaceObject> renderables = new CopyOnWriteArrayList<>();
+    /** Dernière pose reçue de chaque vaisseau, d'où {@link #extrapolate} part. */
+    private final Map<UUID, ShipPosePacket> poses = new ConcurrentHashMap<>();
+    /** Au-delà de ce nombre de ticks sans nouveau paquet, la position cesse d'être extrapolée. */
+    private static final int MAX_EXTRAPOLATION_TICKS = 20;
     @Nullable
     private final SpaceObject mainStar;
 
@@ -80,6 +88,40 @@ public final class ClientSpace implements RailMath.Lookup {
             }
         } catch (RuntimeException e) {
             AmynnaSpaceMod.LOGGER.warn("Décor du ciel illisible, ignoré", e);
+        }
+    }
+
+    /**
+     * Applique la pose d'un vaisseau ; un changement de parent reconstruit l'objet (le parent n'est pas modifiable). Un
+     * vaisseau absent du snapshot est ignoré : la création ou la suppression d'un vaisseau renvoie un snapshot complet.
+     */
+    public static void applyPose(ShipPosePacket pose) {
+        ClientSpace space = current;
+        SpaceObject ship = space == null ? null : space.objects.get(pose.id());
+        if (ship == null) return;
+        if (!Objects.equals(ship.parent(), pose.parent())) {
+            CompoundTag tag = ship.save();
+            if (pose.parent() == null) tag.remove("parent");
+            else tag.putUUID("parent", pose.parent());
+            SpaceObject moved = SpaceObject.load(tag);
+            space.objects.put(moved.id(), moved);
+            int index = space.renderables.indexOf(ship);
+            if (index >= 0) space.renderables.set(index, moved);
+            ship = moved;
+        }
+        space.poses.put(pose.id(), pose);
+        ship.put(new Transform(pose.tx(), pose.ty(), pose.tz(), pose.qx(), pose.qy(), pose.qz(), pose.qw(), 1, 1, 1));
+        ship.controller(new Pilotable(pose.vx(), pose.vy(), pose.vz()));
+    }
+
+    /** Avance les vaisseaux de leur vitesse depuis leur dernière pose, pour un mouvement continu entre deux paquets. */
+    public void extrapolate(double gameTime) {
+        for (ShipPosePacket pose : poses.values()) {
+            SpaceObject ship = objects.get(pose.id());
+            if (ship == null) continue;
+            double dt = Math.max(0, Math.min(MAX_EXTRAPOLATION_TICKS, gameTime - pose.gameTick()));
+            ship.put(new Transform(pose.tx() + pose.vx() * dt, pose.ty() + pose.vy() * dt, pose.tz() + pose.vz() * dt,
+                    pose.qx(), pose.qy(), pose.qz(), pose.qw(), 1, 1, 1));
         }
     }
 

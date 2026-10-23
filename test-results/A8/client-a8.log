@@ -1382,3 +1382,47 @@
 1792693015319 écran ouvert : GenericMessageScreen
 1792693015721 écran ouvert : TitleScreen
 1792693016307 écran ouvert : ProgressScreen
+1792707714733 écran ouvert : TitleScreen
+1792707719095 écran ouvert : SelectWorldScreen
+1792707721088 écran ouvert : ConfirmScreen
+1792707721620 écran ouvert : ProgressScreen
+1792707721628 écran ouvert : GenericMessageScreen
+1792707722145 écran ouvert : CreateWorldScreen
+1792707725143 écran ouvert : GenericMessageScreen
+1792707725157 écran ouvert : ProgressScreen
+1792707725371 écran ouvert : LevelLoadingScreen
+1792707728451 écran ouvert : ReceivingLevelScreen
+1792707728572 écran ouvert : ReceivingLevelScreen
+1792707728626 niveau client changé : minecraft:overworld, chunks chargés=25, écran=ReceivingLevelScreen
+1792707728693 image longue : 241 ms, écran=ReceivingLevelScreen
+1792707728700 +1 ticks : chunks chargés=26, écran=ReceivingLevelScreen, joueur=(-3,5 94,0 6,5)
+1792707728702 +2 ticks : chunks chargés=26, écran=ReceivingLevelScreen, joueur=(-3,5 94,0 6,5)
+1792707728708 +5 ticks : chunks chargés=26, écran=ReceivingLevelScreen, joueur=(-3,5 94,0 6,5)
+1792707728930 +10 ticks : chunks chargés=33, écran=aucun, joueur=(-3,5 94,0 6,5)
+1792707729302 écran ouvert : PauseScreen
+1792707729427 +20 ticks : chunks chargés=61, écran=PauseScreen, joueur=(-3,5 94,0 6,5)
+1792707730428 +40 ticks : chunks chargés=61, écran=PauseScreen, joueur=(-3,5 94,0 6,5)
+1792707735227 écran ouvert : ChatScreen
+1792707773979 écran ouvert : ChatScreen
+1792707788186 écran ouvert : PauseScreen
+1792707789207 écran ouvert : ChatScreen
+1792707790491 écran ouvert : PauseScreen
+1792707791911 écran ouvert : ChatScreen
+1792707799208 écran ouvert : ChatScreen
+1792707830458 écran ouvert : ReceivingLevelScreen
+1792707830589 écran ouvert : ReceivingLevelScreen
+1792707830710 image longue : 251 ms, écran=ReceivingLevelScreen
+1792707830714 niveau client changé : amynnaspacemod:6858f73bd15f33ef8831ddf032959370, chunks chargés=1, écran=ReceivingLevelScreen
+1792707830718 +1 ticks : chunks chargés=1, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792707830719 +2 ticks : chunks chargés=1, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792707830722 +5 ticks : chunks chargés=1, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1792707830964 +10 ticks : chunks chargés=447, écran=aucun, joueur=(0,0 64,0 0,0)
+1792707831459 +20 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792707832459 +40 ticks : chunks chargés=609, écran=aucun, joueur=(0,0 64,0 0,0)
+1792707837310 écran ouvert : ChatScreen
+1792707853708 écran ouvert : ChatScreen
+1792707907509 écran ouvert : ChatScreen
+1792707954773 écran ouvert : PauseScreen
+1792707955851 écran ouvert : GenericMessageScreen
+1792707956230 écran ouvert : TitleScreen
+1792707958690 écran ouvert : ProgressScreen

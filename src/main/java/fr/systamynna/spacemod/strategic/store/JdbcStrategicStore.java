@@ -194,6 +194,16 @@ public final class JdbcStrategicStore implements StrategicStore {
         }
     }
 
+    @Override
+    public void delete(UUID objectId) {
+        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM " + objectsTable + " WHERE id = ?")) {
+            statement.setString(1, objectId.toString());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new StrategicStoreException("Suppression de " + objectId, e);
+        }
+    }
+
     /** Lit les colonnes {@code hosted_dimension} et {@code id} des seules lignes qui hébergent une dimension. */
     @Override
     public Map<ResourceLocation, UUID> hostedDimensions() {

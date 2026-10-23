@@ -215,7 +215,8 @@ public final class SpaceObjectJson {
         object.put(Identity.child(parent, slug, e.name(), e.archetype())).put(e.transform()).controller(e.rail());
         if (e.render() != null) {
             object.put(e.render());
-            if (e.archetype().equals(Archetypes.STAR)) {
+            // tout astre a une zone d'exclusion par défaut (les vaisseaux n'en traversent pas)
+            if (e.archetype().equals(Archetypes.STAR) || e.archetype().equals(Archetypes.PLANET)) {
                 object.put(new ExclusionVolume(exclusion(e)));
             }
         }

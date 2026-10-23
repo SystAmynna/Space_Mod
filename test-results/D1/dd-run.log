@@ -232,3 +232,7 @@ t=0 DÉMARRAGE gérées={} niveaux chargés=[minecraft:overworld, minecraft:the_
 t=7 LOGIN-OK Dev dans minecraft:overworld pos=BlockPos{x=-36, y=69, z=-49} niveaux=[minecraft:overworld, minecraft:the_end, minecraft:the_nether]
 t=500 CHANGE-DIM Dev minecraft:overworld -> amynnaspacemod:521da6de150236e08db98a4f5cdd2552
 t=2212 LOGOUT Dev dans amynnaspacemod:521da6de150236e08db98a4f5cdd2552
+t=0 DÉMARRAGE gérées={} niveaux chargés=[minecraft:overworld, minecraft:the_end, minecraft:the_nether]
+t=7 LOGIN-OK Dev dans minecraft:overworld pos=BlockPos{x=-4, y=94, z=6} niveaux=[minecraft:overworld, minecraft:the_end, minecraft:the_nether]
+t=1966 CHANGE-DIM Dev minecraft:overworld -> amynnaspacemod:6858f73bd15f33ef8831ddf032959370
+t=4453 LOGOUT Dev dans amynnaspacemod:6858f73bd15f33ef8831ddf032959370

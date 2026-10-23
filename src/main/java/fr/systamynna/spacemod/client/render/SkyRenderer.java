@@ -17,6 +17,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexSorting;
 
 import fr.systamynna.spacemod.AmynnaSpaceMod;
+import fr.systamynna.spacemod.client.ClientKnowledgeState;
 import fr.systamynna.spacemod.client.ClientSpace;
 import fr.systamynna.spacemod.client.SkyContext;
 import fr.systamynna.spacemod.network.SkyContextPacket;
@@ -45,7 +46,7 @@ public final class SkyRenderer {
     private static final Map<UUID, List<RenderObject>> LAYERS = new ConcurrentHashMap<>();
     private static final Set<UUID> FAILED = new HashSet<>();
 
-    private record Body(SpaceObject object, double[] view, double distance, float angularRadius) {}
+    record Body(SpaceObject object, double[] view, double distance, float angularRadius) {}
 
     /** Classe utilitaire. */
     private SkyRenderer() {}
@@ -62,6 +63,7 @@ public final class SkyRenderer {
             FAILED.clear();
             cachedFor = space;
         }
+        space.extrapolate(level.getGameTime() + partialTick);
         double t = space.spaceTime(level.getGameTime() + partialTick);
 
         // repère de la dimension : rotation propre de l'hôte, composée avec celle du placement et du port (voir SkyFrame)
@@ -113,6 +115,8 @@ public final class SkyRenderer {
                 for (RenderObject layer : layers(b.object())) layer.render(ctx);
             }
             RenderSystem.clear(GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX);
+            if (ClientKnowledgeState.on()) KnowledgeRenderer.render(space, host, frame, frustumMatrix, projScale, t, bodies);
+            else KnowledgeRenderer.clear();
         } finally {
             RenderSystem.depthMask(true);
             RenderSystem.enableCull();
