@@ -1426,3 +1426,70 @@
 1792707955851 écran ouvert : GenericMessageScreen
 1792707956230 écran ouvert : TitleScreen
 1792707958690 écran ouvert : ProgressScreen
+1793618885134 écran ouvert : TitleScreen
+1793618887876 écran ouvert : JoinMultiplayerScreen
+1793618890265 écran ouvert : TitleScreen
+1793618890911 écran ouvert : OptionsScreen
+1793618891710 écran ouvert : SoundOptionsScreen
+1793618893028 écran ouvert : OptionsScreen
+1793618894309 écran ouvert : TitleScreen
+1793618895222 écran ouvert : JoinMultiplayerScreen
+1793618896858 écran ouvert : ProgressScreen
+1793618896861 écran ouvert : ConnectScreen
+1793618897634 écran ouvert : ReceivingLevelScreen
+1793618897755 écran ouvert : ReceivingLevelScreen
+1793618897995 image longue : 360 ms, écran=ReceivingLevelScreen
+1793618898019 niveau client changé : minecraft:overworld, chunks chargés=70, écran=ReceivingLevelScreen
+1793618898024 +1 ticks : chunks chargés=70, écran=ReceivingLevelScreen, joueur=(-159,5 72,0 32,5)
+1793618898029 +2 ticks : chunks chargés=70, écran=ReceivingLevelScreen, joueur=(-159,5 72,0 32,5)
+1793618898039 +5 ticks : chunks chargés=70, écran=ReceivingLevelScreen, joueur=(-159,5 72,0 32,5)
+1793618898055 image longue : 60 ms, écran=ReceivingLevelScreen
+1793618898144 +10 ticks : chunks chargés=111, écran=ReceivingLevelScreen, joueur=(-159,5 72,0 32,5)
+1793618898384 image longue : 47 ms, écran=aucun
+1793618898579 image longue : 60 ms, écran=aucun
+1793618898628 image longue : 48 ms, écran=aucun
+1793618898653 +20 ticks : chunks chargés=276, écran=aucun, joueur=(-159,5 72,0 32,5)
+1793618898809 image longue : 49 ms, écran=aucun
+1793618898922 image longue : 44 ms, écran=aucun
+1793618899021 image longue : 44 ms, écran=aucun
+1793618899333 image longue : 48 ms, écran=aucun
+1793618899633 +40 ticks : chunks chargés=453, écran=aucun, joueur=(-159,5 72,0 32,5)
+1793618915286 écran ouvert : PauseScreen
+1793618916433 écran ouvert : ChatScreen
+1793618940141 écran ouvert : ReceivingLevelScreen
+1793618940142 image longue : 226 ms, écran=ReceivingLevelScreen
+1793618940241 écran ouvert : ReceivingLevelScreen
+1793618940345 image longue : 202 ms, écran=ReceivingLevelScreen
+1793618940348 niveau client changé : amynnaspacemod:7af4d3f3bc7c39aeaa3e1a00c39410c0, chunks chargés=99, écran=ReceivingLevelScreen
+1793618940350 +1 ticks : chunks chargés=99, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1793618940351 +2 ticks : chunks chargés=99, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1793618940354 +5 ticks : chunks chargés=99, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1793618940437 +10 ticks : chunks chargés=167, écran=aucun, joueur=(0,0 64,0 0,0)
+1793618940933 +20 ticks : chunks chargés=453, écran=aucun, joueur=(0,0 64,0 0,0)
+1793618941932 +40 ticks : chunks chargés=453, écran=aucun, joueur=(0,0 64,0 0,0)
+1793618955035 écran ouvert : ChatScreen
+1793618962634 écran ouvert : ChatScreen
+1793618985632 écran ouvert : ChatScreen
+1793618988085 écran ouvert : ChatScreen
+1793619010584 écran ouvert : ChatScreen
+1793619014186 écran ouvert : ChatScreen
+1793619029368 écran ouvert : ReceivingLevelScreen
+1793619029370 image longue : 161 ms, écran=ReceivingLevelScreen
+1793619029455 écran ouvert : ReceivingLevelScreen
+1793619029469 image longue : 99 ms, écran=ReceivingLevelScreen
+1793619029470 niveau client changé : amynnaspacemod:4a529ada1a84338ea9577bf5783cdb51, chunks chargés=38, écran=ReceivingLevelScreen
+1793619029474 +1 ticks : chunks chargés=38, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1793619029475 +2 ticks : chunks chargés=38, écran=ReceivingLevelScreen, joueur=(0,0 64,0 0,0)
+1793619029489 +5 ticks : chunks chargés=38, écran=aucun, joueur=(0,0 64,0 0,0)
+1793619029734 +10 ticks : chunks chargés=239, écran=aucun, joueur=(0,0 64,0 0,0)
+1793619030238 +20 ticks : chunks chargés=453, écran=aucun, joueur=(0,0 64,0 0,0)
+1793619031237 +40 ticks : chunks chargés=453, écran=aucun, joueur=(0,0 64,0 0,0)
+1793619033332 écran ouvert : ChatScreen
+1793619034937 écran ouvert : ChatScreen
+1793619099537 écran ouvert : ChatScreen
+1793619165786 écran ouvert : ChatScreen
+1793619218596 écran ouvert : PauseScreen
+1793619219337 écran ouvert : ProgressScreen
+1793619219413 écran ouvert : JoinMultiplayerScreen
+1793619220525 écran ouvert : TitleScreen
+1793619221638 écran ouvert : ProgressScreen

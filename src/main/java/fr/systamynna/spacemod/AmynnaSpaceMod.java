@@ -7,28 +7,9 @@ import com.mojang.logging.LogUtils;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.neoforge.common.NeoForge;
 import fr.systamynna.dynamicdimensions.impl.DynamicDimensionsInit;
-import fr.systamynna.spacemod.spaceprovider.SpaceProviderEvents;
-import fr.systamynna.spacemod.network.KnowledgeStatePacket;
-import fr.systamynna.spacemod.network.PilotInputPacket;
-import fr.systamynna.spacemod.network.PilotStatePacket;
-import fr.systamynna.spacemod.network.ShipPosePacket;
-import fr.systamynna.spacemod.network.SkyContextPacket;
-import fr.systamynna.spacemod.network.SkyExtrasPacket;
-import fr.systamynna.spacemod.network.SystemSnapshotPacket;
-import fr.systamynna.spacemod.knowledge.SpaceKnowledge;
-import fr.systamynna.spacemod.ship.PilotManager;
-import fr.systamynna.spacemod.ship.ShipManager;
-import fr.systamynna.spacemod.strategic.DimensionManager;
-import fr.systamynna.spacemod.strategic.command.KnowledgeCommand;
-import fr.systamynna.spacemod.strategic.command.ShipCommands;
-import fr.systamynna.spacemod.strategic.command.SpaceLookCommand;
-import fr.systamynna.spacemod.strategic.command.SpaceObjectCommands;
-import fr.systamynna.spacemod.strategic.SpaceConfig;
-import fr.systamynna.spacemod.strategic.StrategicEvents;
+
 
 /** Point d'entrée du mod : branche la couche stratégique sur les événements du serveur. */
 @Mod(AmynnaSpaceMod.MODID)
@@ -38,35 +19,7 @@ public class AmynnaSpaceMod {
     /** Journal partagé par tout le mod. */
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    /**
-     * Constructeur appelé par NeoForge au chargement du mod. Inscrit les gestionnaires statiques de
-     * {@link StrategicEvents} sur le bus d'événements du jeu (et non celui du mod, qui ne porte que l'initialisation), et
-     * déclare la configuration commune ({@code config/amynnaspacemod-common.toml}).
-     *
-     * @param modEventBus bus d'événements du mod (paquets réseau de la bibliothèque de dimensions)
-     * @param container conteneur du mod, auprès duquel la configuration est enregistrée
-     */
     public AmynnaSpaceMod(IEventBus modEventBus, ModContainer container) {
-        container.registerConfig(ModConfig.Type.COMMON, SpaceConfig.SPEC);
-        NeoForge.EVENT_BUS.register(StrategicEvents.class);
-        NeoForge.EVENT_BUS.register(SpaceProviderEvents.class);
-        NeoForge.EVENT_BUS.register(DimensionManager.class);
-        NeoForge.EVENT_BUS.register(SpaceObjectCommands.class);
-        NeoForge.EVENT_BUS.register(SpaceLookCommand.class);
-        NeoForge.EVENT_BUS.register(ShipCommands.class);
-        NeoForge.EVENT_BUS.register(ShipManager.class);
-        NeoForge.EVENT_BUS.register(PilotManager.class);
-        NeoForge.EVENT_BUS.register(SpaceKnowledge.class);
-        NeoForge.EVENT_BUS.register(KnowledgeCommand.class);
-        SpaceKnowledge.register(modEventBus);
-        modEventBus.addListener(SkyContextPacket::register);
-        modEventBus.addListener(SystemSnapshotPacket::register);
-        modEventBus.addListener(SkyExtrasPacket::register);
-        modEventBus.addListener(PilotInputPacket::register);
-        modEventBus.addListener(PilotStatePacket::register);
-        modEventBus.addListener(ShipPosePacket::register);
-        modEventBus.addListener(KnowledgeStatePacket::register);
-        DimensionManager.registerRestore();
         DynamicDimensionsInit.init(modEventBus, FMLEnvironment.dist);
         LOGGER.info("Amynna's Space Mod loaded :)");
     }
