@@ -21,6 +21,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelResource;
 import fr.systamynna.spacemod.commands.SpaceClockCommand;
+import fr.systamynna.spacemod.commands.SpaceObjectCommand;
 import fr.systamynna.spacemod.core.StrategicLayer;
 import fr.systamynna.spacemod.core.clock.ClockData;
 import fr.systamynna.spacemod.core.clock.ClockNet;
@@ -43,7 +44,10 @@ public class AmynnaSpaceMod {
         DynamicDimensionsInit.init(modEventBus, FMLEnvironment.dist);
         container.registerConfig(ModConfig.Type.COMMON, StoreConfig.SPEC, "AmynnaSpaceMod/server.toml");
         modEventBus.addListener(ClockNet::register);
-        NeoForge.EVENT_BUS.addListener((RegisterCommandsEvent e) -> SpaceClockCommand.register(e.getDispatcher()));
+        NeoForge.EVENT_BUS.addListener((RegisterCommandsEvent e) -> {
+            SpaceClockCommand.register(e.getDispatcher());
+            SpaceObjectCommand.register(e.getDispatcher());
+        });
         NeoForge.EVENT_BUS.addListener((PlayerEvent.PlayerLoggedInEvent e) -> {
             if (e.getEntity() instanceof ServerPlayer p) PacketDistributor.sendToPlayer(p, ClockNet.currentSync());
         });

@@ -3,5 +3,17 @@
   "amynnaspacemod.clock.multiplier.get": "Clock multiplier: %s",
   "amynnaspacemod.clock.multiplier.set": "Clock multiplier set to %s",
   "amynnaspacemod.clock.multiplier.invalid": "The multiplier must be a finite number >= 0.",
-  "amynnaspacemod.clock.report": "[%s] client=%s ms | server(raw)=%s ms | latency(RTT)=%s ms | corrected=%s ms | diff=%s ms"
+  "amynnaspacemod.clock.report": "[%s] client=%s ms | server(raw)=%s ms | latency(RTT)=%s ms | corrected=%s ms | diff=%s ms",
+  "amynnaspacemod.spaceobject.added": "Created %s (%s)",
+  "amynnaspacemod.spaceobject.removed": "Removed %s",
+  "amynnaspacemod.spaceobject.modified": "Moved to %s",
+  "amynnaspacemod.spaceobject.unknown_uuid": "No space object with UUID %s.",
+  "amynnaspacemod.spaceobject.unknown_addr": "No space object at address %s.",
+  "amynnaspacemod.spaceobject.bad_name": "Invalid name '%s' (allowed: a-z, 0-9, _).",
+  "amynnaspacemod.spaceobject.name_taken": "The name '%s' is already used among siblings.",
+  "amynnaspacemod.spaceobject.root": "The root cannot be removed or moved; designate another root first.",
+  "amynnaspacemod.spaceobject.cycle": "An object cannot be moved under itself or one of its descendants.",
+  "amynnaspacemod.spaceobject.root_set": "%s is now the root.",
+  "amynnaspacemod.spaceobject.not_top_level": "%s has a parent; only objects without a parent can be root.",
+  "amynnaspacemod.spaceobject.detached": "%s is now detached (no parent)."
 }

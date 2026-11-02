@@ -28,6 +28,7 @@ public class JdbcSpaceStore implements SpaceStore {
         this.con = con;
         try (Statement st = con.createStatement()) {
             st.execute("CREATE TABLE IF NOT EXISTS space_object (uuid VARCHAR(36) PRIMARY KEY, parent_uuid VARCHAR(36), data BLOB)");
+            st.execute("CREATE TABLE IF NOT EXISTS space_meta (k VARCHAR(64) PRIMARY KEY, v VARCHAR(255))");
             try {
                 st.execute("CREATE INDEX idx_space_object_parent ON space_object (parent_uuid)");
             } catch (SQLException exists) {
@@ -83,10 +84,46 @@ public class JdbcSpaceStore implements SpaceStore {
     }
 
     @Override
-    public Optional<SpaceObject> loadRoot() {
-        try (PreparedStatement ps = con.prepareStatement("SELECT uuid, parent_uuid, data FROM space_object WHERE parent_uuid IS NULL LIMIT 1");
+    public List<SpaceObject> loadParentless() {
+        try (PreparedStatement ps = con.prepareStatement("SELECT uuid, parent_uuid, data FROM space_object WHERE parent_uuid IS NULL");
              ResultSet rs = ps.executeQuery()) {
-            return rs.next() ? Optional.of(read(rs)) : Optional.empty();
+            List<SpaceObject> out = new ArrayList<>();
+            while (rs.next()) out.add(read(rs));
+            return out;
+        } catch (SQLException e) {
+            throw io(e);
+        }
+    }
+
+    @Override
+    public Optional<UUID> loadRootUuid() {
+        try (PreparedStatement ps = con.prepareStatement("SELECT v FROM space_meta WHERE k = 'root'");
+             ResultSet rs = ps.executeQuery()) {
+            return rs.next() ? Optional.of(UUID.fromString(rs.getString(1))) : Optional.empty();
+        } catch (SQLException e) {
+            throw io(e);
+        }
+    }
+
+    @Override
+    public void saveRootUuid(UUID uuid) {
+        try (PreparedStatement del = con.prepareStatement("DELETE FROM space_meta WHERE k = 'root'");
+             PreparedStatement ins = con.prepareStatement("INSERT INTO space_meta (k, v) VALUES ('root', ?)")) {
+            boolean auto = con.getAutoCommit();
+            con.setAutoCommit(false);
+            try {
+                del.executeUpdate();
+                if (uuid != null) {
+                    ins.setString(1, uuid.toString());
+                    ins.executeUpdate();
+                }
+                con.commit();
+            } catch (SQLException | RuntimeException e) {
+                con.rollback();
+                throw e;
+            } finally {
+                con.setAutoCommit(auto);
+            }
         } catch (SQLException e) {
             throw io(e);
         }

@@ -14,8 +14,14 @@ public interface SpaceStore extends AutoCloseable {
 
     Optional<SpaceObject> load(UUID uuid);
 
-    /** Objet sans parent (la racine), s'il existe. */
-    Optional<SpaceObject> loadRoot();
+    /** Objets sans parent. */
+    List<SpaceObject> loadParentless();
+
+    /** UUID du root désigné (stockage global, unique). */
+    Optional<UUID> loadRootUuid();
+
+    /** Désigne le root ; {@code null} l'efface. */
+    void saveRootUuid(@javax.annotation.Nullable UUID uuid);
 
     List<SpaceObject> loadChildren(UUID parent);
 
