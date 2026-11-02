@@ -12,6 +12,9 @@ import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelResource;
 import fr.systamynna.spacemod.core.StrategicLayer;
 import fr.systamynna.spacemod.core.store.StoreConfig;
@@ -33,6 +36,10 @@ public class AmynnaSpaceMod {
         DynamicDimensionsInit.init(modEventBus, FMLEnvironment.dist);
         container.registerConfig(ModConfig.Type.COMMON, StoreConfig.SPEC, "AmynnaSpaceMod/server.toml");
         NeoForge.EVENT_BUS.addListener((ServerStartingEvent e) -> STRATEGIC.start(e.getServer().getWorldPath(LevelResource.ROOT)));
+        // LevelEvent.Save part une fois par dimension : on ne réagit qu'à l'overworld.
+        NeoForge.EVENT_BUS.addListener((LevelEvent.Save e) -> {
+            if (e.getLevel() instanceof ServerLevel l && l.dimension() == Level.OVERWORLD) STRATEGIC.flush();
+        });
         NeoForge.EVENT_BUS.addListener((ServerStoppingEvent e) -> STRATEGIC.stop());
         LOGGER.info("Amynna's Space Mod loaded :)");
     }

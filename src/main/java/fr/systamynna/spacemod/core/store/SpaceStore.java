@@ -14,6 +14,9 @@ public interface SpaceStore extends AutoCloseable {
 
     Optional<SpaceObject> load(UUID uuid);
 
+    /** Objet sans parent (la racine), s'il existe. */
+    Optional<SpaceObject> loadRoot();
+
     List<SpaceObject> loadChildren(UUID parent);
 
     void delete(UUID uuid);

@@ -83,6 +83,16 @@ public class JdbcSpaceStore implements SpaceStore {
     }
 
     @Override
+    public Optional<SpaceObject> loadRoot() {
+        try (PreparedStatement ps = con.prepareStatement("SELECT uuid, parent_uuid, data FROM space_object WHERE parent_uuid IS NULL LIMIT 1");
+             ResultSet rs = ps.executeQuery()) {
+            return rs.next() ? Optional.of(read(rs)) : Optional.empty();
+        } catch (SQLException e) {
+            throw io(e);
+        }
+    }
+
+    @Override
     public List<SpaceObject> loadChildren(UUID parent) {
         try (PreparedStatement ps = con.prepareStatement("SELECT uuid, parent_uuid, data FROM space_object WHERE parent_uuid = ?")) {
             ps.setString(1, parent.toString());

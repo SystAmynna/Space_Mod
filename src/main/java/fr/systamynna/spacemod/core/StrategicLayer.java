@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import fr.systamynna.spacemod.AmynnaSpaceMod;
 import fr.systamynna.spacemod.core.store.SpaceStore;
 import fr.systamynna.spacemod.core.store.SpaceStores;
 
@@ -32,6 +33,15 @@ public class StrategicLayer {
 
     public void start(Path worldDir) {
         store = SpaceStores.open(worldDir);
+        SpaceObject root = store.loadRoot().orElse(null);
+        if (root == null) {
+            root = new SpaceObject(UUID.randomUUID(), null);
+            dirty.add(root.getUuid());
+        }
+        rootUUID = root.getUuid();
+        loaded.put(rootUUID, root);
+        flush();
+        AmynnaSpaceMod.LOGGER.info("Amynna's Space Mod chargé !");
     }
 
     /** Écrit les objets modifiés. */
@@ -46,6 +56,8 @@ public class StrategicLayer {
         flush();
         store.close();
         store = null;
+        loaded.clear();
+        AmynnaSpaceMod.LOGGER.info("Amynna's Space Mod arrêté !");
     }
 
 
