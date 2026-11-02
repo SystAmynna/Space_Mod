@@ -16,6 +16,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import fr.systamynna.spacemod.AmynnaSpaceMod;
+import fr.systamynna.spacemod.core.component.SpaceComponent;
 import fr.systamynna.spacemod.core.store.SpaceStore;
 import fr.systamynna.spacemod.core.store.SpaceStores;
 
@@ -39,6 +40,7 @@ public class StrategicLayer {
     private final Set<UUID> dirty = new HashSet<>();
     /** Persistance, ouverte pendant la vie du serveur. */
     private SpaceStore store;
+    private final SpaceTree tree = new SpaceTree(this);
 
     public void start(Path worldDir) {
         start(SpaceStores.open(worldDir));
@@ -103,84 +105,53 @@ public class StrategicLayer {
         return get(uuid).orElseThrow(() -> new SpaceObjectException("amynnaspacemod.spaceobject.unknown_uuid", uuid));
     }
 
-    /** Enfants triés par nom ; {@code null} = objets sans parent. */
-    public List<SpaceObject> children(@Nullable SpaceObject parent) {
-        List<SpaceObject> out = new ArrayList<>();
-        // L'instance en mémoire fait foi ; chaque mutation est flushée aussitôt, la base est donc à jour.
-        for (SpaceObject c : parent == null ? store.loadParentless() : store.loadChildren(parent.getUuid()))
-            out.add(loaded.computeIfAbsent(c.getUuid(), k -> c));
-        out.sort(Comparator.comparing(SpaceObject::getName));
-        return out;
-    }
-
     public boolean isRoot(SpaceObject o) {
         return o.getUuid().equals(rootUUID);
     }
 
-    /** Objets sans parent : le root d'abord, puis par nom. */
-    public List<SpaceObject> topLevel() {
-        List<SpaceObject> out = children(null);
-        out.sort(Comparator.comparing((SpaceObject o) -> !isRoot(o)));
-        return out;
+    /** Outil de lecture de l'arbre. */
+    public SpaceTree tree() { return tree; }
+
+    SpaceStore store() { return store; }
+
+    @Nullable
+    SpaceObject loadedOrNull(UUID uuid) { return loaded.get(uuid); }
+
+    /** Lecture sans charger : l'instance loadée, sinon une copie transitoire du store. */
+    SpaceObject peek(UUID uuid) {
+        SpaceObject o = loaded.get(uuid);
+        return o != null ? o : store.load(uuid).orElseThrow(() -> new SpaceObjectException("amynnaspacemod.spaceobject.unknown_uuid", uuid));
     }
 
-    public List<SpaceObject> all() {
-        List<SpaceObject> out = new ArrayList<>();
-        Deque<SpaceObject> todo = new ArrayDeque<>(topLevel());
-        while (!todo.isEmpty()) {
-            SpaceObject o = todo.pop();
-            out.add(o);
-            todo.addAll(children(o));
-        }
-        return out;
+    public boolean isLoaded(UUID uuid) { return loaded.containsKey(uuid); }
+
+    /** Objets loadés (ordre non spécifié). */
+    public java.util.Collection<SpaceObject> loadedObjects() { return List.copyOf(loaded.values()); }
+
+    public void load(UUID uuid) { getOrThrow(uuid); }
+
+    /**
+     * Retire de la mémoire (flush avant si dirty). Si {@code recursive}, les descendants loadés partent aussi ;
+     * sinon, un objet qui a des descendants loadés n'est pas unload et le résultat est {@code false}.
+     */
+    public boolean unload(UUID uuid, boolean recursive) {
+        if (!loaded.containsKey(uuid)) throw new SpaceObjectException("amynnaspacemod.spaceobject.not_loaded", uuid);
+        List<UUID> victims = new ArrayList<>(List.of(uuid));
+        for (SpaceObject o : loaded.values()) if (!o.getUuid().equals(uuid) && isDescendant(o, uuid)) victims.add(o.getUuid());
+        if (victims.size() > 1 && !recursive) return false;
+        if (victims.stream().anyMatch(dirty::contains)) flush();
+        victims.forEach(loaded::remove);
+        return true;
     }
 
-    /** Arbre façon {@code tree} : le root d'abord ({@code ⭐}) ; {@code full} ajoute ensuite les arbres hors du root. */
-    public List<String> tree(boolean full) {
-        List<String> out = new ArrayList<>();
-        for (SpaceObject top : topLevel()) {
-            boolean root = isRoot(top);
-            if (!root && !full) continue;
-            out.add(root ? "⭐ " + top.getName() : "▶ " + top.getName());
-            subtree(top, "", out);
-        }
-        return out;
-    }
-
-    private void subtree(SpaceObject o, String prefix, List<String> out) {
-        List<SpaceObject> kids = children(o);
-        for (int i = 0; i < kids.size(); i++) {
-            boolean last = i == kids.size() - 1;
-            out.add(prefix + (last ? " └ " : " ├ ") + kids.get(i).getName());
-            subtree(kids.get(i), prefix + (last ? "   " : " │ "), out);
-        }
-    }
-
-    /** Adresse : noms depuis la racine, séparés par '/'. */
-    public String addressOf(SpaceObject o) {
-        Deque<String> names = new ArrayDeque<>();
-        for (SpaceObject c = o; c != null; c = c.getParent() == null ? null : getOrThrow(c.getParent())) names.addFirst(c.getName());
-        return String.join("/", names);
-    }
-
-    public SpaceObject resolve(String address) {
-        String[] parts = address.split("/", -1);
-        SpaceObject cur = null;
-        for (String part : parts) {
-            cur = child(cur, part);
-            if (cur == null) throw new SpaceObjectException("amynnaspacemod.spaceobject.unknown_addr", address);
-        }
-        return cur;
-    }
-
-    private SpaceObject child(@Nullable SpaceObject parent, String name) {
-        for (SpaceObject c : children(parent)) if (c.getName().equals(name)) return c;
-        return null;
+    private boolean isDescendant(SpaceObject o, UUID ancestor) {
+        for (UUID p = o.getParent(); p != null; p = peek(p).getParent()) if (p.equals(ancestor)) return true;
+        return false;
     }
 
     public SpaceObject add(String name, @Nullable SpaceObject parent) {
         if (!NAME.matcher(name).matches()) throw new SpaceObjectException("amynnaspacemod.spaceobject.bad_name", name);
-        if (child(parent, name) != null) throw new SpaceObjectException("amynnaspacemod.spaceobject.name_taken", name);
+        if (tree.child(parent, name) != null) throw new SpaceObjectException("amynnaspacemod.spaceobject.name_taken", name);
         SpaceObject o = new SpaceObject(UUID.randomUUID(), parent == null ? null : parent.getUuid(), name);
         loaded.put(o.getUuid(), o);
         dirty.add(o.getUuid());
@@ -191,9 +162,9 @@ public class StrategicLayer {
     /** {@code newParent} null = détacher (objet sans parent). */
     public void setParent(SpaceObject o, @Nullable SpaceObject newParent) {
         if (isRoot(o)) throw new SpaceObjectException("amynnaspacemod.spaceobject.root");
-        for (SpaceObject c = newParent; c != null; c = c.getParent() == null ? null : getOrThrow(c.getParent()))
+        for (SpaceObject c = newParent; c != null; c = c.getParent() == null ? null : peek(c.getParent()))
             if (c.getUuid().equals(o.getUuid())) throw new SpaceObjectException("amynnaspacemod.spaceobject.cycle");
-        SpaceObject same = child(newParent, o.getName());
+        SpaceObject same = tree.child(newParent, o.getName());
         if (same != null && !same.getUuid().equals(o.getUuid())) throw new SpaceObjectException("amynnaspacemod.spaceobject.name_taken", o.getName());
         o.setParent(newParent == null ? null : newParent.getUuid());
         dirty.add(o.getUuid());
@@ -210,14 +181,14 @@ public class StrategicLayer {
     /** {@code recursive} : supprime tout le sous-arbre ; sinon les enfants directs passent chez le parent de la cible. */
     public void remove(SpaceObject o, boolean recursive) {
         if (isRoot(o)) throw new SpaceObjectException("amynnaspacemod.spaceobject.root");
-        List<SpaceObject> kids = children(o);
+        List<SpaceObject> kids = tree.children(o).stream().map(k -> getOrThrow(k.getUuid())).toList();
         if (recursive) {
             for (SpaceObject k : kids) remove(k, true);
         } else {
             UUID up = o.getParent();
             SpaceObject upObj = up == null ? null : getOrThrow(up);
             for (SpaceObject k : kids) {
-                SpaceObject same = child(upObj, k.getName());
+                SpaceObject same = tree.child(upObj, k.getName());
                 if (same != null && !same.getUuid().equals(o.getUuid())) throw new SpaceObjectException("amynnaspacemod.spaceobject.name_taken", k.getName());
             }
             // Deux enfants ne peuvent pas se heurter entre eux : ils avaient des noms distincts chez la cible.
@@ -227,5 +198,32 @@ public class StrategicLayer {
         store.delete(o.getUuid());
         loaded.remove(o.getUuid());
         dirty.remove(o.getUuid());
+    }
+
+    // --- composants ---
+
+    public void addComponent(UUID uuid, SpaceComponent c) {
+        SpaceObject o = getOrThrow(uuid);
+        if (o.getComponent(c.getClass()).isPresent()) throw new SpaceObjectException("amynnaspacemod.component.already", c.id());
+        o.putComponent(c);
+        dirty.add(uuid);
+        flush();
+    }
+
+    public void removeComponent(UUID uuid, Class<? extends SpaceComponent> type) {
+        if (!getOrThrow(uuid).removeComponent(type)) throw new SpaceObjectException("amynnaspacemod.component.missing", type.getSimpleName());
+        dirty.add(uuid);
+        flush();
+    }
+
+    /** Load l'objet, le marque dirty, applique l'édition, puis flush tout dirty. */
+    public void editComponent(UUID uuid, Class<? extends SpaceComponent> type, java.util.function.Consumer<SpaceComponent> edit) {
+        SpaceComponent c = getOrThrow(uuid).getComponent(type).orElseThrow(() -> new SpaceObjectException("amynnaspacemod.component.missing", type.getSimpleName()));
+        dirty.add(uuid);
+        try {
+            edit.accept(c);
+        } finally {
+            flush();
+        }
     }
 }

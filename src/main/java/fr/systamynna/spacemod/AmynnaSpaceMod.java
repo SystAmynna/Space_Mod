@@ -21,6 +21,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelResource;
 import fr.systamynna.spacemod.commands.SpaceClockCommand;
+import fr.systamynna.spacemod.commands.SpaceComponentCommand;
+import fr.systamynna.spacemod.commands.SpaceLoadCommand;
 import fr.systamynna.spacemod.commands.SpaceObjectCommand;
 import fr.systamynna.spacemod.core.StrategicLayer;
 import fr.systamynna.spacemod.core.clock.ClockData;
@@ -47,6 +49,8 @@ public class AmynnaSpaceMod {
         NeoForge.EVENT_BUS.addListener((RegisterCommandsEvent e) -> {
             SpaceClockCommand.register(e.getDispatcher());
             SpaceObjectCommand.register(e.getDispatcher());
+            SpaceLoadCommand.register(e.getDispatcher());
+            SpaceComponentCommand.register(e.getDispatcher());
         });
         NeoForge.EVENT_BUS.addListener((PlayerEvent.PlayerLoggedInEvent e) -> {
             if (e.getEntity() instanceof ServerPlayer p) PacketDistributor.sendToPlayer(p, ClockNet.currentSync());
