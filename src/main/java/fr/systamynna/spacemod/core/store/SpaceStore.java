@@ -2,6 +2,7 @@ package fr.systamynna.spacemod.core.store;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,6 +25,18 @@ public interface SpaceStore extends AutoCloseable {
     void saveRootUuid(@javax.annotation.Nullable UUID uuid);
 
     List<SpaceObject> loadChildren(UUID parent);
+
+    /** Objets auxquels le joueur est abonné. */
+    Set<UUID> loadSubs(UUID player);
+
+    /** Remplace les abonnements du joueur. */
+    void saveSubs(UUID player, Collection<UUID> objects);
+
+    /** Objet désigné comme parent du joueur. */
+    Optional<UUID> loadPlayerParent(UUID player);
+
+    /** {@code null} l'efface. */
+    void savePlayerParent(UUID player, @javax.annotation.Nullable UUID parent);
 
     void delete(UUID uuid);
 

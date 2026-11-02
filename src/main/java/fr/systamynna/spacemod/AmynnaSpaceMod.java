@@ -24,6 +24,9 @@ import fr.systamynna.spacemod.commands.SpaceClockCommand;
 import fr.systamynna.spacemod.commands.SpaceComponentCommand;
 import fr.systamynna.spacemod.commands.SpaceLoadCommand;
 import fr.systamynna.spacemod.commands.SpaceObjectCommand;
+import fr.systamynna.spacemod.commands.SpacePlayerCommand;
+import fr.systamynna.spacemod.core.SpaceNet;
+import fr.systamynna.spacemod.core.Subscriptions;
 import fr.systamynna.spacemod.core.StrategicLayer;
 import fr.systamynna.spacemod.core.clock.ClockData;
 import fr.systamynna.spacemod.core.clock.ClockNet;
@@ -41,23 +44,34 @@ public class AmynnaSpaceMod {
 
     /** Couche stratégique du serveur courant. */
     public static final StrategicLayer STRATEGIC = new StrategicLayer();
+    /** Abonnements des joueurs à la couche stratégique. */
+    public static final Subscriptions SUBS = new Subscriptions(STRATEGIC);
 
     public AmynnaSpaceMod(IEventBus modEventBus, ModContainer container) {
         DynamicDimensionsInit.init(modEventBus, FMLEnvironment.dist);
         container.registerConfig(ModConfig.Type.COMMON, StoreConfig.SPEC, "AmynnaSpaceMod/server.toml");
         modEventBus.addListener(ClockNet::register);
+        modEventBus.addListener(SpaceNet::register);
         NeoForge.EVENT_BUS.addListener((RegisterCommandsEvent e) -> {
             SpaceClockCommand.register(e.getDispatcher());
             SpaceObjectCommand.register(e.getDispatcher());
             SpaceLoadCommand.register(e.getDispatcher());
             SpaceComponentCommand.register(e.getDispatcher());
+            SpacePlayerCommand.register(e.getDispatcher());
         });
         NeoForge.EVENT_BUS.addListener((PlayerEvent.PlayerLoggedInEvent e) -> {
-            if (e.getEntity() instanceof ServerPlayer p) PacketDistributor.sendToPlayer(p, ClockNet.currentSync());
+            if (e.getEntity() instanceof ServerPlayer p) {
+                PacketDistributor.sendToPlayer(p, ClockNet.currentSync());
+                SUBS.login(p);
+            }
+        });
+        NeoForge.EVENT_BUS.addListener((PlayerEvent.PlayerLoggedOutEvent e) -> {
+            if (e.getEntity() instanceof ServerPlayer p) SUBS.logout(p);
         });
         NeoForge.EVENT_BUS.addListener((ServerStartingEvent e) -> {
             ClockData.load(e.getServer());
             STRATEGIC.start(e.getServer().getWorldPath(LevelResource.ROOT));
+            SUBS.start(e.getServer());
         });
         // LevelEvent.Save part une fois par dimension : on ne réagit qu'à l'overworld.
         NeoForge.EVENT_BUS.addListener((LevelEvent.Save e) -> {
@@ -66,7 +80,10 @@ public class AmynnaSpaceMod {
                 STRATEGIC.flush();
             }
         });
-        NeoForge.EVENT_BUS.addListener((ServerStoppingEvent e) -> STRATEGIC.stop());
+        NeoForge.EVENT_BUS.addListener((ServerStoppingEvent e) -> {
+            SUBS.stop();
+            STRATEGIC.stop();
+        });
         LOGGER.info("Amynna's Space Mod loaded :)");
     }
 }

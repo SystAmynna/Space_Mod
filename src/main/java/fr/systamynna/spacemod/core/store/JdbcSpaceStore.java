@@ -12,7 +12,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import fr.systamynna.spacemod.core.SpaceObject;
@@ -28,6 +30,7 @@ public class JdbcSpaceStore implements SpaceStore {
         this.con = con;
         try (Statement st = con.createStatement()) {
             st.execute("CREATE TABLE IF NOT EXISTS space_object (uuid VARCHAR(36) PRIMARY KEY, parent_uuid VARCHAR(36), data BLOB)");
+            st.execute("CREATE TABLE IF NOT EXISTS space_player_sub (player VARCHAR(36), object VARCHAR(36), PRIMARY KEY (player, object))");
             st.execute("CREATE TABLE IF NOT EXISTS space_meta (k VARCHAR(64) PRIMARY KEY, v VARCHAR(255))");
             try {
                 st.execute("CREATE INDEX idx_space_object_parent ON space_object (parent_uuid)");
@@ -96,25 +99,79 @@ public class JdbcSpaceStore implements SpaceStore {
     }
 
     @Override
-    public Optional<UUID> loadRootUuid() {
-        try (PreparedStatement ps = con.prepareStatement("SELECT v FROM space_meta WHERE k = 'root'");
-             ResultSet rs = ps.executeQuery()) {
-            return rs.next() ? Optional.of(UUID.fromString(rs.getString(1))) : Optional.empty();
+    public Optional<UUID> loadRootUuid() { return loadMeta("root"); }
+
+    @Override
+    public void saveRootUuid(UUID uuid) { saveMeta("root", uuid); }
+
+    @Override
+    public Optional<UUID> loadPlayerParent(UUID player) { return loadMeta("parent:" + player); }
+
+    @Override
+    public void savePlayerParent(UUID player, UUID parent) { saveMeta("parent:" + player, parent); }
+
+    private Optional<UUID> loadMeta(String key) {
+        try (PreparedStatement ps = con.prepareStatement("SELECT v FROM space_meta WHERE k = ?")) {
+            ps.setString(1, key);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? Optional.of(UUID.fromString(rs.getString(1))) : Optional.empty();
+            }
+        } catch (SQLException e) {
+            throw io(e);
+        }
+    }
+
+    private void saveMeta(String key, UUID uuid) {
+        try (PreparedStatement del = con.prepareStatement("DELETE FROM space_meta WHERE k = ?");
+             PreparedStatement ins = con.prepareStatement("INSERT INTO space_meta (k, v) VALUES (?, ?)")) {
+            boolean auto = con.getAutoCommit();
+            con.setAutoCommit(false);
+            try {
+                del.setString(1, key);
+                del.executeUpdate();
+                if (uuid != null) {
+                    ins.setString(1, key);
+                    ins.setString(2, uuid.toString());
+                    ins.executeUpdate();
+                }
+                con.commit();
+            } catch (SQLException | RuntimeException e) {
+                con.rollback();
+                throw e;
+            } finally {
+                con.setAutoCommit(auto);
+            }
         } catch (SQLException e) {
             throw io(e);
         }
     }
 
     @Override
-    public void saveRootUuid(UUID uuid) {
-        try (PreparedStatement del = con.prepareStatement("DELETE FROM space_meta WHERE k = 'root'");
-             PreparedStatement ins = con.prepareStatement("INSERT INTO space_meta (k, v) VALUES ('root', ?)")) {
+    public Set<UUID> loadSubs(UUID player) {
+        try (PreparedStatement ps = con.prepareStatement("SELECT object FROM space_player_sub WHERE player = ?")) {
+            ps.setString(1, player.toString());
+            try (ResultSet rs = ps.executeQuery()) {
+                Set<UUID> out = new HashSet<>();
+                while (rs.next()) out.add(UUID.fromString(rs.getString(1)));
+                return out;
+            }
+        } catch (SQLException e) {
+            throw io(e);
+        }
+    }
+
+    @Override
+    public void saveSubs(UUID player, Collection<UUID> objects) {
+        try (PreparedStatement del = con.prepareStatement("DELETE FROM space_player_sub WHERE player = ?");
+             PreparedStatement ins = con.prepareStatement("INSERT INTO space_player_sub (player, object) VALUES (?, ?)")) {
             boolean auto = con.getAutoCommit();
             con.setAutoCommit(false);
             try {
+                del.setString(1, player.toString());
                 del.executeUpdate();
-                if (uuid != null) {
-                    ins.setString(1, uuid.toString());
+                for (UUID o : objects) {
+                    ins.setString(1, player.toString());
+                    ins.setString(2, o.toString());
                     ins.executeUpdate();
                 }
                 con.commit();
@@ -145,9 +202,12 @@ public class JdbcSpaceStore implements SpaceStore {
 
     @Override
     public void delete(UUID uuid) {
-        try (PreparedStatement ps = con.prepareStatement("DELETE FROM space_object WHERE uuid = ?")) {
+        try (PreparedStatement ps = con.prepareStatement("DELETE FROM space_object WHERE uuid = ?");
+             PreparedStatement subs = con.prepareStatement("DELETE FROM space_player_sub WHERE object = ?")) {
             ps.setString(1, uuid.toString());
             ps.executeUpdate();
+            subs.setString(1, uuid.toString());
+            subs.executeUpdate();
         } catch (SQLException e) {
             throw io(e);
         }

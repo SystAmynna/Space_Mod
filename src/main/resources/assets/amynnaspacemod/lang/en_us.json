@@ -26,5 +26,11 @@
   "amynnaspacemod.spaceobject.cycle": "An object cannot be moved under itself or one of its descendants.",
   "amynnaspacemod.spaceobject.root_set": "%s is now the root.",
   "amynnaspacemod.spaceobject.not_top_level": "%s has a parent; only objects without a parent can be root.",
-  "amynnaspacemod.spaceobject.detached": "%s is now detached (no parent)."
+  "amynnaspacemod.spaceobject.detached": "%s is now detached (no parent).",
+  "amynnaspacemod.player.suscribe": "%s is now subscribed to %s.",
+  "amynnaspacemod.player.unsuscribe": "%s is no longer subscribed to %s.",
+  "amynnaspacemod.player.parent_set": "%s now has %s as parent (subscribed to it, its ancestors and its children).",
+  "amynnaspacemod.player.offline": "That player is no longer online.",
+  "amynnaspacemod.player.state": "[%s] %s subscription(s), status computed by the client:",
+  "amynnaspacemod.player.state_parent": " parent: %s"
 }

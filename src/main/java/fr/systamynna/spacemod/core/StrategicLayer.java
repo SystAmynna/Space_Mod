@@ -41,6 +41,9 @@ public class StrategicLayer {
     /** Persistance, ouverte pendant la vie du serveur. */
     private SpaceStore store;
     private final SpaceTree tree = new SpaceTree(this);
+    private SpaceListener listener = SpaceListener.NONE;
+
+    public void setListener(SpaceListener listener) { this.listener = listener; }
 
     public void start(Path worldDir) {
         start(SpaceStores.open(worldDir));
@@ -73,8 +76,10 @@ public class StrategicLayer {
     /** Écrit les objets modifiés. */
     public void flush() {
         if (store == null || dirty.isEmpty()) return;
-        store.save(dirty.stream().map(loaded::get).filter(java.util.Objects::nonNull).toList());
+        List<SpaceObject> saved = dirty.stream().map(loaded::get).filter(java.util.Objects::nonNull).toList();
+        store.save(saved);
         dirty.clear();
+        saved.forEach(listener::updated);
     }
 
     public void stop() {
@@ -96,7 +101,10 @@ public class StrategicLayer {
         SpaceObject o = loaded.get(uuid);
         if (o == null) {
             o = store.load(uuid).orElse(null);
-            if (o != null) loaded.put(uuid, o);
+            if (o != null) {
+                loaded.put(uuid, o);
+                listener.updated(o);
+            }
         }
         return Optional.ofNullable(o);
     }
@@ -141,6 +149,7 @@ public class StrategicLayer {
         if (victims.size() > 1 && !recursive) return false;
         if (victims.stream().anyMatch(dirty::contains)) flush();
         victims.forEach(loaded::remove);
+        victims.forEach(listener::dropped);
         return true;
     }
 
@@ -198,6 +207,7 @@ public class StrategicLayer {
         store.delete(o.getUuid());
         loaded.remove(o.getUuid());
         dirty.remove(o.getUuid());
+        listener.removed(o.getUuid());
     }
 
     // --- composants ---
