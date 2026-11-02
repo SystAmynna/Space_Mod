@@ -1,3 +1,7 @@
 {
-  "amynnaspacemod.dimension.removed": "Dimension %s was removed."
+  "amynnaspacemod.dimension.removed": "Dimension %s was removed.",
+  "amynnaspacemod.clock.multiplier.get": "Clock multiplier: %s",
+  "amynnaspacemod.clock.multiplier.set": "Clock multiplier set to %s",
+  "amynnaspacemod.clock.multiplier.invalid": "The multiplier must be a finite number >= 0.",
+  "amynnaspacemod.clock.report": "[%s] client=%s ms | server(raw)=%s ms | latency(RTT)=%s ms | corrected=%s ms | diff=%s ms"
 }
