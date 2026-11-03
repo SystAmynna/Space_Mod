@@ -12,6 +12,7 @@ import fr.systamynna.spacemod.AmynnaSpaceMod;
 import fr.systamynna.spacemod.core.SpaceObject;
 import fr.systamynna.spacemod.core.SpaceObjectException;
 import fr.systamynna.spacemod.core.StrategicLayer;
+import fr.systamynna.spacemod.core.Transform;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
@@ -39,6 +40,12 @@ public final class SpaceObjectArg {
     private static SuggestionProvider<CommandSourceStack> addrs(Predicate<SpaceObject> f) {
         return (c, b) -> SharedSuggestionProvider.suggest(S.tree().all().stream().filter(f).map(o -> '"' + S.tree().addressOf(o) + '"'), b);
     }
+
+    /** Complétions de {@link Transform#editAll}, appliquées au dernier mot. */
+    public static final SuggestionProvider<CommandSourceStack> TRANSFORM_ARGS = (c, b) -> {
+        String rem = b.getRemaining();
+        return SharedSuggestionProvider.suggest(new Transform().suggest(rem), b.createOffset(b.getStart() + rem.lastIndexOf(' ') + 1));
+    };
 
     public static final SuggestionProvider<CommandSourceStack> TOP_UUIDS = (c, b) ->
             SharedSuggestionProvider.suggest(S.tree().topLevel().stream().map(o -> o.getUuid().toString()), b);

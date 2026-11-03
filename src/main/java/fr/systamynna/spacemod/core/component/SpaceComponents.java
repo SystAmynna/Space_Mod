@@ -10,7 +10,6 @@ import javax.annotation.Nullable;
 
 import fr.systamynna.spacemod.core.SpaceObjectException;
 import fr.systamynna.spacemod.core.component.components.Identity;
-import fr.systamynna.spacemod.core.component.components.Transform;
 import net.minecraft.nbt.CompoundTag;
 
 /** Registre des composants connus : l'unique endroit à compléter pour en ajouter un. */
@@ -20,7 +19,6 @@ public final class SpaceComponents {
     private static final Map<String, Entry> ENTRIES = new LinkedHashMap<>();
 
     static {
-        ENTRIES.put(Transform.ID, new Entry(Transform.class, Transform::new, Transform::load));
         ENTRIES.put(Identity.ID, new Entry(Identity.class, () -> new Identity(""), Identity::load));
     }
 

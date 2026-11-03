@@ -86,6 +86,11 @@ public final class Subscriptions implements SpaceListener {
         layer.store().savePlayerParent(p.getUUID(), x.getUuid());
     }
 
+    /** Le joueur a le transform spatial (absolu) de son parent ; zéro s'il n'en a pas. */
+    public Transform playerTransform(ServerPlayer p) {
+        return layer.store().loadPlayerParent(p.getUUID()).map(u -> layer.tree().worldTransform(layer.peek(u))).orElseGet(Transform::new);
+    }
+
     /** X + tous ses ancêtres + les autres enfants de X (frères du joueur), loadés au passage. */
     static Set<UUID> parentSet(StrategicLayer layer, SpaceObject x) {
         Set<UUID> out = new LinkedHashSet<>();

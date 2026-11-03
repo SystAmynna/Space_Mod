@@ -1,10 +1,7 @@
 package fr.systamynna.spacemod.core;
 
 import java.nio.file.Path;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -168,13 +165,16 @@ public class StrategicLayer {
         return o;
     }
 
-    /** {@code newParent} null = détacher (objet sans parent). */
-    public void setParent(SpaceObject o, @Nullable SpaceObject newParent) {
+    public void setParent(SpaceObject o, @Nullable SpaceObject newParent) { setParent(o, newParent, false); }
+
+    /** {@code newParent} null = détacher (objet sans parent). {@code transpose} : garde la position absolue en recalculant le transform. */
+    public void setParent(SpaceObject o, @Nullable SpaceObject newParent, boolean transpose) {
         if (isRoot(o)) throw new SpaceObjectException("amynnaspacemod.spaceobject.root");
         for (SpaceObject c = newParent; c != null; c = c.getParent() == null ? null : peek(c.getParent()))
             if (c.getUuid().equals(o.getUuid())) throw new SpaceObjectException("amynnaspacemod.spaceobject.cycle");
         SpaceObject same = tree.child(newParent, o.getName());
         if (same != null && !same.getUuid().equals(o.getUuid())) throw new SpaceObjectException("amynnaspacemod.spaceobject.name_taken", o.getName());
+        if (transpose) o.transform.set(tree.convert(o.transform, o.getParent() == null ? null : peek(o.getParent()), newParent));
         o.setParent(newParent == null ? null : newParent.getUuid());
         dirty.add(o.getUuid());
         flush();
@@ -235,5 +235,24 @@ public class StrategicLayer {
         } finally {
             flush();
         }
+    }
+
+    // --- transform / échelle ---
+
+    /** Édite le transform de l'objet, puis flush. */
+    public void editTransform(UUID uuid, java.util.function.Consumer<Transform> edit) {
+        SpaceObject o = getOrThrow(uuid);
+        dirty.add(uuid);
+        try {
+            edit.accept(o.transform);
+        } finally {
+            flush();
+        }
+    }
+
+    public void setScale(UUID uuid, double scale) {
+        getOrThrow(uuid).setScale(scale);
+        dirty.add(uuid);
+        flush();
     }
 }

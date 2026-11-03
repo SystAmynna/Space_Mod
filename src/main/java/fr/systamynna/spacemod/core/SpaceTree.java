@@ -111,4 +111,31 @@ public final class SpaceTree {
         for (SpaceObject c : children(parent)) if (c.getName().equals(name)) return layer.get(c.getUuid()).orElse(null);
         return null;
     }
+
+    /** {@code o}, ses parents, … jusqu'au sommet de son arbre (sans charger). */
+    private List<SpaceObject> chain(@Nullable SpaceObject o) {
+        List<SpaceObject> out = new ArrayList<>();
+        for (SpaceObject c = o; c != null; c = c.getParent() == null ? null : layer.peek(c.getParent())) out.add(c);
+        return out;
+    }
+
+    /**
+     * Convertit {@code t}, exprimé dans le référentiel de {@code from} (celui de ses enfants), vers celui de {@code to}.
+     * {@code null} = référentiel absolu, au-dessus des objets sans parent. On ne monte que jusqu'à l'ancêtre commun, pour garder la précision.
+     */
+    public Transform convert(Transform t, @Nullable SpaceObject from, @Nullable SpaceObject to) {
+        List<SpaceObject> up = chain(from), down = chain(to);
+        while (!up.isEmpty() && !down.isEmpty() && up.getLast().getUuid().equals(down.getLast().getUuid())) {
+            up.removeLast();
+            down.removeLast();
+        }
+        for (SpaceObject o : up) t = t.up(o.transform, o.getScale());
+        for (SpaceObject o : down.reversed()) t = t.down(o.transform, o.getScale());
+        return t;
+    }
+
+    /** Transform de {@code o} dans le référentiel absolu. */
+    public Transform worldTransform(SpaceObject o) {
+        return convert(o.transform, o.getParent() == null ? null : layer.peek(o.getParent()), null);
+    }
 }

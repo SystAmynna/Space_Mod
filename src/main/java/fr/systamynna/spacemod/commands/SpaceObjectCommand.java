@@ -5,6 +5,7 @@ import static fr.systamynna.spacemod.commands.SpaceObjectArg.*;
 import java.util.function.Function;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 
@@ -17,7 +18,7 @@ import net.minecraft.commands.arguments.UuidArgument;
 import net.minecraft.network.chat.Component;
 
 /**
- * {@code /spaceobject list [full] | root | add | remove keep|recursive <objet> | modify} (OP).
+ * {@code /spaceobject list [full] | root | add | remove keep|recursive <objet> | parent <objet> (none|<objet>) [transpose] | transform <objet> [(pos <x> <y> <z>|rot <yaw> <pitch> <roll>)…] | scale <objet> [<valeur>]} (OP).
  * {@code <objet>} = {@code uuid <uuid>} ou {@code addr <adresse>} (adresse entre guillemets : elle contient des '/').
  */
 public final class SpaceObjectCommand {
@@ -65,22 +66,62 @@ public final class SpaceObjectCommand {
             remove.then(m);
         }
 
-        var modify = Commands.literal("modify");
-        selector(modify, 0, n -> {
-            n.then(Commands.literal("none").executes(c -> run(c, x -> {
-                SpaceObject o = target(x, 0);
-                S.setParent(o, null);
-                ok(x, "detached", S.tree().addressOf(o));
-            })));
-            selector(n, 1, m -> m.executes(c -> run(c, x -> {
-                SpaceObject o = target(x, 0);
-                S.setParent(o, target(x, 1));
-                ok(x, "modified", S.tree().addressOf(o));
-            })));
+        var parent = Commands.literal("parent");
+        selector(parent, 0, n -> {
+            var none = Commands.literal("none");
+            for (boolean tr : new boolean[] {false, true}) {
+                com.mojang.brigadier.Command<CommandSourceStack> detach = c -> run(c, x -> {
+                    SpaceObject o = target(x, 0);
+                    S.setParent(o, null, tr);
+                    ok(x, "detached", S.tree().addressOf(o));
+                });
+                if (tr) none.then(Commands.literal("transpose").executes(detach)); else none.executes(detach);
+            }
+            n.then(none);
+            selector(n, 1, m -> {
+                for (boolean tr : new boolean[] {false, true}) {
+                    com.mojang.brigadier.Command<CommandSourceStack> move = c -> run(c, x -> {
+                        SpaceObject o = target(x, 0);
+                        S.setParent(o, target(x, 1), tr);
+                        ok(x, "modified", S.tree().addressOf(o));
+                    });
+                    if (tr) m.then(Commands.literal("transpose").executes(move)); else m.executes(move);
+                }
+            });
         });
 
-        d.register(Commands.literal("spaceobject").requires(s -> s.hasPermission(2))
-                .then(list).then(root).then(add).then(remove).then(modify));
+        var edit = Commands.literal("spaceobject").requires(s -> s.hasPermission(2))
+                .then(list).then(root).then(add).then(remove).then(parent);
+        var b = Commands.literal("transform");
+        selector(b, 0, n -> {
+            n.executes(c -> run(c, x -> { // sans argument : affiche la donnée
+                SpaceObject o = target(x, 0);
+                show(x, "transform", o.transform.describe(), o);
+            }));
+            n.then(Commands.argument("args", StringArgumentType.greedyString()).suggests(TRANSFORM_ARGS).executes(c -> run(c, x -> {
+                SpaceObject o = target(x, 0);
+                S.editTransform(o.getUuid(), t -> t.editAll(StringArgumentType.getString(x, "args")));
+                ok(x, "edited", "transform", S.tree().addressOf(o));
+            })));
+        });
+        edit.then(b);
+        var scale = Commands.literal("scale");
+        selector(scale, 0, n -> {
+            n.executes(c -> run(c, x -> {
+                SpaceObject o = target(x, 0);
+                show(x, "scale", String.valueOf(o.getScale()), o);
+            }));
+            n.then(Commands.argument("value", DoubleArgumentType.doubleArg()).executes(c -> run(c, x -> {
+                SpaceObject o = target(x, 0);
+                S.setScale(o.getUuid(), DoubleArgumentType.getDouble(x, "value"));
+                ok(x, "edited", "scale", S.tree().addressOf(o));
+            })));
+        });
+        d.register(edit.then(scale));
+    }
+
+    private static void show(CommandContext<CommandSourceStack> c, String what, String value, SpaceObject o) {
+        c.getSource().sendSuccess(() -> Component.literal(S.tree().addressOf(o) + " " + what + ": " + value), false);
     }
 
     private static void ok(CommandContext<CommandSourceStack> c, String key, Object... args) {

@@ -64,7 +64,7 @@ Les dimensions ne se parlent jamais directement : elles lisent et publient leur 
 
 ## 5. Couche stratégique
 
-**SpaceObject.** Liste extensible de composants : Identité, Transform (position double, orientation, vitesse), Render, Controller (rail, rotation, pilotage…), HostedDimension (dimension, pose et rendu du ciel, PortPoints avec volume logique et volume de déclenchement), Forgettable (Micros seulement), Volumes, plus des composants spécifiques ajoutés sans toucher aux autres.
+**SpaceObject.** Porte toujours un Transform (position double et orientation, relatifs à son parent) et une échelle uniforme qui s'applique aux transforms de ses enfants. Liste extensible de composants : Identité, Render, Controller (rail, rotation, pilotage…), HostedDimension (dimension, pose et rendu du ciel, PortPoints avec volume logique et volume de déclenchement), Forgettable (Micros seulement), Volumes, plus des composants spécifiques ajoutés sans toucher aux autres.
 
 **Systèmes stellaires.** Chacun a son référentiel ; deux objets de systèmes différents ne se rencontrent jamais. On passe d'un système à l'autre par un **saut** (téléportation masquée, par défaut) ou par un **parcours** (réacteur suffisant, changement de référentiel imperceptible). Numériquement validé (C4) ; le masquage visuel reste à juger en jeu.
 
