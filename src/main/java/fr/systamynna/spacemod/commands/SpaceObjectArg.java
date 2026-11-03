@@ -67,6 +67,16 @@ public final class SpaceObjectArg {
         parent.then(Commands.literal("addr").then(a));
     }
 
+    /** Vrai si l'objet {@code i} a été désigné par {@code uuid} (sinon par {@code addr}). */
+    public static boolean isUuid(CommandContext<CommandSourceStack> c, int i) {
+        try {
+            UuidArgument.getUuid(c, "uuid" + i);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+
     public static SpaceObject target(CommandContext<CommandSourceStack> c, int i) {
         try {
             return S.getOrThrow(UuidArgument.getUuid(c, "uuid" + i));

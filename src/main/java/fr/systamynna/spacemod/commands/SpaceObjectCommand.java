@@ -18,7 +18,7 @@ import net.minecraft.commands.arguments.UuidArgument;
 import net.minecraft.network.chat.Component;
 
 /**
- * {@code /spaceobject list [full] | root | add | remove keep|recursive <objet> | parent <objet> (none|<objet>) [transpose] | transform <objet> [(pos <x> <y> <z>|rot <yaw> <pitch> <roll>)…] | scale <objet> [<valeur>]} (OP).
+ * {@code /spaceobject list [full] | root | add | remove keep|recursive <objet> | get <objet> | parent <objet> (none|<objet>) [transpose] | transform <objet> [(pos <x> <y> <z>|rot <yaw> <pitch> <roll>)…] | scale <objet> [<valeur>]} (OP).
  * {@code <objet>} = {@code uuid <uuid>} ou {@code addr <adresse>} (adresse entre guillemets : elle contient des '/').
  */
 public final class SpaceObjectCommand {
@@ -90,8 +90,15 @@ public final class SpaceObjectCommand {
             });
         });
 
+        var get = Commands.literal("get");
+        selector(get, 0, n -> n.executes(c -> run(c, x -> { // uuid → adresse, adresse → uuid
+            SpaceObject o = target(x, 0);
+            String out = isUuid(x, 0) ? S.tree().addressOf(o) : o.getUuid().toString();
+            x.getSource().sendSuccess(() -> Component.literal(out), false);
+        })));
+
         var edit = Commands.literal("spaceobject").requires(s -> s.hasPermission(2))
-                .then(list).then(root).then(add).then(remove).then(parent);
+                .then(list).then(get).then(root).then(add).then(remove).then(parent);
         var b = Commands.literal("transform");
         selector(b, 0, n -> {
             n.executes(c -> run(c, x -> { // sans argument : affiche la donnée
