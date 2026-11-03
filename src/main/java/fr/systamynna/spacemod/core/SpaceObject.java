@@ -94,6 +94,26 @@ public class SpaceObject {
         return components.values().removeIf(type::isInstance);
     }
 
+    /**
+     * Aligne scale, composants, contrôleur (et transform si {@code src} n'a pas de contrôleur : sinon il est recalculé) sur {@code src}.
+     * Renvoie vrai si quelque chose a changé.
+     */
+    boolean assign(SpaceObject src) {
+        CompoundTag a = save(), b = src.save();
+        for (CompoundTag t : new CompoundTag[] {a, b}) t.remove("transformTime");
+        if (controller != null || src.controller != null) {
+            a.remove("transform");
+            b.remove("transform");
+        }
+        if (a.equals(b)) return false;
+        if (src.controller == null) transform.set(src.transform);
+        scale = src.scale;
+        components.clear();
+        components.putAll(src.components);
+        setController(src.controller);
+        return true;
+    }
+
     /** Payload persisté (les futurs champs s'ajoutent ici). */
     public CompoundTag save() {
         CompoundTag t = new CompoundTag();

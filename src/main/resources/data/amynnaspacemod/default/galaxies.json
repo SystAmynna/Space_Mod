@@ -1,0 +1,5 @@
+[
+  {"address": "universe", "scale": 1.0, "components": {"identity": {"name": "Universe", "description": "The observable universe. Frame unit: light-year."}}},
+  {"address": "universe/milky_way", "transform": {"x": 0.0, "y": 0.0, "z": 0.0}, "scale": 1.0, "components": {"identity": {"name": "Milky Way", "description": "Barred spiral galaxy, about 100,000 ly across. Origin = galactic centre, frame unit: light-year."}}},
+  {"address": "universe/andromeda", "transform": {"x": -1247938.6, "y": -932748.0341, "z": -2018597.026}, "scale": 1.0, "components": {"identity": {"name": "Andromeda Galaxy", "description": "M31, spiral galaxy about 2.54 million ly away. Frame unit: light-year."}}}
+]

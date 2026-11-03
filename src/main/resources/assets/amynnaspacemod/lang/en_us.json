@@ -44,5 +44,14 @@
   "amynnaspacemod.player.parent_set": "%s now has %s as parent (subscribed to it, its ancestors and its children).",
   "amynnaspacemod.player.offline": "That player is no longer online.",
   "amynnaspacemod.player.state": "[%s] %s subscription(s), status computed by the client:",
-  "amynnaspacemod.player.state_parent": " parent: %s"
+  "amynnaspacemod.player.state_parent": " parent: %s",
+  "amynnaspacemod.provider.current": "Provider: %s",
+  "amynnaspacemod.provider.set": "Provider set to %s.",
+  "amynnaspacemod.provider.unknown": "Unknown provider '%s' (NONE, DEFAULT, DATAPACK, WEB).",
+  "amynnaspacemod.provider.not_implemented": "Provider %s is not implemented yet.",
+  "amynnaspacemod.provider.bad_entry": "Invalid entry %s: %s",
+  "amynnaspacemod.provider.bad_resource": "Cannot read %s: %s",
+  "amynnaspacemod.provider.refresh.summary": "Refresh %s: %s created, %s updated, %s unchanged, %s error(s).",
+  "amynnaspacemod.provider.refresh.created": " + %s",
+  "amynnaspacemod.provider.refresh.updated": " ~ %s"
 }

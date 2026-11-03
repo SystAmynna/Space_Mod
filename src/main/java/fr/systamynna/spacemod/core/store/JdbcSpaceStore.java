@@ -99,29 +99,35 @@ public class JdbcSpaceStore implements SpaceStore {
     }
 
     @Override
-    public Optional<UUID> loadRootUuid() { return loadMeta("root"); }
+    public Optional<UUID> loadRootUuid() { return loadMeta("root").map(UUID::fromString); }
 
     @Override
-    public void saveRootUuid(UUID uuid) { saveMeta("root", uuid); }
+    public void saveRootUuid(UUID uuid) { saveMeta("root", uuid == null ? null : uuid.toString()); }
 
     @Override
-    public Optional<UUID> loadPlayerParent(UUID player) { return loadMeta("parent:" + player); }
+    public Optional<UUID> loadPlayerParent(UUID player) { return loadMeta("parent:" + player).map(UUID::fromString); }
 
     @Override
-    public void savePlayerParent(UUID player, UUID parent) { saveMeta("parent:" + player, parent); }
+    public void savePlayerParent(UUID player, UUID parent) { saveMeta("parent:" + player, parent == null ? null : parent.toString()); }
 
-    private Optional<UUID> loadMeta(String key) {
+    @Override
+    public Optional<String> loadSetting(String key) { return loadMeta("setting:" + key); }
+
+    @Override
+    public void saveSetting(String key, String value) { saveMeta("setting:" + key, value); }
+
+    private Optional<String> loadMeta(String key) {
         try (PreparedStatement ps = con.prepareStatement("SELECT v FROM space_meta WHERE k = ?")) {
             ps.setString(1, key);
             try (ResultSet rs = ps.executeQuery()) {
-                return rs.next() ? Optional.of(UUID.fromString(rs.getString(1))) : Optional.empty();
+                return rs.next() ? Optional.of(rs.getString(1)) : Optional.empty();
             }
         } catch (SQLException e) {
             throw io(e);
         }
     }
 
-    private void saveMeta(String key, UUID uuid) {
+    private void saveMeta(String key, String value) {
         try (PreparedStatement del = con.prepareStatement("DELETE FROM space_meta WHERE k = ?");
              PreparedStatement ins = con.prepareStatement("INSERT INTO space_meta (k, v) VALUES (?, ?)")) {
             boolean auto = con.getAutoCommit();
@@ -129,9 +135,9 @@ public class JdbcSpaceStore implements SpaceStore {
             try {
                 del.setString(1, key);
                 del.executeUpdate();
-                if (uuid != null) {
+                if (value != null) {
                     ins.setString(1, key);
-                    ins.setString(2, uuid.toString());
+                    ins.setString(2, value);
                     ins.executeUpdate();
                 }
                 con.commit();

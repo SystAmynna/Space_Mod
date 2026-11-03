@@ -29,6 +29,7 @@ import fr.systamynna.spacemod.commands.SpaceControllerCommand;
 import fr.systamynna.spacemod.commands.SpaceLoadCommand;
 import fr.systamynna.spacemod.commands.SpaceObjectCommand;
 import fr.systamynna.spacemod.commands.SpacePlayerCommand;
+import fr.systamynna.spacemod.commands.SpaceProviderCommand;
 import fr.systamynna.spacemod.core.SpaceNet;
 import fr.systamynna.spacemod.core.Subscriptions;
 import fr.systamynna.spacemod.core.StrategicLayer;
@@ -64,6 +65,7 @@ public class AmynnaSpaceMod {
             SpaceComponentCommand.register(e.getDispatcher());
             SpaceControllerCommand.register(e.getDispatcher());
             SpacePlayerCommand.register(e.getDispatcher());
+            SpaceProviderCommand.register(e.getDispatcher());
         });
         NeoForge.EVENT_BUS.addListener((ServerTickEvent.Post e) -> STRATEGIC.tickControllers(SpaceClock.SERVER.now() / 50));
         // Provisoire : le futur rendu appellera step() à chaque frame avec un temps fractionnaire.

@@ -38,6 +38,12 @@ public interface SpaceStore extends AutoCloseable {
     /** {@code null} l'efface. */
     void savePlayerParent(UUID player, @javax.annotation.Nullable UUID parent);
 
+    /** Réglage global (ex. le provider) ; stocké avec les métadonnées. */
+    Optional<String> loadSetting(String key);
+
+    /** {@code null} l'efface. */
+    void saveSetting(String key, @javax.annotation.Nullable String value);
+
     void delete(UUID uuid);
 
     @Override

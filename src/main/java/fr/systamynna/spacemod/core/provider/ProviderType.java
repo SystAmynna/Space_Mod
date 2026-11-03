@@ -4,7 +4,7 @@ public enum ProviderType {
 
     NONE,
     DEFAULT,
-    LOCAL,
+    DATAPACK,
     WEB
 
 }

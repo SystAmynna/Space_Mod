@@ -12,10 +12,13 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.nbt.CompoundTag;
+
 import fr.systamynna.spacemod.AmynnaSpaceMod;
 import fr.systamynna.spacemod.core.clock.SpaceClock;
 import fr.systamynna.spacemod.core.component.SpaceComponent;
 import fr.systamynna.spacemod.core.controller.SpaceController;
+import fr.systamynna.spacemod.core.provider.ProviderType;
 import fr.systamynna.spacemod.core.store.SpaceStore;
 import fr.systamynna.spacemod.core.store.SpaceStores;
 
@@ -222,6 +225,43 @@ public class StrategicLayer {
         loaded.remove(o.getUuid());
         dirty.remove(o.getUuid());
         listener.removed(o.getUuid());
+    }
+
+    // --- provider ---
+
+    /** Provider choisi pour ce monde ; {@code NONE} par défaut. */
+    public ProviderType getProvider() {
+        try {
+            return store.loadSetting("provider").map(ProviderType::valueOf).orElse(ProviderType.NONE);
+        } catch (IllegalArgumentException e) { // valeur obsolète (ex. ancien LOCAL)
+            return ProviderType.NONE;
+        }
+    }
+
+    public void setProvider(ProviderType p) { store.saveSetting("provider", p.name()); }
+
+    public enum UpsertResult { CREATED, UPDATED, UNCHANGED }
+
+    /**
+     * Crée l'enfant {@code name} de {@code parent} depuis {@code data} (format de {@link SpaceObject#save}), ou aligne l'existant dessus.
+     * Une création est écrite aussitôt ; une modification au prochain {@link #flush()}.
+     */
+    public UpsertResult upsert(@Nullable SpaceObject parent, String name, CompoundTag data) {
+        if (!NAME.matcher(name).matches()) throw new SpaceObjectException("amynnaspacemod.spaceobject.bad_name", name);
+        UUID parentId = parent == null ? null : parent.getUuid();
+        data.putString("name", name);
+        SpaceObject existing = tree.child(parent, name);
+        if (existing == null) {
+            SpaceObject o = SpaceObject.load(UUID.randomUUID(), parentId, data);
+            loaded.put(o.getUuid(), o);
+            o.resume(SpaceClock.SERVER.now() / TICK_MS);
+            modified(o.getUuid());
+            flush(); // l'arbre se lit dans le store : l'enfant doit y être pour que les suivants le trouvent
+            return UpsertResult.CREATED;
+        }
+        if (!existing.assign(SpaceObject.load(existing.getUuid(), parentId, data))) return UpsertResult.UNCHANGED;
+        modified(existing.getUuid());
+        return UpsertResult.UPDATED;
     }
 
     // --- composants ---
