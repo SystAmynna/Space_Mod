@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 import fr.systamynna.spacemod.core.SpaceNet;
 import fr.systamynna.spacemod.core.SpaceObject;
 import fr.systamynna.spacemod.core.StrategicLayer;
+import fr.systamynna.spacemod.core.clock.SpaceClock;
 import net.minecraft.nbt.CompoundTag;
 
 /**
@@ -27,8 +28,13 @@ public final class ClientLayer {
 
     /** Ajoute ou remplace l'objet par l'état reçu du serveur. */
     public void apply(UUID uuid, @Nullable UUID parent, CompoundTag data) {
-        objects.put(uuid, SpaceObject.load(uuid, parent, data));
+        SpaceObject o = SpaceObject.load(uuid, parent, data);
+        o.resume(SpaceClock.CLIENT.now() / 50); // le transform reçu est daté : le contrôleur le corrige
+        objects.put(uuid, o);
     }
+
+    /** Recalcule la pose des objets à contrôleur à l'instant {@code ticks} (peut être fractionnaire, pour le rendu). */
+    public void step(double ticks) { for (SpaceObject o : objects.values()) o.step(ticks); }
 
     public void drop(UUID uuid) { objects.remove(uuid); }
 

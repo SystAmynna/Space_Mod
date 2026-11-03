@@ -10,6 +10,8 @@ import javax.annotation.Nullable;
 import fr.systamynna.spacemod.AmynnaSpaceMod;
 import fr.systamynna.spacemod.core.component.SpaceComponent;
 import fr.systamynna.spacemod.core.component.SpaceComponents;
+import fr.systamynna.spacemod.core.controller.SpaceController;
+import fr.systamynna.spacemod.core.controller.SpaceControllers;
 import net.minecraft.nbt.CompoundTag;
 
 /**
@@ -28,6 +30,11 @@ public class SpaceObject {
     public final Transform transform = new Transform();
     private double scale = 1.0;
     private final Map<String, SpaceComponent> components = new LinkedHashMap<>();
+    /** Fait bouger l'objet ; null = immobile. Répliqué au client. */
+    @Nullable
+    private SpaceController controller;
+    /** Temps (ticks de SpaceClock) auquel {@link #transform} a été calculé par le contrôleur ; NaN si jamais. */
+    private double transformTime = Double.NaN;
 
     public SpaceObject(UUID uuid, @Nullable UUID parent, String name) {
         this.uuid = uuid;
@@ -58,6 +65,29 @@ public class SpaceObject {
 
     public java.util.Collection<SpaceComponent> components() { return java.util.Collections.unmodifiableCollection(components.values()); }
 
+    @Nullable
+    public SpaceController getController() { return controller; }
+
+    void setController(@Nullable SpaceController controller) {
+        this.controller = controller;
+        transformTime = Double.NaN;
+    }
+
+    /** Recalcule {@link #transform} à l'instant {@code ticks} (sans le persister ni le répliquer). */
+    public void step(double ticks) {
+        if (controller == null) return;
+        controller.apply(ticks, transform);
+        transformTime = ticks;
+    }
+
+    /** Rechargement ou réception : laisse le contrôleur corriger le transform sauvegardé. */
+    public void resume(double nowTicks) {
+        if (controller == null) return;
+        if (Double.isNaN(transformTime)) controller.apply(nowTicks, transform);
+        else controller.resume(transform, transformTime, nowTicks);
+        transformTime = nowTicks;
+    }
+
     void putComponent(SpaceComponent c) { components.put(c.id(), c); }
 
     boolean removeComponent(Class<? extends SpaceComponent> type) {
@@ -73,6 +103,10 @@ public class SpaceObject {
         CompoundTag comps = new CompoundTag();
         components.forEach((id, c) -> comps.put(id, c.save()));
         t.put("components", comps);
+        if (controller != null) {
+            t.put("controller", SpaceControllers.save(controller));
+            if (!Double.isNaN(transformTime)) t.putDouble("transformTime", transformTime);
+        }
         return t;
     }
 
@@ -86,6 +120,10 @@ public class SpaceObject {
             SpaceComponent c = SpaceComponents.load(id, comps.getCompound(id));
             if (c == null) AmynnaSpaceMod.LOGGER.warn("Composant inconnu '{}' ignoré sur {}.", id, uuid);
             else o.putComponent(c);
+        }
+        if (data.contains("controller")) {
+            o.controller = SpaceControllers.load(data.getCompound("controller"));
+            if (o.controller != null && data.contains("transformTime")) o.transformTime = data.getDouble("transformTime");
         }
         return o;
     }

@@ -6,7 +6,7 @@ import java.util.UUID;
 public interface SpaceListener {
     SpaceListener NONE = new SpaceListener() {};
 
-    /** Objet loadé, créé ou modifié (état à jour, déjà persisté). */
+    /** Objet loadé, créé ou modifié (état à jour ; pas forcément déjà persisté : l'écriture attend le prochain flush). */
     default void updated(SpaceObject o) {}
 
     /** Objet retiré de la mémoire (unload), il existe toujours dans le store. */

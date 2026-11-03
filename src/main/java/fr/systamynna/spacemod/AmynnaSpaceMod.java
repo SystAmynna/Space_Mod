@@ -13,6 +13,8 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
@@ -21,7 +23,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelResource;
 import fr.systamynna.spacemod.commands.SpaceClockCommand;
+import fr.systamynna.spacemod.client.ClientLayer;
 import fr.systamynna.spacemod.commands.SpaceComponentCommand;
+import fr.systamynna.spacemod.commands.SpaceControllerCommand;
 import fr.systamynna.spacemod.commands.SpaceLoadCommand;
 import fr.systamynna.spacemod.commands.SpaceObjectCommand;
 import fr.systamynna.spacemod.commands.SpacePlayerCommand;
@@ -30,6 +34,7 @@ import fr.systamynna.spacemod.core.Subscriptions;
 import fr.systamynna.spacemod.core.StrategicLayer;
 import fr.systamynna.spacemod.core.clock.ClockData;
 import fr.systamynna.spacemod.core.clock.ClockNet;
+import fr.systamynna.spacemod.core.clock.SpaceClock;
 import fr.systamynna.spacemod.core.store.StoreConfig;
 import fr.systamynna.dynamicdimensions.impl.DynamicDimensionsInit;
 
@@ -57,8 +62,13 @@ public class AmynnaSpaceMod {
             SpaceObjectCommand.register(e.getDispatcher());
             SpaceLoadCommand.register(e.getDispatcher());
             SpaceComponentCommand.register(e.getDispatcher());
+            SpaceControllerCommand.register(e.getDispatcher());
             SpacePlayerCommand.register(e.getDispatcher());
         });
+        NeoForge.EVENT_BUS.addListener((ServerTickEvent.Post e) -> STRATEGIC.tickControllers(SpaceClock.SERVER.now() / 50));
+        // Provisoire : le futur rendu appellera step() à chaque frame avec un temps fractionnaire.
+        if (FMLEnvironment.dist.isClient())
+            NeoForge.EVENT_BUS.addListener((ClientTickEvent.Post e) -> ClientLayer.INSTANCE.step(SpaceClock.CLIENT.now() / 50));
         NeoForge.EVENT_BUS.addListener((PlayerEvent.PlayerLoggedInEvent e) -> {
             if (e.getEntity() instanceof ServerPlayer p) {
                 PacketDistributor.sendToPlayer(p, ClockNet.currentSync());

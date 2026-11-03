@@ -13,7 +13,9 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import fr.systamynna.spacemod.AmynnaSpaceMod;
+import fr.systamynna.spacemod.core.clock.SpaceClock;
 import fr.systamynna.spacemod.core.component.SpaceComponent;
+import fr.systamynna.spacemod.core.controller.SpaceController;
 import fr.systamynna.spacemod.core.store.SpaceStore;
 import fr.systamynna.spacemod.core.store.SpaceStores;
 
@@ -37,6 +39,7 @@ public class StrategicLayer {
     private final Set<UUID> dirty = new HashSet<>();
     /** Persistance, ouverte pendant la vie du serveur. */
     private SpaceStore store;
+    private static final double TICK_MS = 50;
     private final SpaceTree tree = new SpaceTree(this);
     private SpaceListener listener = SpaceListener.NONE;
 
@@ -63,20 +66,30 @@ public class StrategicLayer {
         } else if (store.loadParentless().isEmpty()) { // base neuve
             SpaceObject r = new SpaceObject(UUID.randomUUID(), null, SpaceObject.ROOT_NAME);
             loaded.put(r.getUuid(), r);
-            dirty.add(r.getUuid());
+            modified(r.getUuid());
             flush();
             setRoot(r);
         }
         AmynnaSpaceMod.LOGGER.info("Amynna's Space Mod chargé !");
     }
 
-    /** Écrit les objets modifiés. */
+    /** Marque l'objet à écrire au prochain {@link #flush()} et le réplique tout de suite aux abonnés. */
+    private void modified(UUID uuid) {
+        dirty.add(uuid);
+        SpaceObject o = loaded.get(uuid);
+        if (o != null) listener.updated(o);
+    }
+
+    /**
+     * Écrit les objets modifiés. Appelé par la sauvegarde automatique, l'arrêt du serveur et les changements d'arbre ;
+     * les éditions de propriétés attendent l'un de ces moments (la réplication, elle, est immédiate : voir {@link #modified}).
+     */
     public void flush() {
         if (store == null || dirty.isEmpty()) return;
         List<SpaceObject> saved = dirty.stream().map(loaded::get).filter(java.util.Objects::nonNull).toList();
         store.save(saved);
         dirty.clear();
-        saved.forEach(listener::updated);
+        AmynnaSpaceMod.LOGGER.info("FLUSHED to the DB !");
     }
 
     public void stop() {
@@ -100,6 +113,7 @@ public class StrategicLayer {
             o = store.load(uuid).orElse(null);
             if (o != null) {
                 loaded.put(uuid, o);
+                o.resume(SpaceClock.SERVER.now() / TICK_MS);
                 listener.updated(o);
             }
         }
@@ -160,7 +174,7 @@ public class StrategicLayer {
         if (tree.child(parent, name) != null) throw new SpaceObjectException("amynnaspacemod.spaceobject.name_taken", name);
         SpaceObject o = new SpaceObject(UUID.randomUUID(), parent == null ? null : parent.getUuid(), name);
         loaded.put(o.getUuid(), o);
-        dirty.add(o.getUuid());
+        modified(o.getUuid());
         flush();
         return o;
     }
@@ -176,7 +190,7 @@ public class StrategicLayer {
         if (same != null && !same.getUuid().equals(o.getUuid())) throw new SpaceObjectException("amynnaspacemod.spaceobject.name_taken", o.getName());
         if (transpose) o.transform.set(tree.convert(o.transform, o.getParent() == null ? null : peek(o.getParent()), newParent));
         o.setParent(newParent == null ? null : newParent.getUuid());
-        dirty.add(o.getUuid());
+        modified(o.getUuid());
         flush();
     }
 
@@ -201,7 +215,7 @@ public class StrategicLayer {
                 if (same != null && !same.getUuid().equals(o.getUuid())) throw new SpaceObjectException("amynnaspacemod.spaceobject.name_taken", k.getName());
             }
             // Deux enfants ne peuvent pas se heurter entre eux : ils avaient des noms distincts chez la cible.
-            for (SpaceObject k : kids) { k.setParent(up); dirty.add(k.getUuid()); }
+            for (SpaceObject k : kids) { k.setParent(up); modified(k.getUuid()); }
             flush();
         }
         store.delete(o.getUuid());
@@ -216,43 +230,64 @@ public class StrategicLayer {
         SpaceObject o = getOrThrow(uuid);
         if (o.getComponent(c.getClass()).isPresent()) throw new SpaceObjectException("amynnaspacemod.component.already", c.id());
         o.putComponent(c);
-        dirty.add(uuid);
-        flush();
+        modified(uuid);
     }
 
     public void removeComponent(UUID uuid, Class<? extends SpaceComponent> type) {
         if (!getOrThrow(uuid).removeComponent(type)) throw new SpaceObjectException("amynnaspacemod.component.missing", type.getSimpleName());
-        dirty.add(uuid);
-        flush();
+        modified(uuid);
     }
 
-    /** Load l'objet, le marque dirty, applique l'édition, puis flush tout dirty. */
+    /** Load l'objet, applique l'édition, puis le marque dirty et le réplique (écriture au prochain flush). */
     public void editComponent(UUID uuid, Class<? extends SpaceComponent> type, java.util.function.Consumer<SpaceComponent> edit) {
         SpaceComponent c = getOrThrow(uuid).getComponent(type).orElseThrow(() -> new SpaceObjectException("amynnaspacemod.component.missing", type.getSimpleName()));
-        dirty.add(uuid);
         try {
             edit.accept(c);
         } finally {
-            flush();
+            modified(uuid);
         }
     }
 
     // --- transform / échelle ---
 
-    /** Édite le transform de l'objet, puis flush. */
+    /** Édite le transform de l'objet, puis le marque dirty et le réplique. */
     public void editTransform(UUID uuid, java.util.function.Consumer<Transform> edit) {
         SpaceObject o = getOrThrow(uuid);
-        dirty.add(uuid);
         try {
             edit.accept(o.transform);
         } finally {
-            flush();
+            modified(uuid);
         }
     }
 
     public void setScale(UUID uuid, double scale) {
         getOrThrow(uuid).setScale(scale);
-        dirty.add(uuid);
-        flush();
+        modified(uuid);
+    }
+
+    // --- contrôleur ---
+
+    /** {@code null} retire le contrôleur : l'objet reste à sa dernière pose. */
+    public void setController(UUID uuid, @Nullable SpaceController c) {
+        getOrThrow(uuid).setController(c);
+        modified(uuid);
+    }
+
+    public void editController(UUID uuid, java.util.function.Consumer<SpaceController> edit) {
+        SpaceController c = getOrThrow(uuid).getController();
+        if (c == null) throw new SpaceObjectException("amynnaspacemod.controller.none");
+        try {
+            edit.accept(c);
+        } finally {
+            modified(uuid);
+        }
+    }
+
+    /**
+     * Recalcule la pose des objets loadés qui ont un contrôleur, à l'instant {@code ticks}.
+     * N'est ni persisté ni répliqué : le client recalcule la même pose avec son horloge.
+     */
+    public void tickControllers(double ticks) {
+        for (SpaceObject o : loaded.values()) o.step(ticks);
     }
 }
