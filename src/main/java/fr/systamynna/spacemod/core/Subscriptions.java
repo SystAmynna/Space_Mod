@@ -86,6 +86,19 @@ public final class Subscriptions implements SpaceListener {
         layer.store().savePlayerParent(p.getUUID(), x.getUuid());
     }
 
+    /**
+     * Rendu du ciel : abonne le joueur à X, ses ancêtres et les enfants de chacun (ses frères et ceux de ses ancêtres, donc le système visible).
+     * Contrairement à {@link #setParent}, le parent du joueur n'est pas modifié. Tout est loadé.
+     */
+    public void subscribeAround(ServerPlayer p, SpaceObject x) {
+        Set<UUID> next = new HashSet<>(subs(p));
+        for (SpaceObject c = x; c != null; c = c.getParent() == null ? null : layer.getOrThrow(c.getParent())) {
+            next.add(c.getUuid());
+            for (SpaceObject k : layer.tree().children(c)) next.add(layer.getOrThrow(k.getUuid()).getUuid());
+        }
+        apply(p, next);
+    }
+
     /** Le joueur a le transform spatial (absolu) de son parent ; zéro s'il n'en a pas. */
     public Transform playerTransform(ServerPlayer p) {
         return layer.store().loadPlayerParent(p.getUUID()).map(u -> layer.tree().worldTransform(layer.peek(u))).orElseGet(Transform::new);

@@ -27,9 +27,13 @@ import fr.systamynna.spacemod.client.ClientLayer;
 import fr.systamynna.spacemod.commands.SpaceComponentCommand;
 import fr.systamynna.spacemod.commands.SpaceControllerCommand;
 import fr.systamynna.spacemod.commands.SpaceLoadCommand;
+import fr.systamynna.spacemod.commands.SpaceLookAtCommand;
 import fr.systamynna.spacemod.commands.SpaceObjectCommand;
 import fr.systamynna.spacemod.commands.SpacePlayerCommand;
 import fr.systamynna.spacemod.commands.SpaceProviderCommand;
+import fr.systamynna.spacemod.commands.SpaceRenderCommand;
+import fr.systamynna.spacemod.core.render.RenderConfigs;
+import fr.systamynna.spacemod.core.render.RenderNet;
 import fr.systamynna.spacemod.core.SpaceNet;
 import fr.systamynna.spacemod.core.Subscriptions;
 import fr.systamynna.spacemod.core.StrategicLayer;
@@ -52,12 +56,15 @@ public class AmynnaSpaceMod {
     public static final StrategicLayer STRATEGIC = new StrategicLayer();
     /** Abonnements des joueurs à la couche stratégique. */
     public static final Subscriptions SUBS = new Subscriptions(STRATEGIC);
+    /** Configs de ciel spatial par dimension (/spacerender) et assets de rendu. */
+    public static final RenderConfigs RENDER = new RenderConfigs(STRATEGIC, SUBS);
 
     public AmynnaSpaceMod(IEventBus modEventBus, ModContainer container) {
         DynamicDimensionsInit.init(modEventBus, FMLEnvironment.dist);
         container.registerConfig(ModConfig.Type.COMMON, StoreConfig.SPEC, "AmynnaSpaceMod/server.toml");
         modEventBus.addListener(ClockNet::register);
         modEventBus.addListener(SpaceNet::register);
+        modEventBus.addListener(RenderNet::register);
         NeoForge.EVENT_BUS.addListener((RegisterCommandsEvent e) -> {
             SpaceClockCommand.register(e.getDispatcher());
             SpaceObjectCommand.register(e.getDispatcher());
@@ -66,16 +73,24 @@ public class AmynnaSpaceMod {
             SpaceControllerCommand.register(e.getDispatcher());
             SpacePlayerCommand.register(e.getDispatcher());
             SpaceProviderCommand.register(e.getDispatcher());
+            SpaceRenderCommand.register(e.getDispatcher());
+            SpaceLookAtCommand.register(e.getDispatcher());
         });
         NeoForge.EVENT_BUS.addListener((ServerTickEvent.Post e) -> STRATEGIC.tickControllers(SpaceClock.SERVER.now() / 50));
-        // Provisoire : le futur rendu appellera step() à chaque frame avec un temps fractionnaire.
-        if (FMLEnvironment.dist.isClient())
+        // Le rendu spatial (SpaceRenderer) rappelle step() à chaque image ; ce tick garde la couche à jour quand il est inactif.
+        if (FMLEnvironment.dist.isClient()) {
             NeoForge.EVENT_BUS.addListener((ClientTickEvent.Post e) -> ClientLayer.INSTANCE.step(SpaceClock.CLIENT.now() / 50));
+            fr.systamynna.spacemod.client.render.ClientRenderInit.init();
+        }
         NeoForge.EVENT_BUS.addListener((PlayerEvent.PlayerLoggedInEvent e) -> {
             if (e.getEntity() instanceof ServerPlayer p) {
                 PacketDistributor.sendToPlayer(p, ClockNet.currentSync());
                 SUBS.login(p);
+                RENDER.send(p);
             }
+        });
+        NeoForge.EVENT_BUS.addListener((PlayerEvent.PlayerChangedDimensionEvent e) -> {
+            if (e.getEntity() instanceof ServerPlayer p) RENDER.send(p);
         });
         NeoForge.EVENT_BUS.addListener((PlayerEvent.PlayerLoggedOutEvent e) -> {
             if (e.getEntity() instanceof ServerPlayer p) SUBS.logout(p);
@@ -84,15 +99,18 @@ public class AmynnaSpaceMod {
             ClockData.load(e.getServer());
             STRATEGIC.start(e.getServer().getWorldPath(LevelResource.ROOT));
             SUBS.start(e.getServer());
+            RENDER.start(e.getServer());
         });
         // LevelEvent.Save part une fois par dimension : on ne réagit qu'à l'overworld.
         NeoForge.EVENT_BUS.addListener((LevelEvent.Save e) -> {
             if (e.getLevel() instanceof ServerLevel l && l.dimension() == Level.OVERWORLD) {
                 ClockData.markDirty();
                 STRATEGIC.flush();
+                RENDER.flush();
             }
         });
         NeoForge.EVENT_BUS.addListener((ServerStoppingEvent e) -> {
+            RENDER.stop();
             SUBS.stop();
             STRATEGIC.stop();
         });

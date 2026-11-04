@@ -22,23 +22,42 @@ import net.minecraft.nbt.CompoundTag;
 public final class ClientLayer {
     public static final ClientLayer INSTANCE = new ClientLayer();
 
+    /** Observateur des changements de la couche (le rendu y déclare ses SpaceRender). */
+    public interface Listener {
+        void applied(SpaceObject o);
+
+        void dropped(UUID uuid);
+
+        void cleared();
+    }
+
     private final Map<UUID, SpaceObject> objects = new HashMap<>();
+    private final List<Listener> listeners = new ArrayList<>();
 
     ClientLayer() {}
+
+    public void addListener(Listener l) { listeners.add(l); }
 
     /** Ajoute ou remplace l'objet par l'état reçu du serveur. */
     public void apply(UUID uuid, @Nullable UUID parent, CompoundTag data) {
         SpaceObject o = SpaceObject.load(uuid, parent, data);
         o.resume(SpaceClock.CLIENT.now() / 50); // le transform reçu est daté : le contrôleur le corrige
         objects.put(uuid, o);
+        for (Listener l : listeners) l.applied(o);
     }
 
     /** Recalcule la pose des objets à contrôleur à l'instant {@code ticks} (peut être fractionnaire, pour le rendu). */
     public void step(double ticks) { for (SpaceObject o : objects.values()) o.step(ticks); }
 
-    public void drop(UUID uuid) { objects.remove(uuid); }
+    public void drop(UUID uuid) {
+        objects.remove(uuid);
+        for (Listener l : listeners) l.dropped(uuid);
+    }
 
-    public void clear() { objects.clear(); }
+    public void clear() {
+        objects.clear();
+        for (Listener l : listeners) l.cleared();
+    }
 
     public boolean has(UUID uuid) { return objects.containsKey(uuid); }
 

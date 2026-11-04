@@ -11,6 +11,8 @@ import fr.systamynna.spacemod.core.SpaceObject;
 import fr.systamynna.spacemod.core.StrategicLayer;
 import fr.systamynna.spacemod.core.component.components.Identity;
 import fr.systamynna.spacemod.core.controller.controllers.OrbitalController;
+import fr.systamynna.spacemod.core.render.PlanetRender;
+import fr.systamynna.spacemod.core.render.SpaceRender;
 import fr.systamynna.spacemod.core.store.JdbcSpaceStore;
 
 class ProvidersTest {
@@ -63,6 +65,37 @@ class ProvidersTest {
             assertTrue(o.getScale() > 0);
         }
         assertEquals(60, orbits);
+    }
+
+    @Test
+    void scaleIsTheKilometreValueOfTheTransformUnit() throws Exception {
+        StrategicLayer s = layer();
+        Providers.refresh(s, ProviderType.DEFAULT);
+        String system = "universe/milky_way/solar_system";
+        assertEquals(9460730472580.8, s.tree().resolve(system).getScale(), 1e-3); // al
+        assertEquals(149597870.7, s.tree().resolve(system + "/sun/earth").getScale(), 1e-6); // UA
+        assertEquals(1.0, s.tree().resolve(EARTH + "/moon").getScale(), 0); // km
+        var sun = (PlanetRender) s.tree().resolve(system + "/sun").getComponent(SpaceRender.class).orElseThrow().objects.get(0);
+        assertEquals(696340, sun.radius(), 1); // rayons en km
+    }
+
+    @Test
+    void defaultRenderDataIsValidAndTexturesExist() throws Exception {
+        StrategicLayer s = layer();
+        Providers.refresh(s, ProviderType.DEFAULT);
+        assertEquals(6371, ((PlanetRender) s.tree().resolve(EARTH).getComponent(SpaceRender.class).orElseThrow().objects.get(0)).radius(), 0);
+        int withRender = 0;
+        for (SpaceObject o : s.tree().all()) {
+            var r = o.getComponent(SpaceRender.class);
+            if (r.isEmpty()) continue;
+            withRender++;
+            assertEquals(1, r.get().objects.size(), s.tree().addressOf(o)); // un rayon invalide fait ignorer l'objet au chargement
+            PlanetRender p = (PlanetRender) r.get().objects.get(0);
+            assertTrue(p.radius() > 0, s.tree().addressOf(o));
+            String path = "/assets/" + p.texture.replaceFirst(":", "/"); // namespace:chemin -> /assets/namespace/chemin
+            assertNotNull(Providers.class.getResource(path), p.texture);
+        }
+        assertEquals(65, withRender);
     }
 
     @Test

@@ -191,7 +191,7 @@ public class StrategicLayer {
             if (c.getUuid().equals(o.getUuid())) throw new SpaceObjectException("amynnaspacemod.spaceobject.cycle");
         SpaceObject same = tree.child(newParent, o.getName());
         if (same != null && !same.getUuid().equals(o.getUuid())) throw new SpaceObjectException("amynnaspacemod.spaceobject.name_taken", o.getName());
-        if (transpose) o.transform.set(tree.convert(o.transform, o.getParent() == null ? null : peek(o.getParent()), newParent));
+        if (transpose) o.transform.set(tree.convert(o.transform, o.getScale(), o.getParent() == null ? null : peek(o.getParent()), newParent));
         o.setParent(newParent == null ? null : newParent.getUuid());
         modified(o.getUuid());
         flush();

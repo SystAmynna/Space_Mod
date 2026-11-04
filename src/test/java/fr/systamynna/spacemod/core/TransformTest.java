@@ -27,22 +27,24 @@ class TransformTest {
         SpaceObject planet = s.add("planet", root), moon = s.add("moon", planet);
 
         pos(s, planet, 10, 10, 10);
-        s.setScale(planet.getUuid(), 0.1);
-        pos(s, moon, 1, 2, 3);
-        assertPos(10.1, 10.2, 10.3, s.tree().worldTransform(moon));
+        s.setScale(planet.getUuid(), 10); // 1.0 du transform de la planète = 10 km
+        assertPos(100, 100, 100, s.tree().worldTransform(planet)); // en km
+        pos(s, moon, 1, 2, 3); // échelle 1 : en km
+        assertPos(101, 102, 103, s.tree().worldTransform(moon));
 
-        // vaisseau (1,1,1) dans le référentiel de la lune (2,4,6, échelle 1) → (3,5,7) chez la planète
+        // vaisseau (1,1,1) km dans le référentiel de la lune (2,4,6 km) → (3,5,7) km chez la planète
         pos(s, moon, 2, 4, 6);
-        Transform t = s.tree().convert(new Transform() {{ x = y = z = 1; }}, moon, planet);
+        Transform t = s.tree().convert(new Transform() {{ x = y = z = 1; }}, 1, moon, planet);
         assertPos(3, 5, 7, t);
-        assertPos(1, 1, 1, s.tree().convert(t, planet, moon)); // aller-retour
+        assertPos(1, 1, 1, s.tree().convert(t, 1, planet, moon)); // aller-retour
+        assertPos(1.2, 1.4, 1.6, s.tree().convert(new Transform() {{ x = y = z = 1; }}, 10, moon, planet)); // même chose en unités de 10 km
 
         assertThrows(SpaceObjectException.class, () -> s.setScale(planet.getUuid(), 0));
         assertThrows(SpaceObjectException.class, () -> s.setScale(planet.getUuid(), Double.NaN));
 
         // persistance
         SpaceObject back = SpaceObject.load(planet.getUuid(), root.getUuid(), planet.save());
-        assertEquals(0.1, back.getScale());
+        assertEquals(10, back.getScale());
         assertPos(10, 10, 10, back.transform);
         s.stop();
     }
@@ -63,9 +65,9 @@ class TransformTest {
 
         s.setParent(ship, planet, true); // retour : aller-retour exact
         assertPos(1, 2, 3, ship.transform);
-        s.setScale(planet.getUuid(), 0.1);
+        s.setScale(planet.getUuid(), 0.1); // la planète est à 1 km de l'étoile
         s.setParent(ship, star, true);
-        assertPos(10.1, 10.2, 10.3, ship.transform);
+        assertPos(2, 3, 4, ship.transform);
         s.stop();
     }
 

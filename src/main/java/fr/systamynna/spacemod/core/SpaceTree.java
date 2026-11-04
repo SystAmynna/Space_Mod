@@ -120,22 +120,26 @@ public final class SpaceTree {
     }
 
     /**
-     * Convertit {@code t}, exprimé dans le référentiel de {@code from} (celui de ses enfants), vers celui de {@code to}.
+     * Convertit {@code t}, exprimé en unités de {@code scale} km dans le référentiel de {@code from} (celui de ses enfants), vers celui de {@code to} (mêmes unités).
      * {@code null} = référentiel absolu, au-dessus des objets sans parent. On ne monte que jusqu'à l'ancêtre commun, pour garder la précision.
      */
-    public Transform convert(Transform t, @Nullable SpaceObject from, @Nullable SpaceObject to) {
+    public Transform convert(Transform t, double scale, @Nullable SpaceObject from, @Nullable SpaceObject to) {
         List<SpaceObject> up = chain(from), down = chain(to);
         while (!up.isEmpty() && !down.isEmpty() && up.getLast().getUuid().equals(down.getLast().getUuid())) {
             up.removeLast();
             down.removeLast();
         }
-        for (SpaceObject o : up) t = t.up(o.transform, o.getScale());
-        for (SpaceObject o : down.reversed()) t = t.down(o.transform, o.getScale());
+        for (SpaceObject o : up) t = t.up(o.transform, o.getScale() / scale);
+        for (SpaceObject o : down.reversed()) t = t.down(o.transform, o.getScale() / scale);
         return t;
     }
 
-    /** Transform de {@code o} dans le référentiel absolu. */
+    /** Transform de {@code o} dans le référentiel absolu ; position en km. */
     public Transform worldTransform(SpaceObject o) {
-        return convert(o.transform, o.getParent() == null ? null : layer.peek(o.getParent()), null);
+        Transform t = convert(o.transform, o.getScale(), o.getParent() == null ? null : layer.peek(o.getParent()), null);
+        t.x *= o.getScale();
+        t.y *= o.getScale();
+        t.z *= o.getScale();
+        return t;
     }
 }

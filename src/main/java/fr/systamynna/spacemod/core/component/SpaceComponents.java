@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 
 import fr.systamynna.spacemod.core.SpaceObjectException;
 import fr.systamynna.spacemod.core.component.components.Identity;
+import fr.systamynna.spacemod.core.render.SpaceRender;
 import net.minecraft.nbt.CompoundTag;
 
 /** Registre des composants connus : l'unique endroit à compléter pour en ajouter un. */
@@ -20,6 +21,7 @@ public final class SpaceComponents {
 
     static {
         ENTRIES.put(Identity.ID, new Entry(Identity.class, () -> new Identity(""), Identity::load));
+        ENTRIES.put(SpaceRender.ID, new Entry(SpaceRender.class, SpaceRender::new, SpaceRender::load));
     }
 
     private SpaceComponents() {}

@@ -16,7 +16,7 @@ import net.minecraft.nbt.CompoundTag;
 
 /**
  * Objet spatial : UUID, nom (unique parmi ses frères) et parent (null pour la racine).
- * Son {@link #transform} est exprimé dans son propre référentiel parent ; son {@link #getScale() échelle} s'applique aux transforms de ses enfants.
+ * Son {@link #transform} est exprimé dans son référentiel parent, en unités de {@link #getScale() scale} km (x = 2 avec scale = 10 : 20 km).
  */
 public class SpaceObject {
     /** Nom de la racine. */
@@ -28,6 +28,7 @@ public class SpaceObject {
     private UUID parent;
     /** Position/rotation relatives au parent. */
     public final Transform transform = new Transform();
+    /** Kilomètres que vaut 1.0 dans {@link #transform} (x, y, z). */
     private double scale = 1.0;
     private final Map<String, SpaceComponent> components = new LinkedHashMap<>();
     /** Fait bouger l'objet ; null = immobile. Répliqué au client. */

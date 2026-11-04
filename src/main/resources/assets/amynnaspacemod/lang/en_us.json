@@ -53,5 +53,12 @@
   "amynnaspacemod.provider.bad_resource": "Cannot read %s: %s",
   "amynnaspacemod.provider.refresh.summary": "Refresh %s: %s created, %s updated, %s unchanged, %s error(s).",
   "amynnaspacemod.provider.refresh.created": " + %s",
-  "amynnaspacemod.provider.refresh.updated": " ~ %s"
+  "amynnaspacemod.provider.refresh.updated": " ~ %s",
+  "amynnaspacemod.render.object": "Sky of %s is now rendered from %s.",
+  "amynnaspacemod.render.transform": "Sky render of %s: %s",
+  "amynnaspacemod.render.cancel": "Space sky disabled for %s (vanilla sky restored).",
+  "amynnaspacemod.render.no_object": "%s has no space sky yet; use 'object' first.",
+  "amynnaspacemod.lookat.done": "Now looking at %s.",
+  "amynnaspacemod.lookat.no_sky": "%s has no space sky; use /spacerender first.",
+  "amynnaspacemod.lookat.unreachable": "%s cannot be seen from the sky viewpoint (no common ancestor or same position)."
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 import net.minecraft.nbt.CompoundTag;
 
-/** Position et rotation, en double précision, dans le référentiel du parent de l'objet qui le porte. */
+/** Position et rotation, en double précision, dans le référentiel du parent de l'objet qui le porte ; x, y, z sont en unités de {@link SpaceObject#getScale()} km. */
 public class Transform {
     public double x, y, z, yaw, pitch, roll;
 
@@ -66,18 +66,18 @@ public class Transform {
 
     private static double add(double a, double b) { return round(a + b, Math.max(Math.abs(a), Math.abs(b))); }
 
-    private static double sub(double a, double b, double div) { return round((a - b) / div, Math.max(Math.abs(a), Math.abs(b)) / div); }
+    private static double sub(double a, double b) { return round(a - b, Math.max(Math.abs(a), Math.abs(b))); }
 
     /**
-     * Monte d'un référentiel : {@code this}, exprimé dans le référentiel de l'objet porteur de {@code frame} (d'échelle {@code scale}),
-     * est converti dans celui du parent de cet objet.
+     * Monte d'un référentiel : {@code this}, exprimé dans le référentiel de l'objet porteur de {@code frame}, est converti dans celui du parent
+     * de cet objet. Les unités de {@code this} et du résultat sont identiques ; {@code k} = (km par unité de {@code frame}) / (km par unité de {@code this}).
      */
     // shortcut: rotations additionnées, pas composées (les offsets enfants ne sont pas tournés par le parent) ; à revoir quand le rendu en aura besoin.
-    public Transform up(Transform frame, double scale) {
+    public Transform up(Transform frame, double k) {
         Transform r = new Transform();
-        r.x = add(frame.x, scale * x);
-        r.y = add(frame.y, scale * y);
-        r.z = add(frame.z, scale * z);
+        r.x = add(x, k * frame.x);
+        r.y = add(y, k * frame.y);
+        r.z = add(z, k * frame.z);
         r.yaw = add(frame.yaw, yaw);
         r.pitch = add(frame.pitch, pitch);
         r.roll = add(frame.roll, roll);
@@ -85,14 +85,14 @@ public class Transform {
     }
 
     /** Inverse de {@link #up}. */
-    public Transform down(Transform frame, double scale) {
+    public Transform down(Transform frame, double k) {
         Transform r = new Transform();
-        r.x = sub(x, frame.x, scale);
-        r.y = sub(y, frame.y, scale);
-        r.z = sub(z, frame.z, scale);
-        r.yaw = sub(yaw, frame.yaw, 1);
-        r.pitch = sub(pitch, frame.pitch, 1);
-        r.roll = sub(roll, frame.roll, 1);
+        r.x = sub(x, k * frame.x);
+        r.y = sub(y, k * frame.y);
+        r.z = sub(z, k * frame.z);
+        r.yaw = sub(yaw, frame.yaw);
+        r.pitch = sub(pitch, frame.pitch);
+        r.roll = sub(roll, frame.roll);
         return r;
     }
 
