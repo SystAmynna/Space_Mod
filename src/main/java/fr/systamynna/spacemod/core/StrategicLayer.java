@@ -194,7 +194,7 @@ public class StrategicLayer {
     /** Outil de lecture de l'arbre. */
     public SpaceTree tree() { return tree; }
 
-    SpaceStore store() { return store; }
+    public SpaceStore store() { return store; }
 
     @Nullable
     SpaceObject loadedOrNull(UUID uuid) { return loaded.get(uuid); }

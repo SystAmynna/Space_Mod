@@ -17,6 +17,7 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
 import fr.systamynna.spacemod.client.ClientLayer;
+import fr.systamynna.spacemod.client.sky.ClientSky;
 import fr.systamynna.spacemod.core.render.RenderMath.Placed;
 import fr.systamynna.spacemod.core.SpaceObject;
 import fr.systamynna.spacemod.core.clock.SpaceClock;
@@ -36,8 +37,8 @@ public final class SpaceRenderer implements ClientLayer.Listener {
     public static final SpaceRenderer INSTANCE = new SpaceRenderer();
 
     /** Rayon fictif de la sphère du ciel (les éléments sont ramenés dessus, seuls direction et angle comptent). */
-    private static final double SKY_RADIUS = 100;
-    /** Sous ce rayon angulaire (rad) l'élément est ignoré (futur : point lumineux). */
+    public static final double SKY_RADIUS = 100;
+    /** Sous ce rayon angulaire (rad) l'élément est ignoré (les étoiles lointaines sont dessinées par {@link ClientSky}). */
     private static final double MIN_ANGLE = 2e-4;
 
     private final Map<UUID, SpaceRender> renders = new HashMap<>();
@@ -67,6 +68,7 @@ public final class SpaceRenderer implements ClientLayer.Listener {
         if (host == null) return;
         layer.step(SpaceClock.CLIENT.now() / 50); // temps continu (nanoTime) : mouvement fluide à chaque image
         RenderMath.Observer ob = RenderMath.observer(layer::get, host, cfg);
+        ClientSky.INSTANCE.draw(ob, modelView); // étoiles lointaines d'abord : les sphères se dessinent par-dessus
 
         List<Item> items = new ArrayList<>();
         for (Map.Entry<UUID, SpaceRender> e : renders.entrySet()) {

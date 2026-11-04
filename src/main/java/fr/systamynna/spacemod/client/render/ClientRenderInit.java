@@ -1,6 +1,7 @@
 package fr.systamynna.spacemod.client.render;
 
 import fr.systamynna.spacemod.client.ClientLayer;
+import fr.systamynna.spacemod.client.sky.ClientSky;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
@@ -14,6 +15,7 @@ public final class ClientRenderInit {
 
     public static void init() {
         ClientLayer.INSTANCE.addListener(SpaceRenderer.INSTANCE);
+        ClientLayer.INSTANCE.addListener(ClientSky.INSTANCE);
         // Chaque dimension crée un nouveau ClientLevel : on y réinstalle l'enrobage des effets (ClientLevel.effects, rendu public par l'AT).
         NeoForge.EVENT_BUS.addListener((ClientTickEvent.Post e) -> {
             ClientLevel l = Minecraft.getInstance().level;
@@ -31,6 +33,7 @@ public final class ClientRenderInit {
         NeoForge.EVENT_BUS.addListener((ClientPlayerNetworkEvent.LoggingOut e) -> {
             ClientRenderState.set(null);
             AssetCache.clear();
+            ClientSky.INSTANCE.clear();
         });
     }
 }

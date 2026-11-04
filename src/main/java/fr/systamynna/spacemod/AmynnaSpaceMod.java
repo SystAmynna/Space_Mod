@@ -102,7 +102,10 @@ public class AmynnaSpaceMod {
             if (e.getEntity() instanceof ServerPlayer p) RENDER.send(p);
         });
         NeoForge.EVENT_BUS.addListener((PlayerEvent.PlayerLoggedOutEvent e) -> {
-            if (e.getEntity() instanceof ServerPlayer p) SUBS.logout(p);
+            if (e.getEntity() instanceof ServerPlayer p) {
+                SUBS.logout(p);
+                RENDER.logout(p);
+            }
         });
         NeoForge.EVENT_BUS.addListener((ServerStartingEvent e) -> {
             ClockData.load(e.getServer());

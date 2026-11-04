@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import fr.systamynna.spacemod.core.SpaceObject;
 import fr.systamynna.spacemod.core.StrategicLayer;
 import fr.systamynna.spacemod.core.component.components.Identity;
+import fr.systamynna.spacemod.core.component.components.Sky;
 import fr.systamynna.spacemod.core.controller.controllers.OrbitalController;
 import fr.systamynna.spacemod.core.render.PlanetRender;
 import fr.systamynna.spacemod.core.render.SpaceRender;
@@ -96,6 +97,21 @@ class ProvidersTest {
             assertNotNull(Providers.class.getResource(path), p.texture);
         }
         assertEquals(65, withRender);
+    }
+
+    @Test
+    void everySystemHasASkySummaryInTheStore() throws Exception {
+        StrategicLayer s = layer();
+        Providers.refresh(s, ProviderType.DEFAULT);
+        SpaceObject gal = s.tree().resolve("universe/milky_way");
+        int n = 0;
+        for (SpaceObject o : s.tree().children(gal)) { // les systèmes (niveau année-lumière)
+            Sky k = o.getComponent(Sky.class).orElseThrow(() -> new AssertionError("pas de sky : " + o.getName()));
+            assertTrue(k.luminosity > 0 && k.color != 0, o.getName());
+            n++;
+        }
+        assertEquals(10, n);
+        assertEquals(n, s.store().skyInBox(gal.getUuid(), new int[] {-9999, -9999, -9999}, new int[] {9999, 9999, 9999}, 0).size());
     }
 
     @Test

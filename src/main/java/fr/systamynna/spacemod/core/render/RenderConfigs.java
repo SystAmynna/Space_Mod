@@ -17,6 +17,7 @@ import fr.systamynna.spacemod.core.Subscriptions;
 import fr.systamynna.spacemod.core.clock.SpaceClock;
 import fr.systamynna.spacemod.core.relevance.PlayerSpacePos;
 import fr.systamynna.spacemod.core.relevance.Relevance;
+import fr.systamynna.spacemod.core.sky.SkyStreamer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.Tag;
@@ -32,6 +33,7 @@ public final class RenderConfigs {
     private final StrategicLayer layer;
     private final Subscriptions subs;
     private final RenderAssets assets = new RenderAssets();
+    private final SkyStreamer sky;
     private final Map<ResourceLocation, RenderConfig> byDim = new HashMap<>();
     private Path file;
     private boolean dirty;
@@ -39,6 +41,7 @@ public final class RenderConfigs {
     public RenderConfigs(StrategicLayer layer, Subscriptions subs) {
         this.layer = layer;
         this.subs = subs;
+        this.sky = new SkyStreamer(layer);
     }
 
     public RenderAssets assets() { return assets; }
@@ -79,6 +82,7 @@ public final class RenderConfigs {
     public void stop() {
         flush();
         assets.stop();
+        sky.clear();
         byDim.clear();
         file = null;
     }
@@ -120,12 +124,17 @@ public final class RenderConfigs {
         }).orElse(null);
     }
 
+    private PlayerSpacePos pos(ServerPlayer p) { return PlayerSpacePos.of(parent(p), byDim.get(p.level().dimension().location())); }
+
+    /** Libère l'état de ciel du joueur. */
+    public void logout(ServerPlayer p) { sky.logout(p.getUUID()); }
+
     /**
      * Recalcule les abonnements automatiques du joueur depuis sa position : son parent, sinon la config de sa dimension. Sans l'un ni l'autre,
      * il n'en a plus ; ses abonnements manuels ne sont pas touchés.
      */
     public void refresh(ServerPlayer p) {
-        PlayerSpacePos pos = PlayerSpacePos.of(parent(p), byDim.get(p.level().dimension().location()));
+        PlayerSpacePos pos = pos(p);
         Set<UUID> next = Set.of();
         try {
             if (pos != null) next = Relevance.needed(layer, pos, SpaceClock.SERVER.now() / 50, subs.auto(p), Relevance.Params.DEFAULT);
@@ -145,6 +154,7 @@ public final class RenderConfigs {
         UUID parent = parent(p);
         if (c != null && parent != null) c = c.withObject(parent);
         refresh(p);
+        sky.send(p, pos(p)); // ciel lointain : recalculé ici seulement (position qui change = cet appel), pas à chaque refresh
         PacketDistributor.sendToPlayer(p, new RenderNet.Config(dim, c == null ? null : c.save()));
     }
 

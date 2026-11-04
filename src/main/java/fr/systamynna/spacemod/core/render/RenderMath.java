@@ -25,7 +25,7 @@ public final class RenderMath {
     public record Pose(Vector3d t, Quaterniond q) {
         static Pose identity() { return new Pose(new Vector3d(), new Quaterniond()); }
 
-        Vector3d apply(Vector3d p) { return q.transform(new Vector3d(p)).add(t); }
+        public Vector3d apply(Vector3d p) { return q.transform(new Vector3d(p)).add(t); }
 
         /** {@code outer ∘ this} : applique this, puis outer. */
         Pose then(Pose outer) { return new Pose(outer.apply(t), new Quaterniond(outer.q).mul(q)); }
@@ -58,8 +58,8 @@ public final class RenderMath {
         return out;
     }
 
-    /** Référentiel de {@code chain[0]} → celui de {@code chain[upTo]}. */
-    static Pose toAncestor(List<SpaceObject> chain, int upTo) {
+    /** Référentiel de {@code chain[0]} → celui de {@code chain[upTo]} (donne la position de l'observateur dans le repère d'un ancêtre). */
+    public static Pose toAncestor(List<SpaceObject> chain, int upTo) {
         Pose acc = Pose.identity();
         for (int i = 0; i < upTo; i++) acc = acc.then(local(chain.get(i)));
         return acc;

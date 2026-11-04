@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 
 import fr.systamynna.spacemod.core.SpaceObjectException;
 import fr.systamynna.spacemod.core.component.components.Identity;
+import fr.systamynna.spacemod.core.component.components.Sky;
 import fr.systamynna.spacemod.core.render.SpaceRender;
 import net.minecraft.nbt.CompoundTag;
 
@@ -22,6 +23,7 @@ public final class SpaceComponents {
     static {
         ENTRIES.put(Identity.ID, new Entry(Identity.class, () -> new Identity(""), Identity::load));
         ENTRIES.put(SpaceRender.ID, new Entry(SpaceRender.class, SpaceRender::new, SpaceRender::load));
+        ENTRIES.put(Sky.ID, new Entry(Sky.class, Sky::new, Sky::load));
     }
 
     private SpaceComponents() {}

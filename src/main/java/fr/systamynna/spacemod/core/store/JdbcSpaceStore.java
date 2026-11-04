@@ -18,6 +18,9 @@ import java.util.Set;
 import java.util.UUID;
 
 import fr.systamynna.spacemod.core.SpaceObject;
+import fr.systamynna.spacemod.core.component.components.Sky;
+import fr.systamynna.spacemod.core.sky.SkyParams;
+import fr.systamynna.spacemod.core.sky.SkySummary;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtAccounter;
 import net.minecraft.nbt.NbtIo;
@@ -32,10 +35,95 @@ public class JdbcSpaceStore implements SpaceStore {
             st.execute("CREATE TABLE IF NOT EXISTS space_object (uuid VARCHAR(36) PRIMARY KEY, parent_uuid VARCHAR(36), data BLOB)");
             st.execute("CREATE TABLE IF NOT EXISTS space_player_sub (player VARCHAR(36), object VARCHAR(36), PRIMARY KEY (player, object))");
             st.execute("CREATE TABLE IF NOT EXISTS space_meta (k VARCHAR(64) PRIMARY KEY, v VARCHAR(255))");
+            // Résumés de ciel : table séparée (pas de colonnes ajoutées à space_object, donc aucune migration) ; cx/cy/cz = cellule de l'index spatial.
+            st.execute("CREATE TABLE IF NOT EXISTS space_sky (uuid VARCHAR(36) PRIMARY KEY, parent_uuid VARCHAR(36), cx INT, cy INT, cz INT, "
+                    + "x DOUBLE PRECISION, y DOUBLE PRECISION, z DOUBLE PRECISION, scale DOUBLE PRECISION, color INT, lum REAL)");
+            for (String index : new String[] {"idx_space_object_parent ON space_object (parent_uuid)", "idx_space_sky_cell ON space_sky (parent_uuid, cx, cy, cz)"}) {
+                try {
+                    st.execute("CREATE INDEX " + index);
+                } catch (SQLException exists) {
+                    // shortcut: pas de IF NOT EXISTS (MySQL ne l'a pas) ; l'échec vient presque toujours d'un index déjà présent
+                }
+            }
+        } catch (SQLException e) {
+            throw io(e);
+        }
+        backfillSky();
+    }
+
+    /** Rattrape une base antérieure à space_sky : remplit la table depuis les objets, une seule fois (clé meta {@code schema:sky}). */
+    private void backfillSky() {
+        if (loadMeta("schema:sky").isPresent()) return;
+        List<SpaceObject> withSky = new ArrayList<>();
+        try (PreparedStatement ps = con.prepareStatement("SELECT uuid, parent_uuid, data FROM space_object");
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                SpaceObject o = read(rs);
+                if (o.getComponent(Sky.class).isPresent()) withSky.add(o);
+            }
+            boolean auto = con.getAutoCommit();
+            con.setAutoCommit(false);
             try {
-                st.execute("CREATE INDEX idx_space_object_parent ON space_object (parent_uuid)");
-            } catch (SQLException exists) {
-                // shortcut: pas de IF NOT EXISTS (MySQL ne l'a pas) ; l'échec vient presque toujours d'un index déjà présent
+                writeSky(withSky);
+                con.commit();
+            } catch (SQLException | RuntimeException e) {
+                con.rollback();
+                throw e;
+            } finally {
+                con.setAutoCommit(auto);
+            }
+        } catch (SQLException e) {
+            throw io(e);
+        }
+        saveMeta("schema:sky", "1");
+    }
+
+    /** Aligne space_sky sur les objets (ligne écrite si l'objet a un parent et un composant sky, supprimée sinon) ; à appeler dans une transaction. */
+    private void writeSky(Collection<SpaceObject> objects) throws SQLException {
+        try (PreparedStatement up = con.prepareStatement("UPDATE space_sky SET parent_uuid = ?, cx = ?, cy = ?, cz = ?, x = ?, y = ?, z = ?, scale = ?, color = ?, lum = ? WHERE uuid = ?");
+             PreparedStatement in = con.prepareStatement("INSERT INTO space_sky (parent_uuid, cx, cy, cz, x, y, z, scale, color, lum, uuid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+             PreparedStatement del = con.prepareStatement("DELETE FROM space_sky WHERE uuid = ?")) {
+            for (SpaceObject o : objects) {
+                Sky sky = o.getComponent(Sky.class).orElse(null);
+                if (sky == null || o.getParent() == null) {
+                    del.setString(1, o.getUuid().toString());
+                    del.executeUpdate();
+                    continue;
+                }
+                double s = o.getScale(), x = o.transform.x * s, y = o.transform.y * s, z = o.transform.z * s;
+                for (PreparedStatement ps : new PreparedStatement[] {up, in}) {
+                    ps.setString(1, o.getParent().toString());
+                    ps.setInt(2, SkyParams.cell(x));
+                    ps.setInt(3, SkyParams.cell(y));
+                    ps.setInt(4, SkyParams.cell(z));
+                    ps.setDouble(5, x);
+                    ps.setDouble(6, y);
+                    ps.setDouble(7, z);
+                    ps.setDouble(8, s);
+                    ps.setInt(9, sky.color);
+                    ps.setFloat(10, (float) sky.luminosity);
+                    ps.setString(11, o.getUuid().toString());
+                }
+                if (up.executeUpdate() == 0) in.executeUpdate();
+            }
+        }
+    }
+
+    @Override
+    public List<SkySummary> skyInBox(UUID parent, int[] minCell, int[] maxCell, double minLum) {
+        try (PreparedStatement ps = con.prepareStatement("SELECT uuid, x, y, z, scale, color, lum FROM space_sky WHERE parent_uuid = ? "
+                + "AND cx BETWEEN ? AND ? AND cy BETWEEN ? AND ? AND cz BETWEEN ? AND ? AND lum >= ?")) {
+            ps.setString(1, parent.toString());
+            for (int i = 0; i < 3; i++) {
+                ps.setInt(2 + 2 * i, minCell[i]);
+                ps.setInt(3 + 2 * i, maxCell[i]);
+            }
+            ps.setDouble(8, minLum);
+            try (ResultSet rs = ps.executeQuery()) {
+                List<SkySummary> out = new ArrayList<>();
+                while (rs.next()) out.add(new SkySummary(UUID.fromString(rs.getString(1)), parent, rs.getDouble(2), rs.getDouble(3), rs.getDouble(4),
+                        rs.getDouble(5), rs.getInt(6), rs.getFloat(7)));
+                return out;
             }
         } catch (SQLException e) {
             throw io(e);
@@ -62,6 +150,7 @@ public class JdbcSpaceStore implements SpaceStore {
                         in.executeUpdate();
                     }
                 }
+                writeSky(objects);
                 con.commit();
             } catch (SQLException | RuntimeException e) {
                 con.rollback();
@@ -209,9 +298,12 @@ public class JdbcSpaceStore implements SpaceStore {
     @Override
     public void delete(UUID uuid) {
         try (PreparedStatement ps = con.prepareStatement("DELETE FROM space_object WHERE uuid = ?");
-             PreparedStatement subs = con.prepareStatement("DELETE FROM space_player_sub WHERE object = ?")) {
+             PreparedStatement subs = con.prepareStatement("DELETE FROM space_player_sub WHERE object = ?");
+             PreparedStatement sky = con.prepareStatement("DELETE FROM space_sky WHERE uuid = ?")) {
             ps.setString(1, uuid.toString());
             ps.executeUpdate();
+            sky.setString(1, uuid.toString());
+            sky.executeUpdate();
             subs.setString(1, uuid.toString());
             subs.executeUpdate();
         } catch (SQLException e) {
