@@ -32,6 +32,7 @@ import fr.systamynna.spacemod.commands.SpaceObjectCommand;
 import fr.systamynna.spacemod.commands.SpacePlayerCommand;
 import fr.systamynna.spacemod.commands.SpaceProviderCommand;
 import fr.systamynna.spacemod.commands.SpaceRenderCommand;
+import fr.systamynna.spacemod.core.relevance.Relevance;
 import fr.systamynna.spacemod.core.render.RenderConfigs;
 import fr.systamynna.spacemod.core.render.RenderNet;
 import fr.systamynna.spacemod.core.SpaceNet;
@@ -76,7 +77,15 @@ public class AmynnaSpaceMod {
             SpaceRenderCommand.register(e.getDispatcher());
             SpaceLookAtCommand.register(e.getDispatcher());
         });
-        NeoForge.EVENT_BUS.addListener((ServerTickEvent.Post e) -> STRATEGIC.tickControllers(SpaceClock.SERVER.now() / 50));
+        NeoForge.EVENT_BUS.addListener((ServerTickEvent.Post e) -> {
+            STRATEGIC.tickControllers(SpaceClock.SERVER.now() / 50);
+            int tick = e.getServer().getTickCount();
+            // Abonnements automatiques recalculés tous les PERIOD_TICKS, décalés par joueur ; éviction des objets inutiles toutes les 100 ticks.
+            // shortcut: pas de recalcul sur déplacement (la position vient d'une config statique) ; à ajouter avec la position libre des vaisseaux.
+            for (ServerPlayer p : e.getServer().getPlayerList().getPlayers())
+                if (Math.floorMod(tick + p.getUUID().hashCode(), Relevance.PERIOD_TICKS) == 0) RENDER.refresh(p);
+            if (tick % 100 == 0) STRATEGIC.sweep(System.currentTimeMillis(), u -> SUBS.hasSubscribers(u) || RENDER.isHost(u));
+        });
         // Le rendu spatial (SpaceRenderer) rappelle step() à chaque image ; ce tick garde la couche à jour quand il est inactif.
         if (FMLEnvironment.dist.isClient()) {
             NeoForge.EVENT_BUS.addListener((ClientTickEvent.Post e) -> ClientLayer.INSTANCE.step(SpaceClock.CLIENT.now() / 50));

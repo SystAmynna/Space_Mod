@@ -40,8 +40,14 @@ public final class ClientLayer {
 
     /** Ajoute ou remplace l'objet par l'état reçu du serveur. */
     public void apply(UUID uuid, @Nullable UUID parent, CompoundTag data) {
-        SpaceObject o = SpaceObject.load(uuid, parent, data);
-        o.resume(SpaceClock.CLIENT.now() / 50); // le transform reçu est daté : le contrôleur le corrige
+        SpaceObject o;
+        try { // diagnostic NONE, retirable
+            o = SpaceObject.load(uuid, parent, data);
+            o.resume(SpaceClock.CLIENT.now() / 50); // le transform reçu est daté : le contrôleur le corrige
+        } catch (RuntimeException e) {
+            fr.systamynna.spacemod.AmynnaSpaceMod.LOGGER.error("ClientLayer.apply : objet {} illisible, ignoré", uuid, e);
+            return;
+        }
         objects.put(uuid, o);
         for (Listener l : listeners) l.applied(o);
     }

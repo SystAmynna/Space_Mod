@@ -3,29 +3,62 @@ package fr.systamynna.spacemod.core;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.DriverManager;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Test;
 
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+
 import fr.systamynna.spacemod.core.store.JdbcSpaceStore;
 
 class SubscriptionsTest {
-    @Test
-    void parentSetIsObjectAncestorsAndChildren() throws Exception {
+    private static StrategicLayer layer(JdbcSpaceStore store) throws Exception {
         StrategicLayer s = new StrategicLayer();
-        s.start(new JdbcSpaceStore(DriverManager.getConnection("jdbc:sqlite::memory:")));
-        SpaceObject root = s.tree().resolve("universe");
-        SpaceObject sol = s.add("sol", root);
-        SpaceObject earth = s.add("earth", sol);
-        SpaceObject moon = s.add("moon", earth);
-        SpaceObject mars = s.add("mars", sol); // frère de X : exclu
-        s.unload(moon.getUuid(), false);
-        Set<UUID> set = Subscriptions.parentSet(s, earth);
-        assertEquals(Set.of(earth.getUuid(), sol.getUuid(), root.getUuid(), moon.getUuid()), set);
-        assertFalse(set.contains(mars.getUuid()));
-        assertTrue(s.isLoaded(moon.getUuid())); // loadé au passage
+        s.start(store);
+        return s;
+    }
+
+    @Test
+    void loginLoadsAndSendsPersistedUnloadedSubs() throws Exception {
+        JdbcSpaceStore store = new JdbcSpaceStore(DriverManager.getConnection("jdbc:sqlite::memory:"));
+        StrategicLayer s = layer(store);
+        UUID player = UUID.randomUUID(), gone = UUID.randomUUID();
+        SpaceObject a = s.add("a", s.tree().resolve("universe"));
+        s.unload(a.getUuid(), false);
+        store.saveSubs(player, Set.of(a.getUuid(), gone)); // `gone` : objet supprimé depuis
+        Subscriptions subs = new Subscriptions(s);
+        List<CustomPacketPayload> out = new ArrayList<>();
+        subs.login(player, out::add);
+        assertTrue(s.isLoaded(a.getUuid()));
+        assertInstanceOf(SpaceNet.Reset.class, out.get(0));
+        assertEquals(2, out.size()); // Reset + Upsert de a ; `gone` ignoré
+        assertEquals(a.getUuid(), ((SpaceNet.Upsert) out.get(1)).uuid());
+        assertEquals(Set.of(a.getUuid()), store.loadSubs(player)); // `gone` purgé
+
+        // refresh : un abonné déjà connu mais déchargé est rechargé et renvoyé
+        s.unload(a.getUuid(), false);
+        out.clear();
+        subs.refresh(player, out::add);
+        assertTrue(s.isLoaded(a.getUuid()));
+        assertEquals(1, out.size());
+    }
+
+    @Test
+    void setParentPersistsNoSubscription() throws Exception {
+        JdbcSpaceStore store = new JdbcSpaceStore(DriverManager.getConnection("jdbc:sqlite::memory:"));
+        StrategicLayer s = layer(store);
+        UUID player = UUID.randomUUID();
+        SpaceObject earth = s.add("earth", s.add("sol", s.tree().resolve("universe")));
+        Subscriptions subs = new Subscriptions(s);
+        subs.setParent(player, earth.getUuid());
+        assertEquals(earth.getUuid(), subs.parentOf(player).orElseThrow());
+        assertTrue(store.loadSubs(player).isEmpty());
+        subs.setParent(player, null);
+        assertTrue(subs.parentOf(player).isEmpty());
     }
 
     @Test

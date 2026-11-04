@@ -40,6 +40,16 @@ public class StrategicLayer {
      * Tous les objets spatiaux qui ont besoin d'être sauvegardés
      */
     private final Set<UUID> dirty = new HashSet<>();
+    /** parent → ses enfants loadés (la clé n'est pas forcément loadée) : retrouver les descendants sans scanner {@link #loaded}. */
+    private final Map<UUID, Set<UUID>> loadedKids = new HashMap<>();
+    /** Épinglés à la main ({@code /spaceload}) : jamais évincés par {@link #sweep}. */
+    private final Set<UUID> pinned = new HashSet<>();
+    /** Dernière activité (get, modification, désabonnement) des objets loadés, en ms. */
+    private final Map<UUID, Long> lastActive = new HashMap<>();
+    /** Inactivité avant éviction par {@link #sweep}. */
+    public static final long TTL_MS = 60_000;
+    /** Évictions maximum par {@link #sweep}. */
+    public static final int MAX_EVICT = 32;
     /** Persistance, ouverte pendant la vie du serveur. */
     private SpaceStore store;
     private static final double TICK_MS = 50;
@@ -68,7 +78,7 @@ public class StrategicLayer {
             }
         } else if (store.loadParentless().isEmpty()) { // base neuve
             SpaceObject r = new SpaceObject(UUID.randomUUID(), null, SpaceObject.ROOT_NAME);
-            loaded.put(r.getUuid(), r);
+            track(r);
             modified(r.getUuid());
             flush();
             setRoot(r);
@@ -79,6 +89,7 @@ public class StrategicLayer {
     /** Marque l'objet à écrire au prochain {@link #flush()} et le réplique tout de suite aux abonnés. */
     private void modified(UUID uuid) {
         dirty.add(uuid);
+        touch(uuid);
         SpaceObject o = loaded.get(uuid);
         if (o != null) listener.updated(o);
     }
@@ -101,6 +112,9 @@ public class StrategicLayer {
         store.close();
         store = null;
         loaded.clear();
+        loadedKids.clear();
+        pinned.clear();
+        lastActive.clear();
         dirty.clear();
         rootUUID = null;
         AmynnaSpaceMod.LOGGER.info("Amynna's Space Mod arrêté !");
@@ -115,13 +129,59 @@ public class StrategicLayer {
         if (o == null) {
             o = store.load(uuid).orElse(null);
             if (o != null) {
-                loaded.put(uuid, o);
+                track(o);
                 o.resume(SpaceClock.SERVER.now() / TICK_MS);
                 listener.updated(o);
             }
+        } else {
+            touch(uuid);
         }
         return Optional.ofNullable(o);
     }
+
+    /** Index/activité à l'entrée d'un objet dans {@link #loaded}. */
+    private void track(SpaceObject o) {
+        loaded.put(o.getUuid(), o);
+        if (o.getParent() != null) loadedKids.computeIfAbsent(o.getParent(), k -> new HashSet<>()).add(o.getUuid());
+        touch(o.getUuid());
+    }
+
+    /** Inverse de {@link #track}. */
+    private void untrack(UUID uuid) {
+        SpaceObject o = loaded.remove(uuid);
+        if (o == null) return;
+        forgetKid(o.getParent(), uuid);
+        lastActive.remove(uuid);
+        pinned.remove(uuid);
+    }
+
+    private void forgetKid(@Nullable UUID parent, UUID kid) {
+        Set<UUID> s = parent == null ? null : loadedKids.get(parent);
+        if (s != null && s.remove(kid) && s.isEmpty()) loadedKids.remove(parent);
+    }
+
+    /** Change le parent de {@code o} en gardant {@link #loadedKids} à jour. */
+    private void reparent(SpaceObject o, @Nullable UUID parent) {
+        boolean tracked = loaded.get(o.getUuid()) == o;
+        if (tracked) forgetKid(o.getParent(), o.getUuid());
+        o.setParent(parent);
+        if (tracked && parent != null) loadedKids.computeIfAbsent(parent, k -> new HashSet<>()).add(o.getUuid());
+    }
+
+    /** Marque l'objet (s'il est loadé) comme actif maintenant. */
+    void touch(UUID uuid) {
+        if (loaded.containsKey(uuid)) lastActive.put(uuid, System.currentTimeMillis());
+    }
+
+    /** Lecture sans charger. */
+    public boolean isPinned(UUID uuid) { return pinned.contains(uuid); }
+
+    public int pinnedCount() { return pinned.size(); }
+
+    /** Épingle un objet loadé : {@link #sweep} ne l'évincera jamais (jusqu'à {@link #unpin}, unload ou suppression). */
+    public void pin(UUID uuid) { if (loaded.containsKey(uuid)) pinned.add(uuid); }
+
+    public void unpin(UUID uuid) { pinned.remove(uuid); }
 
     public SpaceObject getOrThrow(UUID uuid) {
         return get(uuid).orElseThrow(() -> new SpaceObjectException("amynnaspacemod.spaceobject.unknown_uuid", uuid));
@@ -140,7 +200,7 @@ public class StrategicLayer {
     SpaceObject loadedOrNull(UUID uuid) { return loaded.get(uuid); }
 
     /** Lecture sans charger : l'instance loadée, sinon une copie transitoire du store. */
-    SpaceObject peek(UUID uuid) {
+    public SpaceObject peek(UUID uuid) {
         SpaceObject o = loaded.get(uuid);
         return o != null ? o : store.load(uuid).orElseThrow(() -> new SpaceObjectException("amynnaspacemod.spaceobject.unknown_uuid", uuid));
     }
@@ -158,25 +218,40 @@ public class StrategicLayer {
      */
     public boolean unload(UUID uuid, boolean recursive) {
         if (!loaded.containsKey(uuid)) throw new SpaceObjectException("amynnaspacemod.spaceobject.not_loaded", uuid);
-        List<UUID> victims = new ArrayList<>(List.of(uuid));
-        for (SpaceObject o : loaded.values()) if (!o.getUuid().equals(uuid) && isDescendant(o, uuid)) victims.add(o.getUuid());
+        List<UUID> victims = new ArrayList<>(List.of(uuid)); // puis ses descendants loadés, par niveaux
+        // shortcut: un descendant loadé dont un intermédiaire n'est pas loadé n'est pas trouvé ; à revoir si /spaceload doit le couvrir.
+        for (int i = 0; i < victims.size(); i++) victims.addAll(loadedKids.getOrDefault(victims.get(i), Set.of()));
         if (victims.size() > 1 && !recursive) return false;
         if (victims.stream().anyMatch(dirty::contains)) flush();
-        victims.forEach(loaded::remove);
+        victims.forEach(this::untrack);
         victims.forEach(listener::dropped);
         return true;
     }
 
-    private boolean isDescendant(SpaceObject o, UUID ancestor) {
-        for (UUID p = o.getParent(); p != null; p = peek(p).getParent()) if (p.equals(ancestor)) return true;
-        return false;
+    /**
+     * Évince les objets loadés que rien ne retient : ni épinglés, ni {@code keep} (abonnés, hôtes de rendu), sans enfant loadé et inactifs depuis
+     * {@link #TTL_MS}. Feuilles d'abord, au plus {@link #MAX_EVICT} par appel ; renvoie le nombre d'objets évincés.
+     */
+    public int sweep(long now, java.util.function.Predicate<UUID> keep) {
+        int n = 0;
+        for (boolean progress = true; progress && n < MAX_EVICT; ) {
+            progress = false;
+            for (UUID u : List.copyOf(loaded.keySet())) {
+                if (n >= MAX_EVICT) break;
+                if (pinned.contains(u) || loadedKids.containsKey(u) || now - lastActive.getOrDefault(u, 0L) < TTL_MS || keep.test(u)) continue;
+                unload(u, false); // sans enfant loadé : ne part que lui
+                n++;
+                progress = true; // son parent est peut-être devenu une feuille
+            }
+        }
+        return n;
     }
 
     public SpaceObject add(String name, @Nullable SpaceObject parent) {
         if (!NAME.matcher(name).matches()) throw new SpaceObjectException("amynnaspacemod.spaceobject.bad_name", name);
         if (tree.child(parent, name) != null) throw new SpaceObjectException("amynnaspacemod.spaceobject.name_taken", name);
         SpaceObject o = new SpaceObject(UUID.randomUUID(), parent == null ? null : parent.getUuid(), name);
-        loaded.put(o.getUuid(), o);
+        track(o);
         modified(o.getUuid());
         flush();
         return o;
@@ -192,7 +267,7 @@ public class StrategicLayer {
         SpaceObject same = tree.child(newParent, o.getName());
         if (same != null && !same.getUuid().equals(o.getUuid())) throw new SpaceObjectException("amynnaspacemod.spaceobject.name_taken", o.getName());
         if (transpose) o.transform.set(tree.convert(o.transform, o.getScale(), o.getParent() == null ? null : peek(o.getParent()), newParent));
-        o.setParent(newParent == null ? null : newParent.getUuid());
+        reparent(o, newParent == null ? null : newParent.getUuid());
         modified(o.getUuid());
         flush();
     }
@@ -218,11 +293,11 @@ public class StrategicLayer {
                 if (same != null && !same.getUuid().equals(o.getUuid())) throw new SpaceObjectException("amynnaspacemod.spaceobject.name_taken", k.getName());
             }
             // Deux enfants ne peuvent pas se heurter entre eux : ils avaient des noms distincts chez la cible.
-            for (SpaceObject k : kids) { k.setParent(up); modified(k.getUuid()); }
+            for (SpaceObject k : kids) { reparent(k, up); modified(k.getUuid()); }
             flush();
         }
         store.delete(o.getUuid());
-        loaded.remove(o.getUuid());
+        untrack(o.getUuid());
         dirty.remove(o.getUuid());
         listener.removed(o.getUuid());
     }
@@ -253,7 +328,7 @@ public class StrategicLayer {
         SpaceObject existing = tree.child(parent, name);
         if (existing == null) {
             SpaceObject o = SpaceObject.load(UUID.randomUUID(), parentId, data);
-            loaded.put(o.getUuid(), o);
+            track(o);
             o.resume(SpaceClock.SERVER.now() / TICK_MS);
             modified(o.getUuid());
             flush(); // l'arbre se lit dans le store : l'enfant doit y être pour que les suivants le trouvent

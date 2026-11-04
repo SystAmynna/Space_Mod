@@ -11,8 +11,9 @@ import fr.systamynna.spacemod.core.StrategicLayer;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 
-/** {@code /spaceload list | load <objet> | unload <objet>} (OP). */
+/** {@code /spaceload list | stats | load <objet> | unload <objet>} (OP). */
 public final class SpaceLoadCommand {
     private SpaceLoadCommand() {}
 
@@ -22,10 +23,20 @@ public final class SpaceLoadCommand {
         var list = Commands.literal("list").executes(c -> run(c, x -> S.tree().render(true, o -> S.isLoaded(o.getUuid())).forEach(l ->
                 x.getSource().sendSuccess(() -> l, false))));
 
+        var stats = Commands.literal("stats").executes(c -> run(c, x -> {
+            var src = x.getSource();
+            src.sendSuccess(() -> Component.literal("loaded=" + S.loadedObjects().size() + " pinned=" + S.pinnedCount()), false);
+            for (ServerPlayer p : src.getServer().getPlayerList().getPlayers())
+                src.sendSuccess(() -> Component.literal(p.getName().getString() + ": needed=" + AmynnaSpaceMod.SUBS.auto(p).size()
+                        + " subscribed=" + AmynnaSpaceMod.SUBS.subscriptions(p).size()), false);
+        }));
+
+        // load épingle aussi : l'objet n'est plus évincé par le balayage automatique (unload ou suppression levent l'épingle).
         var load = Commands.literal("load");
-        selector(load, 0, o -> !S.isLoaded(o.getUuid()), n -> n.executes(c -> run(c, x -> {
+        selector(load, 0, o -> !S.isPinned(o.getUuid()), n -> n.executes(c -> run(c, x -> {
             SpaceObject o = target(x, 0);
             S.load(o.getUuid());
+            S.pin(o.getUuid());
             x.getSource().sendSuccess(() -> Component.translatable("amynnaspacemod.spaceobject.loaded", S.tree().addressOf(o)), true);
         })));
 
@@ -34,7 +45,7 @@ public final class SpaceLoadCommand {
                 .executes(c -> run(c, x -> unload(x, false)))
                 .then(Commands.literal("recursive").executes(c -> run(c, x -> unload(x, true)))));
 
-        d.register(Commands.literal("spaceload").requires(s -> s.hasPermission(2)).then(list).then(load).then(unload));
+        d.register(Commands.literal("spaceload").requires(s -> s.hasPermission(2)).then(list).then(stats).then(load).then(unload));
     }
 
     private static void unload(CommandContext<CommandSourceStack> x, boolean recursive) {

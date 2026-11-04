@@ -21,7 +21,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 /**
  * {@code /spaceplayerstate <pseudo>}, {@code /spaceplayersuscribe <pseudo> suscribe|unsuscribe <objet>},
- * {@code /spaceplayerparent <pseudo> <objet> [replace]} (OP).
+ * {@code /spaceplayerparent <pseudo> <objet>|clear} (OP).
  */
 public final class SpacePlayerCommand {
     private SpacePlayerCommand() {}
@@ -65,16 +65,17 @@ public final class SpacePlayerCommand {
         d.register(Commands.literal("spaceplayersuscribe").requires(s -> s.hasPermission(2)).then(player));
 
         var parent = Commands.argument("player", EntityArgument.player());
-        selector(parent, 0, n -> n
-                .executes(c -> run(c, x -> parent(x, false)))
-                .then(Commands.literal("replace").executes(c -> run(c, x -> parent(x, true)))));
+        selector(parent, 0, n -> n.executes(c -> run(c, x -> parent(x, target(x, 0)))));
+        parent.then(Commands.literal("clear").executes(c -> run(c, x -> parent(x, null))));
         d.register(Commands.literal("spaceplayerparent").requires(s -> s.hasPermission(2)).then(parent));
     }
 
-    private static void parent(CommandContext<CommandSourceStack> x, boolean replace) {
+    /** Fixe (ou efface) le parent, puis renvoie la config de ciel : les abonnements automatiques suivent le nouveau parent. */
+    private static void parent(CommandContext<CommandSourceStack> x, SpaceObject o) {
         ServerPlayer p = player(x);
-        SpaceObject o = target(x, 0);
-        SUBS.setParent(p, o, replace);
-        ok(x, "parent_set", p.getName(), S.tree().addressOf(o));
+        SUBS.setParent(p.getUUID(), o == null ? null : o.getUuid());
+        AmynnaSpaceMod.RENDER.send(p);
+        if (o == null) ok(x, "parent_clear", p.getName());
+        else ok(x, "parent_set", p.getName(), S.tree().addressOf(o));
     }
 }

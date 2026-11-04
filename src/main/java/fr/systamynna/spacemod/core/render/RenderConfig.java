@@ -26,6 +26,15 @@ public final class RenderConfig {
         this.object = object;
     }
 
+    /** Copie de cette config (même décalage) rapportée à un autre objet. */
+    public RenderConfig withObject(UUID other) {
+        RenderConfig c = new RenderConfig(dimension, other);
+        System.arraycopy(pos, 0, c.pos, 0, 3);
+        System.arraycopy(rot, 0, c.rot, 0, 3);
+        System.arraycopy(scale, 0, c.scale, 0, 3);
+        return c;
+    }
+
     /** Groupes {@code pos|rot|scale a b c} chaînables, {@code ~} = inchangé ; tout est validé avant d'affecter. */
     public void editAll(String args) {
         String[] a = args.trim().split("\\s+");

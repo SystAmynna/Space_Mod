@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
@@ -12,6 +14,9 @@ import fr.systamynna.spacemod.AmynnaSpaceMod;
 import fr.systamynna.spacemod.core.SpaceObjectException;
 import fr.systamynna.spacemod.core.StrategicLayer;
 import fr.systamynna.spacemod.core.Subscriptions;
+import fr.systamynna.spacemod.core.clock.SpaceClock;
+import fr.systamynna.spacemod.core.relevance.PlayerSpacePos;
+import fr.systamynna.spacemod.core.relevance.Relevance;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.Tag;
@@ -97,17 +102,49 @@ public final class RenderConfigs {
 
     public void markDirty() { dirty = true; }
 
-    /** Envoie la config de la dimension du joueur (ou son absence) et l'abonne à ce qu'il faut pour la rendre. */
+    /** Objets de référence des configs : le serveur les garde loadés. */
+    public boolean isHost(java.util.UUID object) {
+        return byDim.values().stream().anyMatch(c -> c.object.equals(object));
+    }
+
+    /** Parent du joueur s'il existe encore ; sinon {@code null} (repli sur la config de la dimension). */
+    @Nullable
+    private UUID parent(ServerPlayer p) {
+        return subs.parentOf(p.getUUID()).filter(u -> {
+            try {
+                layer.peek(u);
+                return true;
+            } catch (SpaceObjectException e) {
+                return false;
+            }
+        }).orElse(null);
+    }
+
+    /**
+     * Recalcule les abonnements automatiques du joueur depuis sa position : son parent, sinon la config de sa dimension. Sans l'un ni l'autre,
+     * il n'en a plus ; ses abonnements manuels ne sont pas touchés.
+     */
+    public void refresh(ServerPlayer p) {
+        PlayerSpacePos pos = PlayerSpacePos.of(parent(p), byDim.get(p.level().dimension().location()));
+        Set<UUID> next = Set.of();
+        try {
+            if (pos != null) next = Relevance.needed(layer, pos, SpaceClock.SERVER.now() / 50, subs.auto(p), Relevance.Params.DEFAULT);
+        } catch (SpaceObjectException e) { // objet supprimé depuis : le client recevra la config sans objet à rendre
+            AmynnaSpaceMod.LOGGER.debug("Objet de rendu {} introuvable", pos.anchor());
+        }
+        subs.setAuto(p, next);
+    }
+
+    /**
+     * Envoie la config de la dimension du joueur (ou son absence) et l'abonne à ce qu'il faut pour la rendre. Si le joueur a un parent, la config
+     * est rapportée à ce parent (pos/rot/scale de la dimension gardés comme décalage dans le parent).
+     */
     public void send(ServerPlayer p) {
         ResourceLocation dim = p.level().dimension().location();
         RenderConfig c = byDim.get(dim);
-        if (c != null) {
-            try {
-                subs.subscribeAround(p, layer.getOrThrow(c.object));
-            } catch (SpaceObjectException e) { // objet supprimé depuis : le client recevra la config sans objet à rendre
-                AmynnaSpaceMod.LOGGER.warn("Objet de rendu {} de {} introuvable", c.object, dim);
-            }
-        }
+        UUID parent = parent(p);
+        if (c != null && parent != null) c = c.withObject(parent);
+        refresh(p);
         PacketDistributor.sendToPlayer(p, new RenderNet.Config(dim, c == null ? null : c.save()));
     }
 

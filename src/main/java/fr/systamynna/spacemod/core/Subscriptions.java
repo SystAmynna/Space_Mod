@@ -3,27 +3,36 @@ package fr.systamynna.spacemod.core;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 
+import fr.systamynna.spacemod.AmynnaSpaceMod;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 /**
  * Abonnements des joueurs (côté serveur) : un objet abonné est loadé sur le serveur et poussé au client à chaque changement.
- * Persistés dans le store ; un unload garde l'abonnement (le client reçoit un {@code Drop}, l'objet est renvoyé au reload).
+ * Deux sources : les abonnements manuels (commandes), persistés dans le store, et les abonnements automatiques calculés par
+ * {@link fr.systamynna.spacemod.core.relevance.Relevance}, jamais persistés (recalculés à la connexion). Un joueur est répliqué sur l'union.
+ * Un unload garde l'abonnement (le client reçoit un {@code Drop}, l'objet est renvoyé au reload).
  */
 public final class Subscriptions implements SpaceListener {
     private final StrategicLayer layer;
     private MinecraftServer server;
-    /** Joueurs en ligne → leurs abonnements. */
+    /** Joueurs en ligne → leurs abonnements répliqués (manuels + automatiques). */
     private final Map<UUID, Set<UUID>> byPlayer = new HashMap<>();
+    /** Joueurs en ligne → abonnements manuels (ceux du store). */
+    private final Map<UUID, Set<UUID>> manual = new HashMap<>();
+    /** Joueurs en ligne → abonnements automatiques. */
+    private final Map<UUID, Set<UUID>> auto = new HashMap<>();
     /** Objet → joueurs en ligne abonnés. */
     private final Map<UUID, Set<UUID>> byObject = new HashMap<>();
 
@@ -38,94 +47,124 @@ public final class Subscriptions implements SpaceListener {
         layer.setListener(SpaceListener.NONE);
         byPlayer.clear();
         byObject.clear();
+        manual.clear();
+        auto.clear();
         server = null;
     }
 
-    private Set<UUID> subs(ServerPlayer p) {
-        return byPlayer.computeIfAbsent(p.getUUID(), id -> {
-            Set<UUID> s = new HashSet<>(layer.store().loadSubs(id));
+    private Set<UUID> manual(UUID player) {
+        return manual.computeIfAbsent(player, id -> new HashSet<>(layer.store().loadSubs(id)));
+    }
+
+    private Set<UUID> subs(UUID player) {
+        return byPlayer.computeIfAbsent(player, id -> {
+            Set<UUID> s = new HashSet<>(manual(id));
             s.forEach(o -> byObject.computeIfAbsent(o, k -> new HashSet<>()).add(id));
             return s;
         });
     }
 
-    public List<UUID> subscriptions(ServerPlayer p) { return List.copyOf(subs(p)); }
+    /** Abonnements automatiques actuels du joueur (vide s'il n'en a pas). */
+    public Set<UUID> auto(ServerPlayer p) { return auto.getOrDefault(p.getUUID(), Set.of()); }
 
-    /** Connexion : repart d'une couche cliente vide, puis envoie les abonnements actuellement loadés. */
-    public void login(ServerPlayer p) {
-        PacketDistributor.sendToPlayer(p, new SpaceNet.Reset());
-        for (UUID o : subs(p)) {
-            SpaceObject so = layer.loadedOrNull(o);
-            if (so != null) PacketDistributor.sendToPlayer(p, SpaceNet.upsert(so));
-        }
+    /** Objet désigné comme parent du joueur (source de sa position dans l'arbre). */
+    public Optional<UUID> parentOf(UUID player) { return layer.store().loadPlayerParent(player); }
+
+    /** Remplace les abonnements automatiques du joueur par {@code next} (non persisté) : Drop des retirés, Upsert des nouveaux. */
+    public void setAuto(ServerPlayer p, Set<UUID> next) {
+        auto.put(p.getUUID(), new HashSet<>(next));
+        refresh(p.getUUID(), packet -> PacketDistributor.sendToPlayer(p, packet));
     }
 
+    /** Vrai si un joueur en ligne est abonné à cet objet. */
+    public boolean hasSubscribers(UUID object) { return byObject.containsKey(object); }
+
+    public List<UUID> subscriptions(ServerPlayer p) { return List.copyOf(subs(p.getUUID())); }
+
+    /** Connexion : repart d'une couche cliente vide, puis charge et envoie les abonnements manuels persistés (les objets disparus sont purgés). */
+    public void login(ServerPlayer p) { login(p.getUUID(), packet -> PacketDistributor.sendToPlayer(p, packet)); }
+
+    void login(UUID player, Consumer<CustomPacketPayload> out) {
+        out.accept(new SpaceNet.Reset());
+        for (UUID o : List.copyOf(subs(player))) push(player, o, out);
+    }
+
+    /** Libère l'état mémoire du joueur (les objets qu'il retenait peuvent être évincés) ; ses abonnements manuels restent dans le store. */
     public void logout(ServerPlayer p) {
         Set<UUID> s = byPlayer.remove(p.getUUID());
-        if (s != null) s.forEach(o -> unindex(o, p.getUUID()));
+        if (s != null) s.forEach(o -> {
+            unindex(o, p.getUUID());
+            layer.touch(o);
+        });
+        manual.remove(p.getUUID());
+        auto.remove(p.getUUID());
     }
 
     /** {@code o} doit être loadé. */
     public void subscribe(ServerPlayer p, SpaceObject o) {
-        Set<UUID> next = new HashSet<>(subs(p));
+        Set<UUID> next = new HashSet<>(manual(p.getUUID()));
         next.add(o.getUuid());
-        apply(p, next);
+        setManual(p, next);
     }
 
+    /** Retire l'abonnement manuel ; si le calcul automatique en a besoin, l'objet reste répliqué. */
     public void unsubscribe(ServerPlayer p, UUID object) {
-        Set<UUID> next = new HashSet<>(subs(p));
+        Set<UUID> next = new HashSet<>(manual(p.getUUID()));
         next.remove(object);
-        apply(p, next);
-    }
-
-    /** X, ses ancêtres et ses enfants s'ajoutent aux abonnements ({@code replace} : ils les remplacent). Tout est loadé. */
-    public void setParent(ServerPlayer p, SpaceObject x, boolean replace) {
-        Set<UUID> next = replace ? new HashSet<>() : new HashSet<>(subs(p));
-        next.addAll(parentSet(layer, x));
-        apply(p, next);
-        layer.store().savePlayerParent(p.getUUID(), x.getUuid());
+        setManual(p, next);
     }
 
     /**
-     * Rendu du ciel : abonne le joueur à X, ses ancêtres et les enfants de chacun (ses frères et ceux de ses ancêtres, donc le système visible).
-     * Contrairement à {@link #setParent}, le parent du joueur n'est pas modifié. Tout est loadé.
+     * Le parent du joueur est la source de sa position ; {@code null} l'efface. Ne persiste aucun abonnement : l'appelant relance le calcul
+     * automatique ({@link fr.systamynna.spacemod.core.render.RenderConfigs#send}).
      */
-    public void subscribeAround(ServerPlayer p, SpaceObject x) {
-        Set<UUID> next = new HashSet<>(subs(p));
-        for (SpaceObject c = x; c != null; c = c.getParent() == null ? null : layer.getOrThrow(c.getParent())) {
-            next.add(c.getUuid());
-            for (SpaceObject k : layer.tree().children(c)) next.add(layer.getOrThrow(k.getUuid()).getUuid());
-        }
-        apply(p, next);
+    public void setParent(UUID player, @javax.annotation.Nullable UUID x) { layer.store().savePlayerParent(player, x); }
+
+    private void setManual(ServerPlayer p, Set<UUID> next) {
+        subs(p.getUUID()); // état répliqué initialisé avant que manual change, pour que refresh envoie les ajouts
+        manual.put(p.getUUID(), next);
+        refresh(p.getUUID(), packet -> PacketDistributor.sendToPlayer(p, packet));
+        layer.store().saveSubs(p.getUUID(), next);
     }
 
-    /** Le joueur a le transform spatial (absolu) de son parent ; zéro s'il n'en a pas. */
-    public Transform playerTransform(ServerPlayer p) {
-        return layer.store().loadPlayerParent(p.getUUID()).map(u -> layer.tree().worldTransform(layer.peek(u))).orElseGet(Transform::new);
-    }
-
-    /** X + tous ses ancêtres + les autres enfants de X (frères du joueur), loadés au passage. */
-    static Set<UUID> parentSet(StrategicLayer layer, SpaceObject x) {
-        Set<UUID> out = new LinkedHashSet<>();
-        for (SpaceObject c = x; c != null; c = c.getParent() == null ? null : layer.getOrThrow(c.getParent())) out.add(c.getUuid());
-        for (SpaceObject k : layer.tree().children(x)) out.add(layer.getOrThrow(k.getUuid()).getUuid());
-        return out;
-    }
-
-    /** Passe les abonnements du joueur à {@code next} : Drop des retirés, Upsert des nouveaux, persistance. */
-    private void apply(ServerPlayer p, Set<UUID> next) {
-        Set<UUID> cur = subs(p);
+    /**
+     * Aligne les abonnements répliqués sur manuels + automatiques : Drop des retirés, Upsert des nouveaux et de ceux qui ne sont plus loadés
+     * (invariant : abonné => loadé et présent chez le client).
+     */
+    void refresh(UUID player, Consumer<CustomPacketPayload> out) {
+        Set<UUID> cur = subs(player), next = new HashSet<>(manual(player));
+        next.addAll(auto.getOrDefault(player, Set.of()));
         for (UUID o : cur) if (!next.contains(o)) {
-            unindex(o, p.getUUID());
-            PacketDistributor.sendToPlayer(p, new SpaceNet.Drop(o));
+            unindex(o, player);
+            layer.touch(o);
+            out.accept(new SpaceNet.Drop(o));
         }
-        for (UUID o : next) if (!cur.contains(o)) {
-            byObject.computeIfAbsent(o, k -> new HashSet<>()).add(p.getUUID());
-            PacketDistributor.sendToPlayer(p, SpaceNet.upsert(layer.getOrThrow(o)));
+        List<UUID> sent = new ArrayList<>();
+        for (UUID o : List.copyOf(next)) if (!cur.contains(o) || !layer.isLoaded(o)) {
+            if (push(player, o, out)) sent.add(o); else next.remove(o);
         }
+        // diagnostic NONE, retirable
+        if (!sent.isEmpty()) AmynnaSpaceMod.LOGGER.debug("Subscriptions.refresh {} : {} Upsert {}", player, sent.size(), sent);
         cur.clear();
         cur.addAll(next);
-        layer.store().saveSubs(p.getUUID(), cur);
+    }
+
+    /** Indexe l'abonnement, charge l'objet et l'envoie ; objet disparu : l'abonnement est purgé (manuel, auto, store) et la méthode renvoie faux. */
+    private boolean push(UUID player, UUID o, Consumer<CustomPacketPayload> out) {
+        byObject.computeIfAbsent(o, k -> new HashSet<>()).add(player);
+        try {
+            out.accept(SpaceNet.upsert(layer.getOrThrow(o)));
+            return true;
+        } catch (SpaceObjectException e) {
+            AmynnaSpaceMod.LOGGER.warn("Abonnement à {} purgé pour {} : objet introuvable", o, player);
+            unindex(o, player);
+            subs(player).remove(o);
+            Set<UUID> m = manual(player);
+            if (m.remove(o)) layer.store().saveSubs(player, m);
+            Set<UUID> a = auto.get(player);
+            if (a != null) a.remove(o);
+            return false;
+        }
     }
 
     private void unindex(UUID object, UUID player) {
@@ -152,7 +191,12 @@ public final class Subscriptions implements SpaceListener {
     public void removed(UUID uuid) {
         sendToSubscribers(uuid, new SpaceNet.Drop(uuid)); // le store a déjà purgé les lignes d'abonnement
         Set<UUID> ps = byObject.remove(uuid);
-        if (ps != null) ps.forEach(id -> { Set<UUID> s = byPlayer.get(id); if (s != null) s.remove(uuid); });
+        if (ps != null) ps.forEach(id -> {
+            for (var m : List.of(byPlayer, manual, auto)) {
+                Set<UUID> s = m.get(id);
+                if (s != null) s.remove(uuid);
+            }
+        });
     }
 
     /** Lignes du rapport {@code /spaceplayerstate}, statuts calculés par le client {@code from}. */
