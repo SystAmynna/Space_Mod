@@ -1,6 +1,6 @@
 {
-    "vertex": "amynnaspacemod:galaxy",
-    "fragment": "amynnaspacemod:galaxy",
+    "vertex": "amynnaspacemod:galaxy_cloud",
+    "fragment": "amynnaspacemod:galaxy_cloud",
     "attributes": [
         "Position"
     ],

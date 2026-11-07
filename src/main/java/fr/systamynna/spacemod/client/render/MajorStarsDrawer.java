@@ -32,7 +32,12 @@ import fr.systamynna.spacemod.core.render.RenderMath;
 import fr.systamynna.spacemod.core.render.SpaceRender;
 import fr.systamynna.spacemod.core.major.MajorParams;
 import fr.systamynna.spacemod.core.major.MajorStreamer.CellKey;
+import com.mojang.blaze3d.platform.NativeImage;
+import fr.systamynna.spacemod.AmynnaSpaceMod;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Étoiles majeures côté client : cache des cellules d'étoiles reçues du {@code MajorContainer} courant, dessiné en un seul buffer GPU statique (carrés tangents à la sphère du ciel,
@@ -47,6 +52,11 @@ public final class MajorStarsDrawer implements ClientLayer.Listener {
     private static final double BASE_ANGLE = 8e-4, MAX_ANGLE = 6e-3;
     /** Déplacement (km) de l'observateur qui déclenche une reconstruction (~67 UA : ~0,1 px pour l'étoile la plus proche). shortcut: seuil absolu, à rendre relatif à la distance de l'étoile la plus proche. */
     private static final double OBS_EPS_KM = 1e10;
+    /** Demi-côté minimal d'une étoile à l'écran (px) : en dessous, elle scintille en passant d'un pixel à l'autre. */
+    private static final double MIN_HALF_PX = 2.5;
+
+    @Nullable
+    private static ResourceLocation SPRITE;
 
     private final Map<CellKey, List<Star>> cells = new HashMap<>();
     /** Objet avec un SpaceRender → son parent ; parent → nombre de ses enfants rendus. Mis à jour à apply/drop, jamais balayés par image. */
@@ -57,6 +67,8 @@ public final class MajorStarsDrawer implements ClientLayer.Listener {
     private boolean dirty;
     private final Vector3d builtAt = new Vector3d();
     private boolean built;
+    /** Angle d'un pixel (rad) pris en compte à la dernière reconstruction. */
+    private double builtPix;
     private VertexBuffer vbo;
     private int count;
     private final Matrix4f mv = new Matrix4f();
@@ -118,7 +130,9 @@ public final class MajorStarsDrawer implements ClientLayer.Listener {
         if (i < 0) return; // pas de résumés, ou le repère n'est pas (encore) un ancêtre connu
         RenderMath.Pose pa = RenderMath.toAncestor(ob.chain(), i);
         Vector3d obs = pa.apply(ob.pos());
-        if (dirty || !built || obs.distanceSquared(builtAt) > OBS_EPS_KM * OBS_EPS_KM) rebuild(obs);
+        // taille angulaire d'un pixel : varie avec le FOV (spyglass) et la fenêtre ; le buffer statique est refait quand elle change de plus de 5 %
+        double pix = 2 / RenderSystem.getProjectionMatrix().m11() / Math.max(1, Minecraft.getInstance().getWindow().getHeight());
+        if (dirty || !built || obs.distanceSquared(builtAt) > OBS_EPS_KM * OBS_EPS_KM || Math.abs(pix / builtPix - 1) > 0.05) rebuild(obs, pix);
         if (count == 0) return;
         // direction dans le repère → direction vue par l'observateur : rotation inverse de celle de l'observateur dans le repère
         mv.set(modelView).rotate(new Quaternionf(pa.q().mul(ob.rot(), new Quaterniond()).conjugate()));
@@ -127,7 +141,8 @@ public final class MajorStarsDrawer implements ClientLayer.Listener {
         RenderSystem.disableCull();
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+        RenderSystem.setShaderTexture(0, sprite());
         vbo.bind();
         vbo.drawWithShader(mv, RenderSystem.getProjectionMatrix(), RenderSystem.getShader());
         VertexBuffer.unbind();
@@ -138,13 +153,31 @@ public final class MajorStarsDrawer implements ClientLayer.Listener {
         RenderSystem.enableDepthTest();
     }
 
+    /** Sprite d'étoile : dégradé radial blanc, alpha {@code (1 - r²)²} nul au bord du quad (créé à la première utilisation). */
+    private static ResourceLocation sprite() {
+        if (SPRITE != null) return SPRITE;
+        int n = 64;
+        NativeImage img = new NativeImage(NativeImage.Format.RGBA, n, n, false);
+        for (int y = 0; y < n; y++)
+            for (int x = 0; x < n; x++) {
+                double r = Math.min(1, Math.hypot((x + 0.5) / n * 2 - 1, (y + 0.5) / n * 2 - 1)), a = (1 - r * r) * (1 - r * r);
+                img.setPixelRGBA(x, y, (int) Math.round(255 * a) << 24 | 0xFFFFFF); // ABGR
+            }
+        DynamicTexture tex = new DynamicTexture(img);
+        ResourceLocation loc = ResourceLocation.fromNamespaceAndPath(AmynnaSpaceMod.MODID, "render/star_sprite");
+        Minecraft.getInstance().getTextureManager().register(loc, tex);
+        tex.setFilter(true, false);
+        return SPRITE = loc;
+    }
+
     /** Reconstruit le buffer : un carré par étoile, tangent à la sphère du ciel, taille et alpha selon le flux {@code lum / d²}. */
-    private void rebuild(Vector3d obs) {
+    private void rebuild(Vector3d obs, double pix) {
         dirty = false;
         built = true;
+        builtPix = pix;
         builtAt.set(obs);
         double R = SpaceRenderer.SKY_RADIUS, ly2 = MajorParams.LY_KM * MajorParams.LY_KM;
-        BufferBuilder bb = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        BufferBuilder bb = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
         count = 0;
         for (Map.Entry<CellKey, List<Star>> e : cells.entrySet()) {
             CellKey k = e.getKey();
@@ -156,7 +189,7 @@ public final class MajorStarsDrawer implements ClientLayer.Listener {
                 if (!(d2 > 0)) continue;
                 double b = s.lum() * ly2 / d2 / MajorParams.FLUX_LIMIT; // brillance relative à la limite de visibilité
                 if (b < 0.1) continue;
-                double m = Math.max(0, Math.log10(b)), h = R * Math.min(MAX_ANGLE, BASE_ANGLE * (1 + 0.6 * m));
+                double m = Math.max(0, Math.log10(b)), h = R * Math.max(2 * Math.min(MAX_ANGLE, BASE_ANGLE * (1 + 0.6 * m)), MIN_HALF_PX * pix); // x2 : le sprite s'éteint avant le bord du quad ; jamais sous MIN_HALF_PX
                 int a = (int) (255 * Math.min(1, 0.35 + 0.2 * m));
                 double inv = 1 / Math.sqrt(d2), nx = dx * inv, ny = dy * inv, nz = dz * inv;
                 // base tangente (t1, t2) : t1 = up x n (up = y, ou x près des pôles)
@@ -166,10 +199,10 @@ public final class MajorStarsDrawer implements ClientLayer.Listener {
                 double t2x = ny * t1z - nz * t1y, t2y = nz * t1x - nx * t1z, t2z = nx * t1y - ny * t1x;
                 double cx = nx * R, cy = ny * R, cz = nz * R;
                 int r = s.color() >> 16 & 255, g = s.color() >> 8 & 255, bl = s.color() & 255;
-                bb.addVertex((float) (cx - t1x - t2x), (float) (cy - t1y - t2y), (float) (cz - t1z - t2z)).setColor(r, g, bl, a);
-                bb.addVertex((float) (cx + t1x - t2x), (float) (cy + t1y - t2y), (float) (cz + t1z - t2z)).setColor(r, g, bl, a);
-                bb.addVertex((float) (cx + t1x + t2x), (float) (cy + t1y + t2y), (float) (cz + t1z + t2z)).setColor(r, g, bl, a);
-                bb.addVertex((float) (cx - t1x + t2x), (float) (cy - t1y + t2y), (float) (cz - t1z + t2z)).setColor(r, g, bl, a);
+                bb.addVertex((float) (cx - t1x - t2x), (float) (cy - t1y - t2y), (float) (cz - t1z - t2z)).setUv(0f, 0f).setColor(r, g, bl, a);
+                bb.addVertex((float) (cx + t1x - t2x), (float) (cy + t1y - t2y), (float) (cz + t1z - t2z)).setUv(1f, 0f).setColor(r, g, bl, a);
+                bb.addVertex((float) (cx + t1x + t2x), (float) (cy + t1y + t2y), (float) (cz + t1z + t2z)).setUv(1f, 1f).setColor(r, g, bl, a);
+                bb.addVertex((float) (cx - t1x + t2x), (float) (cy - t1y + t2y), (float) (cz - t1z + t2z)).setUv(0f, 1f).setColor(r, g, bl, a);
                 count++;
             }
         }

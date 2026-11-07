@@ -19,23 +19,31 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
-import fr.systamynna.spacemod.core.render.GalaxyRender;
 import fr.systamynna.spacemod.core.render.RenderMath.Placed;
 import fr.systamynna.spacemod.core.render.SpaceRenderObject;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 
 /**
- * Galaxie : une sphère plein ciel dont le fragment lance un rayon dans le volume de la galaxie (ray-marching, voir {@code shaders/core/galaxy.fsh}).
+ * Base des dessins de galaxie à shader : une sphère plein ciel dont le fragment lance un rayon dans le repère de la galaxie.
  * Le même dessin sert vue de l'extérieur (galaxie lointaine) et de l'intérieur (la nôtre) : un rayon qui rate la sphère englobante est rejeté.
+ * Les sous-classes donnent le shader et ses uniformes propres ({@link GalaxyCloudDrawer}, {@link GalaxyStarsDrawer}).
  * shortcut: une sphère plein ciel par galaxie (coût de remplissage) ; passer à un quad englobant au-delà d'une dizaine de galaxies visibles.
  */
-final class GalaxyDrawer implements SpaceRenderObjectDrawer {
+abstract class GalaxyShaderDrawer implements SpaceRenderObjectDrawer {
     private static final int LON = 32, LAT = 16;
 
+    /** Partagée par tous les dessins de galaxie. */
     @Nullable
-    private VertexBuffer sphere;
+    private static VertexBuffer sphere;
     private final Matrix3f rot = new Matrix3f();
+
+    /** Shader de ce dessin, ou {@code null} tant que les ressources ne sont pas chargées. */
+    @Nullable
+    abstract ShaderInstance shader();
+
+    /** Uniformes propres au type, en plus de {@code GalRot}, {@code CamPos} et {@code Seed}. */
+    abstract void uniforms(ShaderInstance sh, SpaceRenderObject ro);
 
     @Override
     public boolean custom() { return true; }
@@ -49,9 +57,8 @@ final class GalaxyDrawer implements SpaceRenderObjectDrawer {
 
     @Override
     public void draw(Matrix4f modelView, Placed p, UUID carrier, SpaceRenderObject ro) {
-        ShaderInstance sh = ClientShaders.galaxy;
+        ShaderInstance sh = shader();
         if (sh == null) return; // ressources pas (encore) chargées
-        GalaxyRender g = (GalaxyRender) ro;
         // galaxie -> observateur : p.orientation ; on veut l'inverse. shortcut: échelle supposée uniforme (p.scale().x)
         Quaterniond inv = p.orientation().conjugate(new Quaterniond());
         Vector3d cam = inv.transform(new Vector3d(p.pos()).negate()).div(p.radius() * p.scale().x);
@@ -59,7 +66,7 @@ final class GalaxyDrawer implements SpaceRenderObjectDrawer {
         sh.safeGetUniform("GalRot").set(rot.set(new Quaternionf(inv)));
         sh.safeGetUniform("CamPos").set((float) cam.x, (float) cam.y, (float) cam.z);
         sh.safeGetUniform("Seed").set((s & 0xFFFFFF) / 16777216f, (s >>> 24 & 0xFFFFFF) / 16777216f);
-        sh.safeGetUniform("Params").set((float) g.thickness, (float) g.arms);
+        uniforms(sh, ro);
 
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
@@ -71,7 +78,7 @@ final class GalaxyDrawer implements SpaceRenderObjectDrawer {
         RenderSystem.disableBlend();
     }
 
-    private VertexBuffer sphere() {
+    private static VertexBuffer sphere() {
         if (sphere != null) return sphere;
         BufferBuilder bb = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION);
         float R = (float) SpaceRenderer.SKY_RADIUS;

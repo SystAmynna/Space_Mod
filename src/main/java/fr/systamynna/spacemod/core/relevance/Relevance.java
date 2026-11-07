@@ -19,7 +19,8 @@ import fr.systamynna.spacemod.core.render.SpaceRenderObject;
 /**
  * Quels objets un joueur doit avoir loadés et répliqués. Fonction pure de l'arbre, de la position du joueur et du temps :
  * l'ancre et ses ancêtres toujours ; pour chaque ancêtre, les enfants proches ou assez gros dans le ciel ; et tous les enfants d'un objet
- * dans la sphère d'influence duquel se trouve l'observateur (le joueur dans un système voit ses planètes) ; enfin, quand un objet majeur est
+ * dans la sphère d'influence duquel se trouve l'observateur (le joueur dans un système voit ses planètes), sauf les objets majeurs (les étoiles ne se
+ * chargent pas en masse : elles voyagent par cellules, voir {@code MajorStreamer}) ; enfin, quand un objet majeur est
  * à charger, tous ses descendants {@link MinorObject} (planètes, lunes) le sont aussi.
  * Ne charge rien : les candidats sont lus avec {@code tree().children} (instance loadée ou copie du store dont la pose est avancée au temps voulu).
  */
@@ -99,7 +100,7 @@ public final class Relevance {
         for (int i = 0; i < at.length; i++) {
             SpaceObject c = kids.get(i);
             double d = p.distance(at[i]), f = prev.contains(c.getUuid()) ? P.hysteresis() : 1;
-            boolean show = inside || d < P.rNearKm() * f || radiusKm(c) > d * P.thetaLoad() / f;
+            boolean show = (inside && c.getComponent(MajorObject.class).isEmpty()) || d < P.rNearKm() * f || radiusKm(c) > d * P.thetaLoad() / f;
             // Les ancêtres de l'ancre sont parcourus par needed() ; les autres ne peuvent contenir l'observateur que s'ils sont assez proches.
             if (d < P.soiMaxKm() && !out.contains(c.getUuid())) {
                 var l = RenderMath.local(c);

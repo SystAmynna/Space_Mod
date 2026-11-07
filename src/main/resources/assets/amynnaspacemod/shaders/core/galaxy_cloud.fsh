@@ -5,23 +5,18 @@ in vec3 Dir;
 // Repère de la galaxie, unité = rayon de la galaxie.
 uniform mat3 GalRot;   // repère de l'observateur -> repère de la galaxie
 uniform vec3 CamPos;   // l'observateur dans le repère de la galaxie
-uniform vec2 Seed;     // deux valeurs de [0, 1[ dérivées de l'UUID de la galaxie
+uniform vec2 Seed;     // deux valeurs de [0, 1[ dérivées de l'UUID de la galaxie (phase des bras, bruit)
 uniform vec2 Params;   // x = demi-épaisseur du disque (fraction du rayon), y = nombre de bras
 
 out vec4 fragColor;
 
 const int STEPS = 48;
+const float SLAB = 0.45;
 
 float hash13(vec3 p) {
     p = fract(p * 0.1031);
     p += dot(p, p.zyx + 31.32);
     return fract((p.x + p.y) * p.z);
-}
-
-vec3 hash33(vec3 p) {
-    p = fract(p * vec3(0.1031, 0.1030, 0.0973));
-    p += dot(p, p.yxz + 33.33);
-    return fract((p.xxy + p.yxx) * p.zyx);
 }
 
 float vnoise(vec3 x) {
@@ -60,13 +55,21 @@ void main() {
     float t0 = max(-b - sq, 0.0);
     float t1 = -b + sq;
     if (t1 <= 0.0) discard;
+    // tranche utile autour du plan galactique (disque + bulbe) : pas plus fin que l'épaisseur du disque, donc une colonne de matière peu bruitée
+    // shortcut: tranche fixe à SLAB ; à relier à Params.x si les disques deviennent beaucoup plus épais ou minces
+    if (abs(rd.y) > 1e-5) {
+        float ta = (-SLAB - ro.y) / rd.y, tb = (SLAB - ro.y) / rd.y;
+        t0 = max(t0, min(ta, tb));
+        t1 = min(t1, max(ta, tb));
+    } else if (abs(ro.y) > SLAB) {
+        discard;
+    }
+    if (t1 <= t0) discard;
 
     float dt = (t1 - t0) / float(STEPS);
     float t = t0 + dt * hash13(vec3(gl_FragCoord.xy, 1.7));
     vec3 col = vec3(0.0);
     float T = 1.0;
-    float wsum = 0.0;
-    vec3 pm = vec3(0.0);
     for (int i = 0; i < STEPS; i++) {
         vec3 p = ro + rd * t;
         float d = density(p);
@@ -75,23 +78,8 @@ void main() {
             vec3 tint = mix(vec3(1.0, 0.72, 0.42), vec3(0.50, 0.62, 1.0), smoothstep(0.0, 0.6, r));
             col += T * tint * d * dt * 5.0;
             T *= exp(-d * dt * 2.0);
-            wsum += d;
-            pm += d * p;
         }
         t += dt;
-    }
-
-    // Étoiles aléatoires (graine = UUID) : plus nombreuses là où la colonne de matière est dense.
-    // Vue de l'intérieur, la grille est sur la direction (points fixes à l'écran) ; vue de l'extérieur, sur le point moyen traversé (suit la galaxie).
-    float column = wsum * dt;
-    vec3 q = dot(ro, ro) < 1.0 ? rd * 230.0 : (wsum > 0.0 ? pm / wsum : rd) * 70.0;
-    vec3 cell = floor(q) + vec3(Seed, Seed.x) * 97.0;
-    vec3 fp = fract(q) - 0.5;
-    if (hash13(cell) < clamp(column * 0.9, 0.0, 0.5)) {
-        vec3 jit = hash33(cell) - 0.5;
-        float dd = length(fp - jit * 0.6);
-        float s = exp(-dd * dd * 12.0) * (0.4 + hash13(cell + 7.0));
-        col += mix(vec3(1.0, 0.82, 0.62), vec3(0.72, 0.82, 1.0), hash13(cell + 3.0)) * s * 1.5;
     }
 
     col = 1.0 - exp(-col * 1.6);

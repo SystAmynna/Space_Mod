@@ -17,15 +17,21 @@ public final class ClientShaders {
     private ClientShaders() {}
 
     @Nullable
-    static ShaderInstance galaxy;
+    static ShaderInstance galaxyCloud;
+    @Nullable
+    static ShaderInstance galaxyStars;
 
     /** À brancher sur le bus du mod, côté client uniquement. */
     public static void register(RegisterShadersEvent event) {
         try {
-            event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(AmynnaSpaceMod.MODID, "galaxy"),
-                    DefaultVertexFormat.POSITION), s -> galaxy = s);
+            event.registerShader(load(event, "galaxy_cloud"), sh -> galaxyCloud = sh);
+            event.registerShader(load(event, "galaxy_stars"), sh -> galaxyStars = sh);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    private static ShaderInstance load(RegisterShadersEvent event, String name) throws IOException {
+        return new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(AmynnaSpaceMod.MODID, name), DefaultVertexFormat.POSITION);
     }
 }

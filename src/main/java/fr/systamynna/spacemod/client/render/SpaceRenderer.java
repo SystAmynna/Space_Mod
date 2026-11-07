@@ -42,7 +42,8 @@ public final class SpaceRenderer implements ClientLayer.Listener {
     private static final double MIN_ANGLE = 2e-4;
 
     private final Map<UUID, SpaceRender> renders = new HashMap<>();
-    private final Map<String, SpaceRenderObjectDrawer> drawers = Map.of("planet", new PlanetDrawer(), "galaxy", new GalaxyDrawer());
+    private final Map<String, SpaceRenderObjectDrawer> drawers = Map.of("planet", new PlanetDrawer(),
+            "galaxy_cloud", new GalaxyCloudDrawer(), "galaxy_stars", new GalaxyStarsDrawer());
     // shortcut: liste et enregistrements de placement réalloués à chaque image ; à réutiliser si le nombre d'éléments grossit.
     private record Item(SpaceRenderObject ro, SpaceRenderObjectDrawer drawer, Placed placed, ResourceLocation texture, UUID carrier) {}
 

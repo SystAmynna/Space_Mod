@@ -24,18 +24,27 @@ public final class SpaceRenderObjects {
             if (!(r > 0) || !Double.isFinite(r)) throw usage(PlanetRender.TYPE);
             return new PlanetRender(new RenderTransform(), a.get(0), r);
         }, "planet <texture> <radius>"));
-        ENTRIES.put(GalaxyRender.TYPE, new Entry(GalaxyRender::load, a -> {
-            if (a.isEmpty() || a.size() > 3) throw usage(GalaxyRender.TYPE);
-            double r, h = 0.04;
-            int arms = 2;
-            try {
-                r = Double.parseDouble(a.get(0));
-                if (a.size() > 1) arms = Integer.parseInt(a.get(1));
-                if (a.size() > 2) h = Double.parseDouble(a.get(2));
-            } catch (NumberFormatException e) { throw usage(GalaxyRender.TYPE); }
-            if (!GalaxyRender.valid(r, arms, h)) throw usage(GalaxyRender.TYPE);
-            return new GalaxyRender(new RenderTransform(), r, arms, h);
-        }, "galaxy <radius> [arms] [thickness]"));
+        ENTRIES.put(GalaxyCloudRender.TYPE, new Entry(GalaxyCloudRender::load, a -> {
+            double[] v = galaxyArgs(GalaxyCloudRender.TYPE, a, 3);
+            if (!GalaxyCloudRender.valid(v[0], (int) v[1], v[2])) throw usage(GalaxyCloudRender.TYPE);
+            return new GalaxyCloudRender(new RenderTransform(), v[0], (int) v[1], v[2]);
+        }, "galaxy_cloud <radius> [arms] [thickness]"));
+        ENTRIES.put(GalaxyStarsRender.TYPE, new Entry(GalaxyStarsRender::load, a -> {
+            double[] v = galaxyArgs(GalaxyStarsRender.TYPE, a, 4);
+            if (!GalaxyStarsRender.valid(v[0], (int) v[1], v[2], v[3])) throw usage(GalaxyStarsRender.TYPE);
+            return new GalaxyStarsRender(new RenderTransform(), v[0], (int) v[1], v[2], v[3]);
+        }, "galaxy_stars <radius> [arms] [thickness] [density]"));
+    }
+
+    /** {@code <radius> [arms] [thickness] [density]} → {radius, arms, thickness, density} avec les défauts 2, 0,04 et 1 ; au plus {@code max} arguments. */
+    private static double[] galaxyArgs(String type, List<String> a, int max) {
+        if (a.isEmpty() || a.size() > max) throw usage(type);
+        double[] v = {0, 2, 0.04, 1};
+        try {
+            for (int i = 0; i < a.size(); i++) v[i] = Double.parseDouble(a.get(i));
+        } catch (NumberFormatException e) { throw usage(type); }
+        if (v[1] != Math.rint(v[1])) throw usage(type); // arms entier
+        return v;
     }
 
     private SpaceRenderObjects() {}

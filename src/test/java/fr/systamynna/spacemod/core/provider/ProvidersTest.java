@@ -12,7 +12,8 @@ import fr.systamynna.spacemod.core.StrategicLayer;
 import fr.systamynna.spacemod.core.component.components.Identity;
 import fr.systamynna.spacemod.core.component.components.MajorObject;
 import fr.systamynna.spacemod.core.controller.controllers.OrbitalController;
-import fr.systamynna.spacemod.core.render.GalaxyRender;
+import fr.systamynna.spacemod.core.render.GalaxyCloudRender;
+import fr.systamynna.spacemod.core.render.GalaxyStarsRender;
 import fr.systamynna.spacemod.core.render.PlanetRender;
 import fr.systamynna.spacemod.core.render.SpaceRender;
 import fr.systamynna.spacemod.core.store.JdbcSpaceStore;
@@ -91,11 +92,13 @@ class ProvidersTest {
             var r = o.getComponent(SpaceRender.class);
             if (r.isEmpty()) continue;
             withRender++;
-            assertEquals(1, r.get().objects.size(), s.tree().addressOf(o)); // un rayon invalide fait ignorer l'objet au chargement
-            if (r.get().objects.get(0) instanceof GalaxyRender g) { // les galaxies n'ont pas de texture
+            if (r.get().objects.get(0) instanceof GalaxyCloudRender g) { // les galaxies : nuage puis étoiles, sans texture
+                assertEquals(2, r.get().objects.size(), s.tree().addressOf(o));
                 assertTrue(g.radius() > 0, s.tree().addressOf(o));
+                assertInstanceOf(GalaxyStarsRender.class, r.get().objects.get(1), s.tree().addressOf(o));
                 continue;
             }
+            assertEquals(1, r.get().objects.size(), s.tree().addressOf(o)); // un rayon invalide fait ignorer l'objet au chargement
             PlanetRender p = (PlanetRender) r.get().objects.get(0);
             assertTrue(p.radius() > 0, s.tree().addressOf(o));
             String path = "/assets/" + p.texture.replaceFirst(":", "/"); // namespace:chemin -> /assets/namespace/chemin

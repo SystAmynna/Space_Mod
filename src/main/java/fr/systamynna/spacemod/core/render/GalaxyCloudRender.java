@@ -7,11 +7,12 @@ import javax.annotation.Nullable;
 import net.minecraft.nbt.CompoundTag;
 
 /**
- * Galaxie : nuage volumétrique (disque spiral, bulbe) et étoiles aléatoires, dessinés par un shader. La graine du dessin n'est pas stockée :
- * elle vient de l'UUID du SpaceObject porteur, donc survit à la réplication.
+ * Nuage d'une galaxie : volume (disque spiral, bulbe) dessiné par un shader à ray-marching. Les étoiles aléatoires sont un autre élément de rendu
+ * ({@link GalaxyStarsRender}), utilisable avec ou sans lui. La graine du dessin n'est pas stockée : elle vient de l'UUID du SpaceObject porteur,
+ * donc survit à la réplication.
  */
-public final class GalaxyRender implements SpaceRenderObject {
-    public static final String TYPE = "galaxy";
+public final class GalaxyCloudRender implements SpaceRenderObject {
+    public static final String TYPE = "galaxy_cloud";
     public static final int MAX_ARMS = 8;
 
     private final RenderTransform transform;
@@ -20,7 +21,7 @@ public final class GalaxyRender implements SpaceRenderObject {
     public final double thickness;
     public final int arms;
 
-    public GalaxyRender(RenderTransform transform, double radius, int arms, double thickness) {
+    public GalaxyCloudRender(RenderTransform transform, double radius, int arms, double thickness) {
         this.transform = transform;
         this.radius = radius;
         this.arms = arms;
@@ -46,14 +47,14 @@ public final class GalaxyRender implements SpaceRenderObject {
         return t;
     }
 
-    @Override public String describe() { return "galaxy radius=" + radius + ", arms=" + arms + ", thickness=" + thickness + ", " + transform.describe(); }
+    @Override public String describe() { return "galaxy_cloud radius=" + radius + ", arms=" + arms + ", thickness=" + thickness + ", " + transform.describe(); }
 
     /** {@code null} si les données sont invalides (rayon ≤ 0, bras hors [1, {@link #MAX_ARMS}], épaisseur hors ]0, 1]). */
     @Nullable
-    public static GalaxyRender load(CompoundTag t) {
+    public static GalaxyCloudRender load(CompoundTag t) {
         double r = t.getDouble("radius"), h = t.getDouble("thickness");
         int a = t.getInt("arms");
-        return valid(r, a, h) ? new GalaxyRender(RenderTransform.load(t.getCompound("transform")), r, a, h) : null;
+        return valid(r, a, h) ? new GalaxyCloudRender(RenderTransform.load(t.getCompound("transform")), r, a, h) : null;
     }
 
     public static boolean valid(double radius, int arms, double thickness) {
