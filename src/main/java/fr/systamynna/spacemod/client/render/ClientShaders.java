@@ -21,7 +21,7 @@ public final class ClientShaders {
     @Nullable
     static ShaderInstance galaxyStars;
     @Nullable
-    static ShaderInstance star, blackHole, gammaEruption, ring, distorsion;
+    static ShaderInstance star, blackHole, gammaEruption, ring, distorsion, distorsionBright;
 
     /** À brancher sur le bus du mod, côté client uniquement. */
     public static void register(RegisterShadersEvent event) {
@@ -33,6 +33,7 @@ public final class ClientShaders {
             event.registerShader(load(event, "gamma_eruption"), sh -> gammaEruption = sh);
             event.registerShader(load(event, "ring"), sh -> ring = sh);
             event.registerShader(load(event, "distorsion"), sh -> distorsion = sh);
+            event.registerShader(load(event, "distorsion_bright"), sh -> distorsionBright = sh);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

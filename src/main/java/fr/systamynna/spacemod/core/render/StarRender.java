@@ -64,8 +64,12 @@ public final class StarRender implements SpaceRenderObject {
     public static StarRender load(CompoundTag t) {
         double r = t.getDouble("radius"), s = t.contains("speed") ? t.getDouble("speed") : 1, g = t.contains("granulation") ? t.getDouble("granulation") : 1,
                 e = t.contains("emissive") ? t.getDouble("emissive") : DEFAULT_EMISSIVE;
-        return valid(r, s, g, e) ? new StarRender(RenderTransform.load(t.getCompound("transform")), r, Rgba.load(t, "hot", DEFAULT_HOT), Rgba.load(t, "cool", DEFAULT_COOL), s, g, e) : null;
+        Rgba hot = Rgba.load(t, "hot", DEFAULT_HOT);
+        return valid(r, s, g, e) ? new StarRender(RenderTransform.load(t.getCompound("transform")), r, hot, Rgba.load(t, "cool", coolFor(hot)), s, g, e) : null;
     }
+
+    /** Couleur froide par défaut d'une étoile de couleur chaude {@code hot} : celle d'origine pour la teinte par défaut, sinon la même teinte assombrie (la surface suit la teinte de l'étoile). */
+    public static Rgba coolFor(Rgba hot) { return hot.equals(DEFAULT_HOT) ? DEFAULT_COOL : hot.cooler(); }
 
     public static boolean valid(double radius, double speed, double granulation, double emissive) {
         return radius > 0 && Double.isFinite(radius) && speed >= 0 && speed <= MAX_SPEED && granulation >= 0 && granulation <= MAX_GRANULATION

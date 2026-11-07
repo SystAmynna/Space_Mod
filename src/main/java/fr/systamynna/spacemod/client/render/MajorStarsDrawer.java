@@ -132,7 +132,9 @@ public final class MajorStarsDrawer implements ClientLayer.Listener {
         Vector3d obs = pa.apply(ob.pos());
         // taille angulaire d'un pixel : varie avec le FOV (spyglass) et la fenêtre ; le buffer statique est refait quand elle change de plus de 5 %
         double pix = 2 / RenderSystem.getProjectionMatrix().m11() / Math.max(1, Minecraft.getInstance().getWindow().getHeight());
-        if (dirty || !built || obs.distanceSquared(builtAt) > OBS_EPS_KM * OBS_EPS_KM || Math.abs(pix / builtPix - 1) > 0.05) rebuild(obs, pix);
+        // capture d'une lentille : la cubemap est calée sur les pixels de l'écran, on garde le buffer de l'écran (sinon deux reconstructions par image)
+        boolean pixChanged = !DistorsionDrawer.capturing && Math.abs(pix / builtPix - 1) > 0.05;
+        if (dirty || !built || obs.distanceSquared(builtAt) > OBS_EPS_KM * OBS_EPS_KM || pixChanged) rebuild(obs, pix);
         if (count == 0) return;
         // direction dans le repère → direction vue par l'observateur : rotation inverse de celle de l'observateur dans le repère
         mv.set(modelView).rotate(new Quaternionf(pa.q().mul(ob.rot(), new Quaterniond()).conjugate()));
@@ -190,7 +192,7 @@ public final class MajorStarsDrawer implements ClientLayer.Listener {
                 double b = s.lum() * ly2 / d2 / MajorParams.FLUX_LIMIT; // brillance relative à la limite de visibilité
                 if (b < 0.1) continue;
                 double m = Math.max(0, Math.log10(b)), h = R * Math.max(2 * Math.min(MAX_ANGLE, BASE_ANGLE * (1 + 0.6 * m)), MIN_HALF_PX * pix); // x2 : le sprite s'éteint avant le bord du quad ; jamais sous MIN_HALF_PX
-                int a = (int) (255 * Math.min(1, 0.35 + 0.2 * m));
+                int a = (int) (255 * Math.min(1, 0.2 + 0.12 * m)) /* fond du ciel discret (était 0.35 + 0.2 m) */;
                 double inv = 1 / Math.sqrt(d2), nx = dx * inv, ny = dy * inv, nz = dz * inv;
                 // base tangente (t1, t2) : t1 = up x n (up = y, ou x près des pôles)
                 double ux = Math.abs(ny) < 0.99 ? 0 : 1, uy = ux == 0 ? 1 : 0;

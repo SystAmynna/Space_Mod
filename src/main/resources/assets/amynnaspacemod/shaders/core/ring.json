@@ -118,6 +118,22 @@
                 0.0,
                 0.0
             ]
+        },
+        {
+            "name": "Thickness",
+            "type": "float",
+            "count": 1,
+            "values": [
+                0.005
+            ]
+        },
+        {
+            "name": "Flare",
+            "type": "float",
+            "count": 1,
+            "values": [
+                0.0
+            ]
         }
     ]
 }

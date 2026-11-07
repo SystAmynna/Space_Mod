@@ -41,7 +41,8 @@ public final class SpaceRenderObjects {
             if (a.isEmpty() || a.size() > 6) throw usage(u);
             double r = num(u, a, 0, 0), s = num(u, a, 3, 1), g = num(u, a, 4, 1), e = num(u, a, 5, StarRender.DEFAULT_EMISSIVE);
             if (!StarRender.valid(r, s, g, e)) throw usage(u);
-            return new StarRender(new RenderTransform(), r, rgba(u, a, 1, StarRender.DEFAULT_HOT), rgba(u, a, 2, StarRender.DEFAULT_COOL), s, g, e);
+            Rgba hot = rgba(u, a, 1, StarRender.DEFAULT_HOT);
+            return new StarRender(new RenderTransform(), r, hot, rgba(u, a, 2, StarRender.coolFor(hot)), s, g, e);
         }, "star <radius> [hot RRGGBB[AA]] [cool RRGGBB[AA]] [speed] [granulation] [emissive]"));
         ENTRIES.put(BlackHoleRender.TYPE, new Entry(BlackHoleRender::load, a -> {
             String u = BlackHoleRender.TYPE;
@@ -56,22 +57,22 @@ public final class SpaceRenderObjects {
             double r = num(u, a, 0, 0), s = num(u, a, 1, DistorsionRender.DEFAULT_STRENGTH), e = num(u, a, 2, DistorsionRender.DEFAULT_EXTENT);
             if (!DistorsionRender.valid(r, s, e)) throw usage(u);
             return new DistorsionRender(new RenderTransform(), r, s, e);
-        }, "distorsion <radius> [strength] [extent]"));
+        }, "distorsion <horizon radius> [strength, < 0 = white hole] [extent]"));
         ENTRIES.put(GammaEruptionRender.TYPE, new Entry(GammaEruptionRender::load, a -> {
             String u = GammaEruptionRender.TYPE;
-            if (a.isEmpty() || a.size() > 6) throw usage(u);
-            double r = num(u, a, 0, 0), w = num(u, a, 1, 0.05), s = num(u, a, 4, 1), seed = num(u, a, 5, 0);
-            if (!GammaEruptionRender.valid(r, w, s) || seed != Math.rint(seed) || Math.abs(seed) > Integer.MAX_VALUE) throw usage(u);
-            return new GammaEruptionRender(new RenderTransform(), r, w, rgba(u, a, 2, GammaEruptionRender.DEFAULT_A), rgba(u, a, 3, GammaEruptionRender.DEFAULT_B), s, (int) seed);
-        }, "gamma_eruption <length> [width] [colorA RRGGBB[AA]] [colorB RRGGBB[AA]] [speed] [seed]"));
+            if (a.isEmpty() || a.size() > 9) throw usage(u);
+            double r = num(u, a, 0, 0), w = num(u, a, 1, 0.05), s = num(u, a, 4, 1), seed = num(u, a, 5, 0), sp = num(u, a, 6, 0), ti = num(u, a, 7, 0), cu = num(u, a, 8, 0);
+            if (!GammaEruptionRender.valid(r, w, s, sp, ti, cu) || seed != Math.rint(seed) || Math.abs(seed) > Integer.MAX_VALUE) throw usage(u);
+            return new GammaEruptionRender(new RenderTransform(), r, w, rgba(u, a, 2, GammaEruptionRender.DEFAULT_A), rgba(u, a, 3, GammaEruptionRender.DEFAULT_B), s, (int) seed, sp, ti, cu);
+        }, "gamma_eruption <length> [width] [colorA RRGGBB[AA]] [colorB RRGGBB[AA]] [speed] [seed] [spin rad/s] [tilt deg] [curve 0..1]"));
         ENTRIES.put(RingRender.TYPE, new Entry(RingRender::load, a -> {
             String u = RingRender.TYPE;
-            if (a.size() < 2 || a.size() > 7) throw usage(u);
-            double inner = num(u, a, 0, 0), outer = num(u, a, 1, 0), op = num(u, a, 4, 1), oc = num(u, a, 6, 0);
+            if (a.size() < 2 || a.size() > 8) throw usage(u);
+            double inner = num(u, a, 0, 0), outer = num(u, a, 1, 0), op = num(u, a, 4, 1), oc = num(u, a, 6, 0), th = num(u, a, 7, RingRender.DEFAULT_THICKNESS * outer);
             if (a.size() > 5 && !a.get(5).equals("true") && !a.get(5).equals("false")) throw usage(u);
-            if (!RingRender.valid(outer, inner, op, oc)) throw usage(u);
-            return new RingRender(new RenderTransform(), outer, inner, rgba(u, a, 2, RingRender.DEFAULT_INNER), rgba(u, a, 3, RingRender.DEFAULT_OUTER), op, a.size() > 5 && a.get(5).equals("true"), oc);
-        }, "ring <inner> <outer> [colorInner RRGGBB[AA]] [colorOuter RRGGBB[AA]] [opacity] [emissive true|false] [occluder]"));
+            if (!RingRender.valid(outer, inner, op, oc, th)) throw usage(u);
+            return new RingRender(new RenderTransform(), outer, inner, rgba(u, a, 2, RingRender.DEFAULT_INNER), rgba(u, a, 3, RingRender.DEFAULT_OUTER), op, a.size() > 5 && a.get(5).equals("true"), oc, th);
+        }, "ring <inner> <outer> [colorInner RRGGBB[AA]] [colorOuter RRGGBB[AA]] [opacity] [emissive true|false] [occluder] [thickness]"));
     }
 
     /** Argument numérique {@code i} (défaut {@code def} s'il est absent) ; usage affiché si ce n'est pas un nombre. */

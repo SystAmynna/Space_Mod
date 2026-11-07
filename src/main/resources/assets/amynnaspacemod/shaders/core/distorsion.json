@@ -4,11 +4,6 @@
     "attributes": [
         "Position"
     ],
-    "samplers": [
-        {
-            "name": "Sampler0"
-        }
-    ],
     "uniforms": [
         {
             "name": "ModelViewMat",
@@ -92,12 +87,19 @@
             ]
         },
         {
-            "name": "ScreenSize",
-            "type": "float",
-            "count": 2,
+            "name": "Sky",
+            "type": "int",
+            "count": 1,
             "values": [
-                1.0,
-                1.0
+                3
+            ]
+        },
+        {
+            "name": "Bright",
+            "type": "int",
+            "count": 1,
+            "values": [
+                4
             ]
         }
     ]

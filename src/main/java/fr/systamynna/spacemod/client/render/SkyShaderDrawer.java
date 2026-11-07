@@ -88,7 +88,7 @@ abstract class SkyShaderDrawer implements SpaceRenderObjectDrawer {
         RenderSystem.disableBlend();
     }
 
-    private static VertexBuffer sphere() {
+    static VertexBuffer sphere() {
         if (sphere != null) return sphere;
         BufferBuilder bb = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION);
         float R = (float) SpaceRenderer.SKY_RADIUS;

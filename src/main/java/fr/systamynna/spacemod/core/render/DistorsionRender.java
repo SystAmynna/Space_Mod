@@ -7,8 +7,10 @@ import javax.annotation.Nullable;
 import net.minecraft.nbt.CompoundTag;
 
 /**
- * Lentille gravitationnelle : déforme tout ce qui est dessiné derrière l'objet (anneau d'Einstein), y compris son disque d'accrétion ({@link RingRender}).
- * {@code radius} = taille de l'objet ; {@code strength} = rayon d'Einstein en rayons ; {@code extent} = portée de la déformation en rayons.
+ * Trou noir / trou blanc : ombre de l'horizon et lentille gravitationnelle sur tout ce qui est dessiné derrière (anneau d'Einstein), y compris son
+ * disque d'accrétion ({@link RingRender}) ; observateur qui plonge : l'univers se replie en bulle derrière lui puis s'éteint.
+ * {@code radius} = rayon de l'horizon ; {@code strength} = rayon d'Einstein en rayons apparents, signé : {@code > 0} trou noir (ombre noire),
+ * {@code < 0} trou blanc (déformation inverse, ombre blanche) ; {@code extent} = portée de la déformation en rayons apparents.
  */
 public final class DistorsionRender implements SpaceRenderObject {
     public static final String TYPE = "distorsion";
@@ -53,6 +55,6 @@ public final class DistorsionRender implements SpaceRenderObject {
     }
 
     public static boolean valid(double radius, double strength, double extent) {
-        return radius > 0 && Double.isFinite(radius) && strength > 0 && strength <= MAX_STRENGTH && extent > 1 && extent <= MAX_EXTENT;
+        return radius > 0 && Double.isFinite(radius) && strength != 0 && Math.abs(strength) <= MAX_STRENGTH && extent > 1 && extent <= MAX_EXTENT;
     }
 }

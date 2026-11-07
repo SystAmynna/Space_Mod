@@ -18,5 +18,6 @@ final class RingDrawer extends EffectDrawer {
         color(sh, "ColorA", r.colorInner);
         color(sh, "ColorB", r.colorOuter);
         sh.safeGetUniform("Params").set((float) (r.inner / r.radius()), (float) r.opacity, r.emissive ? 1f : 0f, (float) (r.occluder / r.radius()));
+        sh.safeGetUniform("Thickness").set((float) (r.thickness / r.radius())); // la passe arrive par l'uniforme Flare (voir SpaceRenderer)
     }
 }

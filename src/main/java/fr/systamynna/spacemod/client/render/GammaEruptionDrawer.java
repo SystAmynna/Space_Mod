@@ -2,6 +2,7 @@ package fr.systamynna.spacemod.client.render;
 
 import javax.annotation.Nullable;
 
+import fr.systamynna.spacemod.core.clock.SpaceClock;
 import fr.systamynna.spacemod.core.render.GammaEruptionRender;
 import fr.systamynna.spacemod.core.render.SpaceRenderObject;
 import net.minecraft.client.renderer.ShaderInstance;
@@ -18,5 +19,8 @@ final class GammaEruptionDrawer extends EffectDrawer {
         color(sh, "ColorA", g.colorA);
         color(sh, "ColorB", g.colorB);
         sh.safeGetUniform("Params").set((float) g.width, (float) g.speed, (float) Math.floorMod(g.seed, 65536));
+        // phase en double sur l'horloge spatiale (ms) : précise même à des centaines de rad/s, suit le multiplicateur de temps
+        double phase = (SpaceClock.CLIENT.now() / 1000 * g.spin) % (2 * Math.PI);
+        sh.safeGetUniform("Pulsar").set((float) phase, (float) Math.toRadians(g.tilt), (float) g.curve);
     }
 }

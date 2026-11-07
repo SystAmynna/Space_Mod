@@ -20,7 +20,7 @@ Les planètes, lunes et exoplanètes portent un composant `render` (sphère text
 Sources (valeurs recopiées/arrondies, à recouper avant tout usage scientifique) :
 - NASA/JPL Solar System Dynamics : éléments orbitaux moyens des planètes (J2000), paramètres physiques et orbitaux des satellites.
 - NASA Exoplanet Archive et publications associées : périodes des exoplanètes (demi-grands axes recalculés par la 3ᵉ loi de Kepler), masses stellaires.
-- Objets compacts (`compact_objects.json`, valeurs de mémoire arrondies à recouper) : Cygnus X-1 (21,2 M☉, 7 200 al), Sagittarius A* (4,3·10⁶ M☉, centre galactique), Crab Pulsar PSR B0531+21 (étoile à neutrons, 6 500 al) ; positions déduites de `(l, b, d)` comme ci-dessous. Longueur des jets et inclinaison du disque : choix artistiques.
+- Objets compacts (`compact_objects.json`, valeurs de mémoire arrondies à recouper) : Cygnus X-1 (21,2 M☉, 7 200 al), Sagittarius A* (4,3·10⁶ M☉, centre galactique), Crab Pulsar PSR B0531+21 (étoile à neutrons, 6 500 al) ; positions déduites de `(l, b, d)` comme ci-dessous. Longueur des jets, inclinaison magnétique du pulsar (45°) et sa rotation (ralentie à 2 rad/s pour rester lisible, réelle : 33,5 ms), bord intérieur du disque de Sgr A* (1,5 Rs, collé à l'ombre) et inclinaison du disque : choix artistiques.
 - Anneaux de Saturne (NASA/JPL) : anneaux C 74 658–92 000 km, B 92 000–117 580 km, A 122 170–136 775 km ; la division de Cassini est l'écart entre B et A.
 - SIMBAD / Gaia (ESA) / RECONS : positions et distances des étoiles proches ; Andromède : distance usuelle de 2,54 Mal.
 - NED / SIMBAD : galaxies proches (coordonnées galactiques, distances, diamètres, inclinaisons), valeurs de mémoire arrondies à recouper. Leur position se déduit de `(l, b, d)` : `x = d·cos b·cos l − 26 673`, `y = d·sin b + 67,8`, `z = −d·cos b·sin l` (al, centre galactique à l'origine). L'inclinaison du disque est réelle, l'angle de position est choisi arbitrairement.
@@ -46,9 +46,9 @@ Un composant `render` porte une liste d'éléments, dessinés par le client. Ajo
 | | `hot`, `cool` | couleurs RGBA des zones chaudes et froides du plasma (défaut jaune doré / orange) |
 | | `speed`, `granulation`, `emissive` | vitesse d'animation (0 = figé, ≤ 10), nombre de granules (0 = lisse, ≤ 10), défaut 1 ; intensité émissive du plasma vu de près (0 à 10, défaut 1,5) |
 | `black_hole` | `radius`, `color` | rayon en km de la sphère apparente (ombre ≈ 2,6 rayons de Schwarzschild) et sa couleur (défaut noir) ; observateur à l'intérieur : tout le ciel prend cette couleur |
-| `distorsion` | `radius` | rayon de l'objet en km ; déforme tout ce qui est dessiné derrière (anneau d'Einstein), y compris un disque d'accrétion `ring` du même objet |
+| `distorsion` | `radius`, `strength`, `extent` | trou noir / trou blanc : `radius` = rayon de l'horizon en km ; dessine l'ombre (≈ 2,6 R) et déforme tout le ciel derrière (anneau d'Einstein), y compris un disque `ring` du même objet ; `strength` signé (> 0 trou noir, < 0 trou blanc, déformation inverse et ombre blanche) ; en plongeant, l'univers se replie en bulle derrière l'observateur, devient lumineux et flou de 40 % à 20 % de R, puis s'éteint jusqu'au noir à 10 % |
 | | `strength`, `extent` | rayon d'Einstein et portée de la déformation, en rayons de l'objet (défauts 2,6 et 10) |
-| `gamma_eruption` | `radius` | longueur en km d'un jet ; deux jets le long de l'axe Y local (orienter avec `transform rot`) |
+| `gamma_eruption` | `radius`, `spin`, `tilt` | longueur en km d'un jet ; deux jets le long de l'axe Y local (orienter avec `transform rot`) ; pulsar : `spin` (rad/s, phase sur l'horloge spatiale) autour de Y et `tilt` (°) des jets sur cet axe |
 | | `width`, `colorA`, `colorB` | demi-largeur à la pointe (fraction de la longueur, ]0, 1], défaut 0,05) et dégradé base → pointe |
 | | `speed`, `seed` | vitesse d'animation (≤ 20) et graine d'animation entière (s'ajoute à celle de l'UUID) |
 | `ring` | `inner`, `radius` | rayons intérieur et extérieur en km (anneau dans le plan y=0 local : anneau de planète ou disque d'accrétion) |

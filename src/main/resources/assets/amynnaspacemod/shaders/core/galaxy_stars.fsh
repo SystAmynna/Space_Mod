@@ -14,6 +14,7 @@ out vec4 fragColor;
 const float GRID_IN = 230.0;  // vue de l'intérieur : cellules par radian de direction
 const float GRID_OUT = 70.0;  // vue de l'extérieur : cellules par rayon de galaxie
 const float PMAX = 0.5;       // probabilité maximale qu'une cellule porte une étoile
+const float PMAX_IN = 0.2;    // vue de l'intérieur : saturation douce, moins d'étoiles vers le centre galactique
 const float K = 0.9;          // étoiles par unité de colonne de matière
 
 float hash13(vec3 p) {
@@ -96,11 +97,23 @@ void main() {
         if (h0 >= PMAX) continue;
         vec3 c = ic + 0.5 + (hash33(cell) - 0.5) * 0.6; // centre de l'étoile
         // L'existence de l'étoile ne dépend que de sa cellule (jamais du pixel) : tous les pixels qu'elle couvre décident pareil.
-        float prob = clamp(Stars * K * (inside ? columnIn(normalize(c)) : columnOut(c / GRID_OUT)), 0.0, PMAX);
-        if (h0 >= prob) continue;
         vec3 d = q - c;
+        float prob;
+        if (inside) {
+            // étoile retenue si son centre est à moins d'une demi-cellule de la sphère, éclat selon l'écart tangentiel seul : une coquille d'épaisseur 1
+            // contient en moyenne une étoile par colonne quelle que soit l'orientation de la grille (sinon des anneaux aux directions cardinales)
+            float rc = length(c);
+            if (abs(rc - GRID_IN) > 0.5) continue;
+            vec3 n = c / rc;
+            d -= n * dot(d, n);
+            // x 0,5 : la coquille (épaisseur 1) retient environ deux fois plus de cellules que l'ancien critère 3D, densité inchangée hors saturation
+            prob = PMAX_IN * (1.0 - exp(-0.5 * Stars * K * columnIn(n) / PMAX_IN));
+        } else {
+            prob = clamp(Stars * K * columnOut(c / GRID_OUT), 0.0, PMAX);
+        }
+        if (h0 >= prob) continue;
         float s = exp(-dot(d, d) * 12.0) * (0.4 + hash13(cell + 7.0));
-        col += mix(vec3(1.0, 0.82, 0.62), vec3(0.72, 0.82, 1.0), hash13(cell + 3.0)) * s * 1.5;
+        col += mix(vec3(1.0, 0.82, 0.62), vec3(0.72, 0.82, 1.0), hash13(cell + 3.0)) * s * 0.9; // fond du ciel volontairement discret (était 1.5)
     }
     if (col == vec3(0.0)) discard;
     col = 1.0 - exp(-col * 1.6);

@@ -84,6 +84,6 @@ void main() {
         t += dt;
     }
 
-    col = 1.0 - exp(-col * 1.6);
+    col = 1.0 - exp(-col * 0.95); // fond du ciel volontairement discret (était 1.6)
     fragColor = vec4(col, clamp(1.0 - T, 0.0, 1.0)); // prémultiplié : mélange ONE, ONE_MINUS_SRC_ALPHA
 }

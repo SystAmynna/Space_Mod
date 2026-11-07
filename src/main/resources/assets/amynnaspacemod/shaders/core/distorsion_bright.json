@@ -1,0 +1,101 @@
+{
+    "vertex": "amynnaspacemod:galaxy_cloud",
+    "fragment": "amynnaspacemod:distorsion_bright",
+    "attributes": [
+        "Position"
+    ],
+    "uniforms": [
+        {
+            "name": "ModelViewMat",
+            "type": "matrix4x4",
+            "count": 16,
+            "values": [
+                1.0,
+                0,
+                0,
+                0,
+                0,
+                1.0,
+                0,
+                0,
+                0,
+                0,
+                1.0,
+                0,
+                0,
+                0,
+                0,
+                1.0
+            ]
+        },
+        {
+            "name": "ProjMat",
+            "type": "matrix4x4",
+            "count": 16,
+            "values": [
+                1.0,
+                0,
+                0,
+                0,
+                0,
+                1.0,
+                0,
+                0,
+                0,
+                0,
+                1.0,
+                0,
+                0,
+                0,
+                0,
+                1.0
+            ]
+        },
+        {
+            "name": "Sky",
+            "type": "int",
+            "count": 1,
+            "values": [
+                3
+            ]
+        },
+        {
+            "name": "FaceN",
+            "type": "float",
+            "count": 3,
+            "values": [
+                1.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "name": "FaceU",
+            "type": "float",
+            "count": 3,
+            "values": [
+                0.0,
+                0.0,
+                -1.0
+            ]
+        },
+        {
+            "name": "FaceV",
+            "type": "float",
+            "count": 3,
+            "values": [
+                0.0,
+                -1.0,
+                0.0
+            ]
+        },
+        {
+            "name": "Texel",
+            "type": "float",
+            "count": 1,
+            "values": [
+                0.001
+            ]
+        }
+    ]
+}

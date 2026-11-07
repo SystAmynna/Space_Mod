@@ -52,5 +52,12 @@ public record Rgba(double r, double g, double b, double a) {
         return new Rgba((v >> 24 & 255) / 255.0, (v >> 16 & 255) / 255.0, (v >> 8 & 255) / 255.0, (v & 255) / 255.0);
     }
 
+    /** Même teinte, plus sombre et plus saturée (exposant sur le rapport à la composante max) : les zones froides d'une étoile de teinte {@code this}. */
+    public Rgba cooler() {
+        double m = Math.max(r, Math.max(g, b));
+        if (m <= 0) return this;
+        return new Rgba(m * Math.pow(r / m, 2.5), m * Math.pow(g / m, 2.5), m * Math.pow(b / m, 2.5), a);
+    }
+
     public String describe() { return String.format(java.util.Locale.ROOT, "(%.2f %.2f %.2f %.2f)", r, g, b, a); }
 }

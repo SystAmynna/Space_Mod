@@ -14,8 +14,8 @@ class EffectRenderTest {
             new StarRender(new RenderTransform(), 6.9e5, StarRender.DEFAULT_HOT, StarRender.DEFAULT_COOL, 2, 3, 2.5),
             new BlackHoleRender(new RenderTransform(), 162.5, new Rgba(0.1, 0, 0, 1)),
             new DistorsionRender(new RenderTransform(), 62.5, 2.8, 25),
-            new GammaEruptionRender(new RenderTransform(), 1e9, 0.04, GammaEruptionRender.DEFAULT_A, GammaEruptionRender.DEFAULT_B, 3, 33),
-            new RingRender(new RenderTransform(), 136775, 122170, RingRender.DEFAULT_INNER, RingRender.DEFAULT_OUTER, 0.65, true, 58232));
+            new GammaEruptionRender(new RenderTransform(), 1e9, 0.04, GammaEruptionRender.DEFAULT_A, GammaEruptionRender.DEFAULT_B, 3, 33, 0.8, 35, 0.3),
+            new RingRender(new RenderTransform(), 136775, 122170, RingRender.DEFAULT_INNER, RingRender.DEFAULT_OUTER, 0.65, true, 58232, 683));
 
     @Test
     void roundTripsThroughTheRegistry() {
@@ -55,6 +55,17 @@ class EffectRenderTest {
         t = ALL.get(2).save();
         t.putDouble("extent", 1);
         assertNull(SpaceRenderObjects.load(t));
+        for (double bad : new double[] {0, 11, -11, Double.NaN}) { // strength signé (trou blanc < 0), jamais nul
+            t = ALL.get(2).save();
+            t.putDouble("strength", bad);
+            assertNull(SpaceRenderObjects.load(t), "strength " + bad);
+        }
+        t = ALL.get(2).save();
+        t.putDouble("strength", -2.8);
+        assertEquals(-2.8, ((DistorsionRender) SpaceRenderObjects.load(t)).strength);
+        t = ALL.get(3).save();
+        t.putDouble("spin", 187.6); // vraie rotation du pulsar du Crabe
+        assertEquals(187.6, ((GammaEruptionRender) SpaceRenderObjects.load(t)).spin);
     }
 
     @Test
