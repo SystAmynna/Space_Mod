@@ -24,6 +24,18 @@ public final class SpaceRenderObjects {
             if (!(r > 0) || !Double.isFinite(r)) throw usage(PlanetRender.TYPE);
             return new PlanetRender(new RenderTransform(), a.get(0), r);
         }, "planet <texture> <radius>"));
+        ENTRIES.put(GalaxyRender.TYPE, new Entry(GalaxyRender::load, a -> {
+            if (a.isEmpty() || a.size() > 3) throw usage(GalaxyRender.TYPE);
+            double r, h = 0.04;
+            int arms = 2;
+            try {
+                r = Double.parseDouble(a.get(0));
+                if (a.size() > 1) arms = Integer.parseInt(a.get(1));
+                if (a.size() > 2) h = Double.parseDouble(a.get(2));
+            } catch (NumberFormatException e) { throw usage(GalaxyRender.TYPE); }
+            if (!GalaxyRender.valid(r, arms, h)) throw usage(GalaxyRender.TYPE);
+            return new GalaxyRender(new RenderTransform(), r, arms, h);
+        }, "galaxy <radius> [arms] [thickness]"));
     }
 
     private SpaceRenderObjects() {}

@@ -10,8 +10,9 @@ import org.junit.jupiter.api.Test;
 import fr.systamynna.spacemod.core.SpaceObject;
 import fr.systamynna.spacemod.core.StrategicLayer;
 import fr.systamynna.spacemod.core.component.components.Identity;
-import fr.systamynna.spacemod.core.component.components.Sky;
+import fr.systamynna.spacemod.core.component.components.MajorObject;
 import fr.systamynna.spacemod.core.controller.controllers.OrbitalController;
+import fr.systamynna.spacemod.core.render.GalaxyRender;
 import fr.systamynna.spacemod.core.render.PlanetRender;
 import fr.systamynna.spacemod.core.render.SpaceRender;
 import fr.systamynna.spacemod.core.store.JdbcSpaceStore;
@@ -91,27 +92,30 @@ class ProvidersTest {
             if (r.isEmpty()) continue;
             withRender++;
             assertEquals(1, r.get().objects.size(), s.tree().addressOf(o)); // un rayon invalide fait ignorer l'objet au chargement
+            if (r.get().objects.get(0) instanceof GalaxyRender g) { // les galaxies n'ont pas de texture
+                assertTrue(g.radius() > 0, s.tree().addressOf(o));
+                continue;
+            }
             PlanetRender p = (PlanetRender) r.get().objects.get(0);
             assertTrue(p.radius() > 0, s.tree().addressOf(o));
             String path = "/assets/" + p.texture.replaceFirst(":", "/"); // namespace:chemin -> /assets/namespace/chemin
             assertNotNull(Providers.class.getResource(path), p.texture);
         }
-        assertEquals(65, withRender);
+        assertEquals(67, withRender); // 65 planètes/lunes/Soleil + 2 galaxies
     }
 
     @Test
-    void everySystemHasASkySummaryInTheStore() throws Exception {
+    void everySystemIsAMajorObjectUnderTheGalaxy() throws Exception {
         StrategicLayer s = layer();
         Providers.refresh(s, ProviderType.DEFAULT);
         SpaceObject gal = s.tree().resolve("universe/milky_way");
         int n = 0;
         for (SpaceObject o : s.tree().children(gal)) { // les systèmes (niveau année-lumière)
-            Sky k = o.getComponent(Sky.class).orElseThrow(() -> new AssertionError("pas de sky : " + o.getName()));
+            MajorObject k = o.getComponent(MajorObject.class).orElseThrow(() -> new AssertionError("pas de major_object : " + o.getName()));
             assertTrue(k.luminosity > 0 && k.color != 0, o.getName());
             n++;
         }
         assertEquals(10, n);
-        assertEquals(n, s.store().skyInBox(gal.getUuid(), new int[] {-9999, -9999, -9999}, new int[] {9999, 9999, 9999}, 0).size());
     }
 
     @Test

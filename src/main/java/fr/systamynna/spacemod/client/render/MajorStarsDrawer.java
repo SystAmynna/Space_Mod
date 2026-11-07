@@ -1,4 +1,4 @@
-package fr.systamynna.spacemod.client.sky;
+package fr.systamynna.spacemod.client.render;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,25 +24,24 @@ import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
 import fr.systamynna.spacemod.client.ClientLayer;
-import fr.systamynna.spacemod.client.render.SpaceRenderer;
-import fr.systamynna.spacemod.core.SpaceNet.SkyChunk;
-import fr.systamynna.spacemod.core.SpaceNet.SkyDrop;
+import fr.systamynna.spacemod.core.SpaceNet.MajorChunk;
+import fr.systamynna.spacemod.core.SpaceNet.MajorDrop;
 import fr.systamynna.spacemod.core.SpaceNet.Star;
 import fr.systamynna.spacemod.core.SpaceObject;
 import fr.systamynna.spacemod.core.render.RenderMath;
 import fr.systamynna.spacemod.core.render.SpaceRender;
-import fr.systamynna.spacemod.core.sky.SkyParams;
-import fr.systamynna.spacemod.core.sky.SkyStreamer.CellKey;
+import fr.systamynna.spacemod.core.major.MajorParams;
+import fr.systamynna.spacemod.core.major.MajorStreamer.CellKey;
 import net.minecraft.client.renderer.GameRenderer;
 
 /**
- * Ciel lointain côté client : cache des cellules d'étoiles reçues, dessiné en un seul buffer GPU statique (carrés tangents à la sphère du ciel,
- * additifs). Le buffer est exprimé dans le repère de l'ancêtre porteur des résumés : il n'est reconstruit que si les cellules, les systèmes « détaillés »
+ * Étoiles majeures côté client : cache des cellules d'étoiles reçues du {@code MajorContainer} courant, dessiné en un seul buffer GPU statique (carrés tangents à la sphère du ciel,
+ * additifs). Le buffer est exprimé dans le repère du conteneur : il n'est reconstruit que si les cellules, les systèmes « détaillés »
  * ou la position de l'observateur changent ; la rotation du repère (rotation d'une planète...) s'applique à chaque image par la matrice de dessin.
- * Un système dont au moins un enfant a un {@link SpaceRender} côté client est dessiné en détail par {@link SpaceRenderer} : son résumé est masqué.
+ * Un système dont au moins un enfant a un {@link SpaceRender} côté client est dessiné en détail par {@link SpaceRenderer} : son étoile est masquée.
  */
-public final class ClientSky implements ClientLayer.Listener {
-    public static final ClientSky INSTANCE = new ClientSky();
+public final class MajorStarsDrawer implements ClientLayer.Listener {
+    public static final MajorStarsDrawer INSTANCE = new MajorStarsDrawer();
 
     /** Demi-côté (rad) d'une étoile au flux limite, et plafond. */
     private static final double BASE_ANGLE = 8e-4, MAX_ANGLE = 6e-3;
@@ -62,11 +61,11 @@ public final class ClientSky implements ClientLayer.Listener {
     private int count;
     private final Matrix4f mv = new Matrix4f();
 
-    private ClientSky() {}
+    private MajorStarsDrawer() {}
 
     // --- données ---
 
-    public void chunk(SkyChunk p) {
+    public void chunk(MajorChunk p) {
         CellKey k = new CellKey(p.parent(), p.cx(), p.cy(), p.cz());
         if (p.first()) cells.put(k, new ArrayList<>(p.stars()));
         else cells.computeIfAbsent(k, x -> new ArrayList<>()).addAll(p.stars());
@@ -74,7 +73,7 @@ public final class ClientSky implements ClientLayer.Listener {
         dirty = true;
     }
 
-    public void drop(SkyDrop p) {
+    public void drop(MajorDrop p) {
         cells.remove(new CellKey(p.parent(), p.cx(), p.cy(), p.cz()));
         dirty = true;
     }
@@ -144,18 +143,18 @@ public final class ClientSky implements ClientLayer.Listener {
         dirty = false;
         built = true;
         builtAt.set(obs);
-        double R = SpaceRenderer.SKY_RADIUS, ly2 = SkyParams.LY_KM * SkyParams.LY_KM;
+        double R = SpaceRenderer.SKY_RADIUS, ly2 = MajorParams.LY_KM * MajorParams.LY_KM;
         BufferBuilder bb = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         count = 0;
         for (Map.Entry<CellKey, List<Star>> e : cells.entrySet()) {
             CellKey k = e.getKey();
             if (!k.parent().equals(frame)) continue;
-            double ox = k.cx() * SkyParams.CELL_KM - obs.x, oy = k.cy() * SkyParams.CELL_KM - obs.y, oz = k.cz() * SkyParams.CELL_KM - obs.z;
+            double ox = k.cx() * MajorParams.CELL_KM - obs.x, oy = k.cy() * MajorParams.CELL_KM - obs.y, oz = k.cz() * MajorParams.CELL_KM - obs.z;
             for (Star s : e.getValue()) {
                 if (detailed.containsKey(s.uuid())) continue;
                 double dx = ox + s.x(), dy = oy + s.y(), dz = oz + s.z(), d2 = dx * dx + dy * dy + dz * dz;
                 if (!(d2 > 0)) continue;
-                double b = s.lum() * ly2 / d2 / SkyParams.FLUX_LIMIT; // brillance relative à la limite de visibilité
+                double b = s.lum() * ly2 / d2 / MajorParams.FLUX_LIMIT; // brillance relative à la limite de visibilité
                 if (b < 0.1) continue;
                 double m = Math.max(0, Math.log10(b)), h = R * Math.min(MAX_ANGLE, BASE_ANGLE * (1 + 0.6 * m));
                 int a = (int) (255 * Math.min(1, 0.35 + 0.2 * m));

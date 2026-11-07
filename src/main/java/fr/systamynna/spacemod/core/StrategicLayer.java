@@ -55,8 +55,12 @@ public class StrategicLayer {
     private static final double TICK_MS = 50;
     private final SpaceTree tree = new SpaceTree(this);
     private SpaceListener listener = SpaceListener.NONE;
+    private long mods;
 
     public void setListener(SpaceListener listener) { this.listener = listener; }
+
+    /** Nombre de modifications et de suppressions faites sur l'arbre : de quoi invalider un cache dérivé de l'arbre. */
+    public long modCount() { return mods; }
 
     public void start(Path worldDir) {
         start(SpaceStores.open(worldDir));
@@ -88,6 +92,7 @@ public class StrategicLayer {
 
     /** Marque l'objet à écrire au prochain {@link #flush()} et le réplique tout de suite aux abonnés. */
     private void modified(UUID uuid) {
+        mods++;
         dirty.add(uuid);
         touch(uuid);
         SpaceObject o = loaded.get(uuid);
@@ -299,6 +304,7 @@ public class StrategicLayer {
         store.delete(o.getUuid());
         untrack(o.getUuid());
         dirty.remove(o.getUuid());
+        mods++;
         listener.removed(o.getUuid());
     }
 

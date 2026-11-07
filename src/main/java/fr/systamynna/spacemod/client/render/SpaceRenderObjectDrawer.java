@@ -1,5 +1,7 @@
 package fr.systamynna.spacemod.client.render;
 
+import java.util.UUID;
+
 import javax.annotation.Nullable;
 
 import org.joml.Matrix4f;
@@ -10,7 +12,10 @@ import fr.systamynna.spacemod.core.render.RenderMath.Placed;
 import fr.systamynna.spacemod.core.render.SpaceRenderObject;
 import net.minecraft.resources.ResourceLocation;
 
-/** Dessin client d'un type de {@link SpaceRenderObject} ; les éléments de même texture consécutifs partagent un seul appel GPU. */
+/**
+ * Dessin client d'un type de {@link SpaceRenderObject} ; les éléments de même texture consécutifs partagent un seul appel GPU.
+ * Un type {@link #custom()} (shader propre) se dessine lui-même, avant les étoiles majeures et les éléments texturés (couche des galaxies).
+ */
 interface SpaceRenderObjectDrawer {
     /** Texture, ou {@code null} si pas encore disponible (l'élément est ignoré cette image). */
     @Nullable
@@ -18,4 +23,10 @@ interface SpaceRenderObjectDrawer {
 
     /** Ajoute les triangles (POSITION_TEX_COLOR) ; {@code k} ramène l'élément sur la sphère du ciel, {@code modelView} est la rotation de la caméra. */
     void emit(BufferBuilder out, Matrix4f modelView, Placed p, double k, SpaceRenderObject ro);
+
+    /** Vrai si le type se dessine lui-même par {@link #draw} (pas de texture ni de lot). */
+    default boolean custom() { return false; }
+
+    /** Dessin d'un type {@link #custom()} ; {@code carrier} = UUID du SpaceObject porteur (sert de graine). */
+    default void draw(Matrix4f modelView, Placed p, UUID carrier, SpaceRenderObject ro) {}
 }

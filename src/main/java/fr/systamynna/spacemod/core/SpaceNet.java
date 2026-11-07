@@ -70,37 +70,37 @@ public final class SpaceNet {
         @Override public Type<StateReport> type() { return TYPE; }
     }
 
-    /** S2C : le client oublie toutes ses étoiles de ciel lointain. */
-    public record SkyReset() implements CustomPacketPayload {
-        static final Type<SkyReset> TYPE = typeOf("sky_reset");
-        static final StreamCodec<FriendlyByteBuf, SkyReset> CODEC = StreamCodec.unit(new SkyReset());
-        @Override public Type<SkyReset> type() { return TYPE; }
+    /** S2C : le client oublie toutes ses étoiles majeures. */
+    public record MajorReset() implements CustomPacketPayload {
+        static final Type<MajorReset> TYPE = typeOf("major_reset");
+        static final StreamCodec<FriendlyByteBuf, MajorReset> CODEC = StreamCodec.unit(new MajorReset());
+        @Override public Type<MajorReset> type() { return TYPE; }
     }
 
     /** Une étoile d'une cellule : position en km relative à l'origine de la cellule. */
     public record Star(UUID uuid, float x, float y, float z, int color, float lum) {}
 
-    /** S2C : étoiles d'une cellule du ciel lointain ; {@code first} remplace le contenu de la cellule, sinon ajoute (cellule découpée en plusieurs paquets). */
-    public record SkyChunk(UUID parent, int cx, int cy, int cz, boolean first, List<Star> stars) implements CustomPacketPayload {
-        static final Type<SkyChunk> TYPE = typeOf("sky_chunk");
-        public static final StreamCodec<FriendlyByteBuf, SkyChunk> CODEC = StreamCodec.of(
+    /** S2C : étoiles d'une cellule du conteneur majeur ; {@code first} remplace le contenu de la cellule, sinon ajoute (cellule découpée en plusieurs paquets). */
+    public record MajorChunk(UUID parent, int cx, int cy, int cz, boolean first, List<Star> stars) implements CustomPacketPayload {
+        static final Type<MajorChunk> TYPE = typeOf("major_chunk");
+        public static final StreamCodec<FriendlyByteBuf, MajorChunk> CODEC = StreamCodec.of(
                 (b, p) -> {
                     b.writeUUID(p.parent);
                     b.writeInt(p.cx).writeInt(p.cy).writeInt(p.cz).writeBoolean(p.first);
                     b.writeCollection(p.stars, (buf, s) -> buf.writeUUID(s.uuid).writeFloat(s.x).writeFloat(s.y).writeFloat(s.z).writeInt(s.color).writeFloat(s.lum));
                 },
-                b -> new SkyChunk(b.readUUID(), b.readInt(), b.readInt(), b.readInt(), b.readBoolean(),
+                b -> new MajorChunk(b.readUUID(), b.readInt(), b.readInt(), b.readInt(), b.readBoolean(),
                         b.readList(buf -> new Star(buf.readUUID(), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readInt(), buf.readFloat()))));
-        @Override public Type<SkyChunk> type() { return TYPE; }
+        @Override public Type<MajorChunk> type() { return TYPE; }
     }
 
     /** S2C : le client oublie la cellule. */
-    public record SkyDrop(UUID parent, int cx, int cy, int cz) implements CustomPacketPayload {
-        static final Type<SkyDrop> TYPE = typeOf("sky_drop");
-        static final StreamCodec<FriendlyByteBuf, SkyDrop> CODEC = StreamCodec.of(
+    public record MajorDrop(UUID parent, int cx, int cy, int cz) implements CustomPacketPayload {
+        static final Type<MajorDrop> TYPE = typeOf("major_drop");
+        static final StreamCodec<FriendlyByteBuf, MajorDrop> CODEC = StreamCodec.of(
                 (b, p) -> { b.writeUUID(p.parent); b.writeInt(p.cx).writeInt(p.cy).writeInt(p.cz); },
-                b -> new SkyDrop(b.readUUID(), b.readInt(), b.readInt(), b.readInt()));
-        @Override public Type<SkyDrop> type() { return TYPE; }
+                b -> new MajorDrop(b.readUUID(), b.readInt(), b.readInt(), b.readInt()));
+        @Override public Type<MajorDrop> type() { return TYPE; }
     }
 
     public static Upsert upsert(SpaceObject o) { return new Upsert(o.getUuid(), o.getParent(), o.save()); }
@@ -113,9 +113,9 @@ public final class SpaceNet {
         r.playToClient(Upsert.TYPE, Upsert.CODEC, ClientNet::upsert);
         r.playToClient(Drop.TYPE, Drop.CODEC, ClientNet::drop);
         r.playToClient(StateProbe.TYPE, StateProbe.CODEC, ClientNet::probe);
-        r.playToClient(SkyReset.TYPE, SkyReset.CODEC, ClientNet::skyReset);
-        r.playToClient(SkyChunk.TYPE, SkyChunk.CODEC, ClientNet::skyChunk);
-        r.playToClient(SkyDrop.TYPE, SkyDrop.CODEC, ClientNet::skyDrop);
+        r.playToClient(MajorReset.TYPE, MajorReset.CODEC, ClientNet::majorReset);
+        r.playToClient(MajorChunk.TYPE, MajorChunk.CODEC, ClientNet::majorChunk);
+        r.playToClient(MajorDrop.TYPE, MajorDrop.CODEC, ClientNet::majorDrop);
         r.playToServer(StateReport.TYPE, StateReport.CODEC, SpaceNet::onReport);
     }
 

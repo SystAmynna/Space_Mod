@@ -6,9 +6,9 @@ import fr.systamynna.spacemod.core.SpaceObjectException;
 import fr.systamynna.spacemod.core.component.SpaceComponent;
 import net.minecraft.nbt.CompoundTag;
 
-/** Résumé de ciel d'un système : couleur (RGB) et luminosité (relative au Soleil), vus de loin sans charger ses étoiles. */
-public class Sky implements SpaceComponent {
-    public static final String ID = "sky";
+/** Objet majeur (étoile, trou noir, système porteur d'étoiles) visible de très loin : couleur (RGB) et luminosité (relative au Soleil). */
+public class MajorObject implements SpaceComponent {
+    public static final String ID = "major_object";
 
     public int color = 0xFFFFFF;
     public double luminosity = 1;
@@ -36,7 +36,7 @@ public class Sky implements SpaceComponent {
                 case "color" -> color = Integer.parseInt(a[1].replaceFirst("^#", ""), 16) & 0xFFFFFF;
                 case "lum" -> {
                     double l = Double.parseDouble(a[1]);
-                    if (!valid(l)) throw new SpaceObjectException("amynnaspacemod.sky.bad_luminosity", a[1]);
+                    if (!valid(l)) throw new SpaceObjectException("amynnaspacemod.major.bad_luminosity", a[1]);
                     luminosity = l;
                 }
                 default -> throw usage();
@@ -53,8 +53,8 @@ public class Sky implements SpaceComponent {
 
     private static boolean valid(double lum) { return lum > 0 && Double.isFinite(lum); }
 
-    public static Sky load(CompoundTag t) {
-        Sky s = new Sky();
+    public static MajorObject load(CompoundTag t) {
+        MajorObject s = new MajorObject();
         s.color = t.getInt("color") & 0xFFFFFF;
         double l = t.getDouble("lum");
         s.luminosity = valid(l) ? l : 1; // donnée corrompue : neutre plutôt que d'échouer à charger l'objet

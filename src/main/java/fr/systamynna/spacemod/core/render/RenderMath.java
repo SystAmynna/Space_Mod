@@ -23,12 +23,12 @@ public final class RenderMath {
 
     /** Déplacement rigide {@code p ↦ t + R(p)} (km). */
     public record Pose(Vector3d t, Quaterniond q) {
-        static Pose identity() { return new Pose(new Vector3d(), new Quaterniond()); }
+        public static Pose identity() { return new Pose(new Vector3d(), new Quaterniond()); }
 
         public Vector3d apply(Vector3d p) { return q.transform(new Vector3d(p)).add(t); }
 
         /** {@code outer ∘ this} : applique this, puis outer. */
-        Pose then(Pose outer) { return new Pose(outer.apply(t), new Quaterniond(outer.q).mul(q)); }
+        public Pose then(Pose outer) { return new Pose(outer.apply(t), new Quaterniond(outer.q).mul(q)); }
     }
 
     /** Observateur : chaîne d'ancêtres de l'objet de référence (lui-même en tête) et décalage dans son référentiel. */

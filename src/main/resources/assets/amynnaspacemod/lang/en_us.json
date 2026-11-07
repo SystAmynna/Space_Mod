@@ -62,5 +62,5 @@
   "amynnaspacemod.lookat.done": "Now looking at %s.",
   "amynnaspacemod.lookat.no_sky": "%s has no space sky; use /spacerender first.",
   "amynnaspacemod.lookat.unreachable": "%s cannot be seen from the sky viewpoint (no common ancestor or same position).",
-  "amynnaspacemod.sky.bad_luminosity": "The luminosity must be a finite number > 0 (Sun = 1), got %s."
+  "amynnaspacemod.major.bad_luminosity": "The luminosity must be a finite number > 0 (Sun = 1), got %s."
 }

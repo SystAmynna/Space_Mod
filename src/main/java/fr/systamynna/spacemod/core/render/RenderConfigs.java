@@ -17,7 +17,7 @@ import fr.systamynna.spacemod.core.Subscriptions;
 import fr.systamynna.spacemod.core.clock.SpaceClock;
 import fr.systamynna.spacemod.core.relevance.PlayerSpacePos;
 import fr.systamynna.spacemod.core.relevance.Relevance;
-import fr.systamynna.spacemod.core.sky.SkyStreamer;
+import fr.systamynna.spacemod.core.major.MajorStreamer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.Tag;
@@ -33,7 +33,7 @@ public final class RenderConfigs {
     private final StrategicLayer layer;
     private final Subscriptions subs;
     private final RenderAssets assets = new RenderAssets();
-    private final SkyStreamer sky;
+    private final MajorStreamer major;
     private final Map<ResourceLocation, RenderConfig> byDim = new HashMap<>();
     private Path file;
     private boolean dirty;
@@ -41,7 +41,7 @@ public final class RenderConfigs {
     public RenderConfigs(StrategicLayer layer, Subscriptions subs) {
         this.layer = layer;
         this.subs = subs;
-        this.sky = new SkyStreamer(layer);
+        this.major = new MajorStreamer(layer);
     }
 
     public RenderAssets assets() { return assets; }
@@ -82,7 +82,7 @@ public final class RenderConfigs {
     public void stop() {
         flush();
         assets.stop();
-        sky.clear();
+        major.clear();
         byDim.clear();
         file = null;
     }
@@ -126,8 +126,8 @@ public final class RenderConfigs {
 
     private PlayerSpacePos pos(ServerPlayer p) { return PlayerSpacePos.of(parent(p), byDim.get(p.level().dimension().location())); }
 
-    /** Libère l'état de ciel du joueur. */
-    public void logout(ServerPlayer p) { sky.logout(p.getUUID()); }
+    /** Libère l'état d'étoiles du joueur. */
+    public void logout(ServerPlayer p) { major.logout(p.getUUID()); }
 
     /**
      * Recalcule les abonnements automatiques du joueur depuis sa position : son parent, sinon la config de sa dimension. Sans l'un ni l'autre,
@@ -142,6 +142,7 @@ public final class RenderConfigs {
             AmynnaSpaceMod.LOGGER.debug("Objet de rendu {} introuvable", pos.anchor());
         }
         subs.setAuto(p, next);
+        major.send(p, pos); // étoiles majeures du conteneur courant : diff par cellules, rien à envoyer si rien n'a changé
     }
 
     /**
@@ -154,7 +155,6 @@ public final class RenderConfigs {
         UUID parent = parent(p);
         if (c != null && parent != null) c = c.withObject(parent);
         refresh(p);
-        sky.send(p, pos(p)); // ciel lointain : recalculé ici seulement (position qui change = cet appel), pas à chaque refresh
         PacketDistributor.sendToPlayer(p, new RenderNet.Config(dim, c == null ? null : c.save()));
     }
 

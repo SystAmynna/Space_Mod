@@ -10,6 +10,8 @@ import org.joml.Vector3d;
 
 import fr.systamynna.spacemod.core.SpaceObject;
 import fr.systamynna.spacemod.core.StrategicLayer;
+import fr.systamynna.spacemod.core.component.components.MajorObject;
+import fr.systamynna.spacemod.core.component.components.MinorObject;
 import fr.systamynna.spacemod.core.render.RenderMath;
 import fr.systamynna.spacemod.core.render.SpaceRender;
 import fr.systamynna.spacemod.core.render.SpaceRenderObject;
@@ -17,7 +19,8 @@ import fr.systamynna.spacemod.core.render.SpaceRenderObject;
 /**
  * Quels objets un joueur doit avoir loadés et répliqués. Fonction pure de l'arbre, de la position du joueur et du temps :
  * l'ancre et ses ancêtres toujours ; pour chaque ancêtre, les enfants proches ou assez gros dans le ciel ; et tous les enfants d'un objet
- * dans la sphère d'influence duquel se trouve l'observateur (le joueur dans un système voit ses planètes).
+ * dans la sphère d'influence duquel se trouve l'observateur (le joueur dans un système voit ses planètes) ; enfin, quand un objet majeur est
+ * à charger, tous ses descendants {@link MinorObject} (planètes, lunes) le sont aussi.
  * Ne charge rien : les candidats sont lus avec {@code tree().children} (instance loadée ou copie du store dont la pose est avancée au temps voulu).
  */
 public final class Relevance {
@@ -59,7 +62,20 @@ public final class Relevance {
             var l = RenderMath.local(a);
             l.q().transform(p).add(l.t()); // ... puis dans celui de son parent
         }
+        for (UUID u : new ArrayList<>(out)) {
+            SpaceObject o = layer.peek(u);
+            if (o.getComponent(MajorObject.class).isPresent()) minors(layer, o, out);
+        }
         return out;
+    }
+
+    /** Ajoute à {@code out} les descendants {@link MinorObject} de {@code o}, à travers les mineurs (la lune d'une planète). */
+    private static void minors(StrategicLayer layer, SpaceObject o, Set<UUID> out) {
+        for (SpaceObject c : layer.tree().children(o)) {
+            if (c.getComponent(MinorObject.class).isEmpty()) continue;
+            out.add(c.getUuid());
+            minors(layer, c, out);
+        }
     }
 
     /**

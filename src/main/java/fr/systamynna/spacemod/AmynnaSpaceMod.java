@@ -90,6 +90,7 @@ public class AmynnaSpaceMod {
         if (FMLEnvironment.dist.isClient()) {
             NeoForge.EVENT_BUS.addListener((ClientTickEvent.Post e) -> ClientLayer.INSTANCE.step(SpaceClock.CLIENT.now() / 50));
             fr.systamynna.spacemod.client.render.ClientRenderInit.init();
+            modEventBus.addListener(fr.systamynna.spacemod.client.render.ClientShaders::register);
         }
         NeoForge.EVENT_BUS.addListener((PlayerEvent.PlayerLoggedInEvent e) -> {
             if (e.getEntity() instanceof ServerPlayer p) {

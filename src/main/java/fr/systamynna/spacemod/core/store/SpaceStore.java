@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import fr.systamynna.spacemod.core.SpaceObject;
-import fr.systamynna.spacemod.core.sky.SkySummary;
 
 /** Persistance des objets spatiaux. Les erreurs d'E/S remontent en {@link java.io.UncheckedIOException}. */
 public interface SpaceStore extends AutoCloseable {
@@ -44,12 +43,6 @@ public interface SpaceStore extends AutoCloseable {
 
     /** {@code null} l'efface. */
     void saveSetting(String key, @javax.annotation.Nullable String value);
-
-    /**
-     * Résumés de ciel des enfants de {@code parent} dont la cellule est dans [minCell, maxCell] (cx, cy, cz inclus) et de luminosité >= {@code minLum}.
-     * Sans lire aucun objet.
-     */
-    List<SkySummary> skyInBox(UUID parent, int[] minCell, int[] maxCell, double minLum);
 
     void delete(UUID uuid);
 

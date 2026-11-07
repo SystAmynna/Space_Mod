@@ -51,6 +51,7 @@ final class AssetCache {
         try (NativeImage img = NativeImage.read(new ByteArrayInputStream(d.bytes()))) {
             ResourceLocation loc = ResourceLocation.fromNamespaceAndPath(AmynnaSpaceMod.MODID, "render/" + d.name().substring(0, d.name().length() - 4));
             DynamicTexture tex = new DynamicTexture(new NativeImage(img.format(), img.getWidth(), img.getHeight(), false));
+            assert tex.getPixels() != null;
             tex.getPixels().copyFrom(img);
             tex.upload();
             Minecraft.getInstance().getTextureManager().register(loc, tex);
