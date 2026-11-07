@@ -88,6 +88,34 @@ class StrategicLayerTest {
     }
 
     @Test
+    void removeChildren() throws Exception {
+        StrategicLayer s = new StrategicLayer();
+        s.start(new JdbcSpaceStore(DriverManager.getConnection("jdbc:sqlite::memory:")));
+        SpaceObject x = s.add("x", s.tree().resolve("universe"));
+        SpaceObject a = s.add("a", x), b = s.add("b", x);
+        s.add("m1", a);
+        s.add("b", a); // petit-enfant homonyme du frère b : pas de fausse collision
+        SpaceObject n = s.add("n", b);
+
+        s.removeChildren(x, false); // keep : les petits-enfants remontent sous x
+        assertTrue(s.get(a.getUuid()).isEmpty());
+        assertSame(n, s.tree().resolve("universe/x/n"));
+        assertEquals("universe/x/m1", s.tree().addressOf(s.tree().resolve("universe/x/m1")));
+        assertEquals("universe/x/b", s.tree().addressOf(s.tree().resolve("universe/x/b")));
+
+        s.removeChildren(x, true); // recursive : x reste, tout le reste part
+        assertTrue(s.tree().children(x).isEmpty());
+        assertSame(x, s.tree().resolve("universe/x"));
+
+        SpaceObject y = s.add("y", x);
+        s.add("d", s.add("c1", y));
+        s.add("d", s.add("c2", y));
+        assertThrows(SpaceObjectException.class, () -> s.removeChildren(y, false)); // d en double
+        assertEquals(2, s.tree().children(y).size()); // rien n'a bougé
+        s.stop();
+    }
+
+    @Test
     void invalidStoredRootIsCleared() throws Exception {
         Connection con = DriverManager.getConnection("jdbc:sqlite::memory:");
         JdbcSpaceStore store = new JdbcSpaceStore(con);

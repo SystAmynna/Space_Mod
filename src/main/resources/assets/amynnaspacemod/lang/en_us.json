@@ -6,6 +6,7 @@
   "amynnaspacemod.clock.report": "[%s] client=%s ms | server(raw)=%s ms | latency(RTT)=%s ms | corrected=%s ms | diff=%s ms",
   "amynnaspacemod.spaceobject.added": "Created %s (%s)",
   "amynnaspacemod.spaceobject.removed": "Removed %s",
+  "amynnaspacemod.spaceobject.removed_children": "Removed children of %s",
   "amynnaspacemod.spaceobject.modified": "Moved to %s",
   "amynnaspacemod.spaceobject.unknown_uuid": "No space object with UUID %s.",
   "amynnaspacemod.spaceobject.not_loaded": "%s is not loaded.",

@@ -29,23 +29,18 @@ sourceSets.main.resources {
 repositories {
     // Add here additional repositories if required by some of the dependencies below.
     mavenCentral() // sqlite-jdbc
-    // Tests : Sable (API de compilation du mod de test src/spacetest) et ses dépendances.
+    // Sable (API de compilation de src/dyndim) et ses dépendances.
     maven { url = 'https://maven.ryanhcode.dev/releases' }
     maven { url = 'https://maven.blamejared.com' }
 }
 
-// Mod de test jetable (plan_de_tests.md), jamais inclus dans le jar du mod.
 sourceSets {
     // Bibliothèque de dimensions dynamiques (fork de DynamicDimensions, src/dyndim) : même mod et même jar que main, mais compilée
-    // à part. Elle ne voit pas main (sens de dépendance imposé par le compilateur) ; main et spacetest la voient.
+    // à part. Elle ne voit pas main (sens de dépendance imposé par le compilateur) ; main la voit.
     dyndim
     main {
         compileClasspath += sourceSets.dyndim.output
         runtimeClasspath += sourceSets.dyndim.output
-    }
-    spacetest {
-        compileClasspath += sourceSets.main.compileClasspath + sourceSets.main.output + sourceSets.dyndim.output
-        runtimeClasspath += sourceSets.main.runtimeClasspath
     }
 }
 
@@ -61,7 +56,6 @@ neoForge {
     // Specify the version of NeoForge to use.
     version = project.neo_version
 
-    addModdingDependenciesTo(sourceSets.spacetest)
     addModdingDependenciesTo(sourceSets.dyndim)
 
     parchment {
@@ -80,16 +74,13 @@ neoForge {
             sourceSet(sourceSets.main)
             sourceSet(sourceSets.dyndim)
         }
-        spacemod_test {
-            sourceSet(sourceSets.spacetest)
-        }
     }
 
     // Tests JUnit (src/test) avec les classes Minecraft, sans lancer le jeu.
     unitTest {
         enable()
         testedMod = mods."${mod_id}"
-        loadedMods = [mods."${mod_id}"] // sans le mod jetable spacemod_test, qui exige Sable
+        loadedMods = [mods."${mod_id}"]
     }
 
     // Default run configurations.
@@ -113,34 +104,16 @@ neoForge {
         clientDevMods {
             client()
             gameDirectory = project.file('run-dev')
-            systemProperty 'spacetest.open', 'true' // commandes /spacetest sans être opérateur (usage dev uniquement)
-            loadedMods = [mods."${mod_id}", mods.spacemod_test]
+            loadedMods = [mods."${mod_id}"]
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
 
         serverDevMods {
             server()
             gameDirectory = project.file('run-dev-server')
-            systemProperty 'spacetest.open', 'true'
-            loadedMods = [mods."${mod_id}", mods.spacemod_test]
+            loadedMods = [mods."${mod_id}"]
             programArgument '--nogui'
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-            systemProperty 'spacetest.a1', findProperty('a1') ?: ''
-            systemProperty 'spacetest.backend', findProperty('backend') ?: ''
-            systemProperty 'spacetest.dd', findProperty('dd') ?: ''
-            systemProperty 'spacetest.a2', findProperty('a2') ?: ''
-            systemProperty 'spacetest.a4', findProperty('a4') ?: ''
-            systemProperty 'spacetest.a5', findProperty('a5') ?: ''
-            systemProperty 'spacetest.a9', findProperty('a9') ?: ''
-            systemProperty 'spacetest.c', findProperty('c') ?: ''
-            systemProperty 'spacetest.c1.variant', findProperty('c1variant') ?: ''
-            systemProperty 'spacetest.c5', findProperty('c5') ?: ''
-            systemProperty 'spacetest.c5.action', findProperty('c5action') ?: ''
-            systemProperty 'spacetest.a9.diag', findProperty('a9diag') ?: 'false'
-            systemProperty 'spacetest.a9.unsafe', findProperty('a9unsafe') ?: 'false'
-            systemProperty 'spacetest.a7.delay', findProperty('a7delay') ?: '30'
-            systemProperty 'spacetest.a6', findProperty('a6') ?: ''
-            systemProperty 'spacetest.a6.delay', findProperty('a6delay') ?: '5'
         }
 
         // This run config launches GameTestServer and runs all registered gametests, then exits.
@@ -217,9 +190,6 @@ dependencies {
     // Bibliothèque de dimensions intégrée (src/dyndim) : Sable est facultatif à l'exécution (compat chargée si présent).
     dyndimCompileOnly 'dev.ryanhcode.sable:sable-neoforge-1.21.1:2.0.6'
 
-    // Mod de test : compilé contre test-libs/ (copies des jars de dev-mods/, qui peuvent y être désactivés) et Sable (Maven).
-    spacetestCompileOnly 'dev.ryanhcode.sable:sable-neoforge-1.21.1:2.0.6'
-    spacetestCompileOnly fileTree(dir: 'test-libs', include: '*.jar')
 
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime

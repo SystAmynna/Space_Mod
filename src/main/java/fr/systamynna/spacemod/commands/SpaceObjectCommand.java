@@ -18,7 +18,7 @@ import net.minecraft.commands.arguments.UuidArgument;
 import net.minecraft.network.chat.Component;
 
 /**
- * {@code /spaceobject list [full] | root | add | remove keep|recursive <objet> | get <objet> | parent <objet> (none|<objet>) [transpose] | transform <objet> [(pos <x> <y> <z>|rot <yaw> <pitch> <roll>)…] | scale <objet> [<valeur>]} (OP).
+ * {@code /spaceobject list [full] | root | add | remove keep|recursive <objet> [self|childs] | get <objet> | parent <objet> (none|<objet>) [transpose] | transform <objet> [(pos <x> <y> <z>|rot <yaw> <pitch> <roll>)…] | scale <objet> [<valeur>]} (OP).
  * {@code <objet>} = {@code uuid <uuid>} ou {@code addr <adresse>} (adresse entre guillemets : elle contient des '/').
  */
 public final class SpaceObjectCommand {
@@ -57,12 +57,21 @@ public final class SpaceObjectCommand {
         var remove = Commands.literal("remove");
         for (String mode : new String[] {"keep", "recursive"}) {
             var m = Commands.literal(mode);
-            selector(m, 0, n -> n.executes(c -> run(c, x -> {
-                SpaceObject o = target(x, 0);
-                String addr = S.tree().addressOf(o);
-                S.remove(o, mode.equals("recursive"));
-                ok(x, "removed", addr);
-            })));
+            selector(m, 0, n -> {
+                com.mojang.brigadier.Command<CommandSourceStack> self = c -> run(c, x -> {
+                    SpaceObject o = target(x, 0);
+                    String addr = S.tree().addressOf(o);
+                    S.remove(o, mode.equals("recursive"));
+                    ok(x, "removed", addr);
+                });
+                n.executes(self); // self par défaut
+                n.then(Commands.literal("self").executes(self));
+                n.then(Commands.literal("childs").executes(c -> run(c, x -> {
+                    SpaceObject o = target(x, 0);
+                    S.removeChildren(o, mode.equals("recursive"));
+                    ok(x, "removed_children", S.tree().addressOf(o));
+                })));
+            });
             remove.then(m);
         }
 

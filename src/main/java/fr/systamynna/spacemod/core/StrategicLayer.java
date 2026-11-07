@@ -301,6 +301,26 @@ public class StrategicLayer {
             for (SpaceObject k : kids) { reparent(k, up); modified(k.getUuid()); }
             flush();
         }
+        drop(o);
+    }
+
+    /** Supprime les enfants de {@code o} (conservé). {@code recursive} : tout le sous-arbre ; sinon les petits-enfants deviennent enfants de {@code o}. */
+    public void removeChildren(SpaceObject o, boolean recursive) {
+        List<SpaceObject> kids = tree.children(o).stream().map(k -> getOrThrow(k.getUuid())).toList();
+        if (recursive) {
+            for (SpaceObject k : kids) remove(k, true);
+            return;
+        }
+        List<SpaceObject> grandKids = kids.stream().flatMap(k -> tree.children(k).stream()).map(g -> getOrThrow(g.getUuid())).toList();
+        Set<String> names = new HashSet<>();
+        for (SpaceObject g : grandKids)
+            if (!names.add(g.getName())) throw new SpaceObjectException("amynnaspacemod.spaceobject.name_taken", g.getName());
+        for (SpaceObject g : grandKids) { reparent(g, o.getUuid()); modified(g.getUuid()); }
+        flush();
+        for (SpaceObject k : kids) drop(k);
+    }
+
+    private void drop(SpaceObject o) {
         store.delete(o.getUuid());
         untrack(o.getUuid());
         dirty.remove(o.getUuid());
