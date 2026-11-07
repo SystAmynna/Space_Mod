@@ -41,7 +41,7 @@ class ProvidersTest {
         var first = Providers.refresh(s, ProviderType.DEFAULT);
         assertTrue(first.errors().isEmpty(), first.errors().toString());
         assertEquals(List.of("universe"), first.updated()); // le root existait déjà
-        assertTrue(first.created().size() == 77);
+        assertEquals(88, first.created().size()); // 77 + 11 galaxies
         assertNotNull(s.tree().resolve(EARTH + "/moon").getController());
         assertNotNull(s.tree().resolve("universe/milky_way/trappist_1/trappist_1/trappist_1_h").getController());
         assertNotNull(s.tree().resolve("universe/andromeda"));
@@ -96,6 +96,7 @@ class ProvidersTest {
                 assertEquals(2, r.get().objects.size(), s.tree().addressOf(o));
                 assertTrue(g.radius() > 0, s.tree().addressOf(o));
                 assertInstanceOf(GalaxyStarsRender.class, r.get().objects.get(1), s.tree().addressOf(o));
+                assertTrue(o.getComponent(fr.systamynna.spacemod.core.component.components.MajorContainer.class).isPresent(), s.tree().addressOf(o));
                 continue;
             }
             assertEquals(1, r.get().objects.size(), s.tree().addressOf(o)); // un rayon invalide fait ignorer l'objet au chargement
@@ -104,7 +105,7 @@ class ProvidersTest {
             String path = "/assets/" + p.texture.replaceFirst(":", "/"); // namespace:chemin -> /assets/namespace/chemin
             assertNotNull(Providers.class.getResource(path), p.texture);
         }
-        assertEquals(67, withRender); // 65 planètes/lunes/Soleil + 2 galaxies
+        assertEquals(78, withRender); // 65 planètes/lunes/Soleil + 13 galaxies
     }
 
     @Test

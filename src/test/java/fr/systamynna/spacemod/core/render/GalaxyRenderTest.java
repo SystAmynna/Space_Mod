@@ -72,4 +72,44 @@ class GalaxyRenderTest {
             assertThrows(RuntimeException.class, () -> SpaceRenderObjects.create(type, List.of("1e17", "2.5"))); // bras non entier
         }
     }
+
+    @Test
+    void cloudColoursRoundTripAndDefault() {
+        Rgba core = new Rgba(0.1, 0.2, 0.3, 2.5), edge = new Rgba(1, 0, 0.5, 0);
+        GalaxyCloudRender back = (GalaxyCloudRender) SpaceRenderObjects.load(new GalaxyCloudRender(new RenderTransform(), 1e17, 2, 0.04, core, edge).save());
+        assertEquals(core, back.core);
+        assertEquals(edge, back.edge);
+        // ancien format, sans couleurs : l'aspect d'avant
+        CompoundTag t = new GalaxyCloudRender(new RenderTransform(), 1e17, 2, 0.04).save();
+        t.remove("core");
+        t.remove("edge");
+        GalaxyCloudRender old = (GalaxyCloudRender) SpaceRenderObjects.load(t);
+        assertEquals(GalaxyCloudRender.DEFAULT_CORE, old.core);
+        assertEquals(GalaxyCloudRender.DEFAULT_EDGE, old.edge);
+        // champ manquant ou non fini : valeur par défaut de ce champ ; hors bornes : borné
+        CompoundTag c = new CompoundTag();
+        c.putDouble("r", 7);
+        c.putDouble("g", Double.NaN);
+        c.putDouble("a", 99);
+        t.put("core", c);
+        GalaxyCloudRender fixed = (GalaxyCloudRender) SpaceRenderObjects.load(t);
+        assertEquals(new Rgba(1, GalaxyCloudRender.DEFAULT_CORE.g(), GalaxyCloudRender.DEFAULT_CORE.b(), Rgba.MAX_A), fixed.core);
+    }
+
+    @Test
+    void rgbaParsesHex() {
+        assertEquals(new Rgba(1, 170 / 255.0, 0, 1), Rgba.parse("FFAA00"));
+        assertEquals(new Rgba(0x33 / 255.0, 0x44 / 255.0, 1, 0x80 / 255.0), Rgba.parse("#3344FF80"));
+        for (String bad : new String[] {"", "FFF", "GGGGGG", "FFAA000", "FFAA00AA1"}) assertNull(Rgba.parse(bad), bad);
+    }
+
+    @Test
+    void createCloudWithColours() {
+        GalaxyCloudRender c = (GalaxyCloudRender) SpaceRenderObjects.create("galaxy_cloud", List.of("1e17", "3", "0.05", "FFAA00", "3344FF80"));
+        assertEquals(Rgba.parse("FFAA00"), c.core);
+        assertEquals(Rgba.parse("3344FF80"), c.edge);
+        assertEquals(GalaxyCloudRender.DEFAULT_EDGE, ((GalaxyCloudRender) SpaceRenderObjects.create("galaxy_cloud", List.of("1e17", "3", "0.05", "FFAA00"))).edge);
+        assertThrows(RuntimeException.class, () -> SpaceRenderObjects.create("galaxy_cloud", List.of("1e17", "3", "0.05", "ZZZZZZ")));
+        assertThrows(RuntimeException.class, () -> SpaceRenderObjects.create("galaxy_cloud", List.of("1e17", "3", "0.05", "FFAA00", "3344FF", "extra")));
+    }
 }

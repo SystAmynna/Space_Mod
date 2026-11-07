@@ -25,10 +25,12 @@ public final class SpaceRenderObjects {
             return new PlanetRender(new RenderTransform(), a.get(0), r);
         }, "planet <texture> <radius>"));
         ENTRIES.put(GalaxyCloudRender.TYPE, new Entry(GalaxyCloudRender::load, a -> {
-            double[] v = galaxyArgs(GalaxyCloudRender.TYPE, a, 3);
-            if (!GalaxyCloudRender.valid(v[0], (int) v[1], v[2])) throw usage(GalaxyCloudRender.TYPE);
-            return new GalaxyCloudRender(new RenderTransform(), v[0], (int) v[1], v[2]);
-        }, "galaxy_cloud <radius> [arms] [thickness]"));
+            if (a.size() > 5) throw usage(GalaxyCloudRender.TYPE);
+            double[] v = galaxyArgs(GalaxyCloudRender.TYPE, a.subList(0, Math.min(3, a.size())), 3);
+            Rgba core = a.size() > 3 ? Rgba.parse(a.get(3)) : GalaxyCloudRender.DEFAULT_CORE, edge = a.size() > 4 ? Rgba.parse(a.get(4)) : GalaxyCloudRender.DEFAULT_EDGE;
+            if (core == null || edge == null || !GalaxyCloudRender.valid(v[0], (int) v[1], v[2])) throw usage(GalaxyCloudRender.TYPE);
+            return new GalaxyCloudRender(new RenderTransform(), v[0], (int) v[1], v[2], core, edge);
+        }, "galaxy_cloud <radius> [arms] [thickness] [core RRGGBB[AA]] [edge RRGGBB[AA]]"));
         ENTRIES.put(GalaxyStarsRender.TYPE, new Entry(GalaxyStarsRender::load, a -> {
             double[] v = galaxyArgs(GalaxyStarsRender.TYPE, a, 4);
             if (!GalaxyStarsRender.valid(v[0], (int) v[1], v[2], v[3])) throw usage(GalaxyStarsRender.TYPE);

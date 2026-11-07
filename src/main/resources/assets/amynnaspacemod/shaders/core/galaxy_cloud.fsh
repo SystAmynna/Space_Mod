@@ -7,6 +7,8 @@ uniform mat3 GalRot;   // repère de l'observateur -> repère de la galaxie
 uniform vec3 CamPos;   // l'observateur dans le repère de la galaxie
 uniform vec2 Seed;     // deux valeurs de [0, 1[ dérivées de l'UUID de la galaxie (phase des bras, bruit)
 uniform vec2 Params;   // x = demi-épaisseur du disque (fraction du rayon), y = nombre de bras
+uniform vec4 ColorCore; // couleur du centre (rgb) et intensité (a)
+uniform vec4 ColorEdge; // couleur du bord (rgb) et intensité (a)
 
 out vec4 fragColor;
 
@@ -75,7 +77,7 @@ void main() {
         float d = density(p);
         if (d > 0.0) {
             float r = length(p.xz);
-            vec3 tint = mix(vec3(1.0, 0.72, 0.42), vec3(0.50, 0.62, 1.0), smoothstep(0.0, 0.6, r));
+            vec3 tint = mix(ColorCore.rgb * ColorCore.a, ColorEdge.rgb * ColorEdge.a, smoothstep(0.0, 0.6, r));
             col += T * tint * d * dt * 5.0;
             T *= exp(-d * dt * 2.0);
         }

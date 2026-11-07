@@ -20,12 +20,20 @@ public final class GalaxyCloudRender implements SpaceRenderObject {
     /** Demi-épaisseur du disque, en fraction du rayon. */
     public final double thickness;
     public final int arms;
+    /** Dégradé de couleur du nuage : du centre (bulbe) au bord (bras). L'alpha est un multiplicateur d'intensité. */
+    public final Rgba core, edge;
 
-    public GalaxyCloudRender(RenderTransform transform, double radius, int arms, double thickness) {
+    public static final Rgba DEFAULT_CORE = new Rgba(1.0, 0.72, 0.42, 1), DEFAULT_EDGE = new Rgba(0.50, 0.62, 1.0, 1);
+
+    public GalaxyCloudRender(RenderTransform transform, double radius, int arms, double thickness) { this(transform, radius, arms, thickness, DEFAULT_CORE, DEFAULT_EDGE); }
+
+    public GalaxyCloudRender(RenderTransform transform, double radius, int arms, double thickness, Rgba core, Rgba edge) {
         this.transform = transform;
         this.radius = radius;
         this.arms = arms;
         this.thickness = thickness;
+        this.core = core;
+        this.edge = edge;
     }
 
     @Override public String type() { return TYPE; }
@@ -44,17 +52,20 @@ public final class GalaxyCloudRender implements SpaceRenderObject {
         t.putDouble("radius", radius);
         t.putInt("arms", arms);
         t.putDouble("thickness", thickness);
+        t.put("core", core.save());
+        t.put("edge", edge.save());
         return t;
     }
 
-    @Override public String describe() { return "galaxy_cloud radius=" + radius + ", arms=" + arms + ", thickness=" + thickness + ", " + transform.describe(); }
+    @Override public String describe() { return "galaxy_cloud radius=" + radius + ", arms=" + arms + ", thickness=" + thickness + ", core=" + core.describe() + ", edge=" + edge.describe() + ", " + transform.describe(); }
 
     /** {@code null} si les données sont invalides (rayon ≤ 0, bras hors [1, {@link #MAX_ARMS}], épaisseur hors ]0, 1]). */
     @Nullable
     public static GalaxyCloudRender load(CompoundTag t) {
         double r = t.getDouble("radius"), h = t.getDouble("thickness");
         int a = t.getInt("arms");
-        return valid(r, a, h) ? new GalaxyCloudRender(RenderTransform.load(t.getCompound("transform")), r, a, h) : null;
+        return valid(r, a, h) ? new GalaxyCloudRender(RenderTransform.load(t.getCompound("transform")), r, a, h,
+                Rgba.load(t, "core", DEFAULT_CORE), Rgba.load(t, "edge", DEFAULT_EDGE)) : null;
     }
 
     public static boolean valid(double radius, int arms, double thickness) {

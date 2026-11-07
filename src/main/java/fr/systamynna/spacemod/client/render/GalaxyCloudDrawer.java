@@ -16,5 +16,7 @@ final class GalaxyCloudDrawer extends GalaxyShaderDrawer {
     void uniforms(ShaderInstance sh, SpaceRenderObject ro) {
         GalaxyCloudRender g = (GalaxyCloudRender) ro;
         sh.safeGetUniform("Params").set((float) g.thickness, (float) g.arms);
+        sh.safeGetUniform("ColorCore").set((float) g.core.r(), (float) g.core.g(), (float) g.core.b(), (float) g.core.a());
+        sh.safeGetUniform("ColorEdge").set((float) g.edge.r(), (float) g.edge.g(), (float) g.edge.b(), (float) g.edge.a());
     }
 }
