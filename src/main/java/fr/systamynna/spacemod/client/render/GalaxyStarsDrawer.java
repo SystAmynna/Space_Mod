@@ -7,7 +7,7 @@ import fr.systamynna.spacemod.core.render.SpaceRenderObject;
 import net.minecraft.client.renderer.ShaderInstance;
 
 /** Étoiles aléatoires d'une galaxie, sans ray-marching (voir {@code shaders/core/galaxy_stars.fsh}). */
-final class GalaxyStarsDrawer extends GalaxyShaderDrawer {
+final class GalaxyStarsDrawer extends SkyShaderDrawer {
     @Override
     @Nullable
     ShaderInstance shader() { return ClientShaders.galaxyStars; }

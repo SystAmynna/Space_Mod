@@ -15,6 +15,8 @@ import fr.systamynna.spacemod.core.controller.controllers.OrbitalController;
 import fr.systamynna.spacemod.core.render.GalaxyCloudRender;
 import fr.systamynna.spacemod.core.render.GalaxyStarsRender;
 import fr.systamynna.spacemod.core.render.PlanetRender;
+import fr.systamynna.spacemod.core.render.RingRender;
+import fr.systamynna.spacemod.core.render.StarRender;
 import fr.systamynna.spacemod.core.render.SpaceRender;
 import fr.systamynna.spacemod.core.store.JdbcSpaceStore;
 
@@ -41,7 +43,7 @@ class ProvidersTest {
         var first = Providers.refresh(s, ProviderType.DEFAULT);
         assertTrue(first.errors().isEmpty(), first.errors().toString());
         assertEquals(List.of("universe"), first.updated()); // le root existait déjà
-        assertEquals(88, first.created().size()); // 77 + 11 galaxies
+        assertEquals(94, first.created().size()); // 77 + 11 galaxies + 6 objets compacts
         assertNotNull(s.tree().resolve(EARTH + "/moon").getController());
         assertNotNull(s.tree().resolve("universe/milky_way/trappist_1/trappist_1/trappist_1_h").getController());
         assertNotNull(s.tree().resolve("universe/andromeda"));
@@ -78,8 +80,10 @@ class ProvidersTest {
         assertEquals(9460730472580.8, s.tree().resolve(system).getScale(), 1e-3); // al
         assertEquals(149597870.7, s.tree().resolve(system + "/sun/earth").getScale(), 1e-6); // UA
         assertEquals(1.0, s.tree().resolve(EARTH + "/moon").getScale(), 0); // km
-        var sun = (PlanetRender) s.tree().resolve(system + "/sun").getComponent(SpaceRender.class).orElseThrow().objects.get(0);
+        var sun = (StarRender) s.tree().resolve(system + "/sun").getComponent(SpaceRender.class).orElseThrow().objects.get(0);
         assertEquals(696340, sun.radius(), 1); // rayons en km
+        var siriusB = (StarRender) s.tree().resolve("universe/milky_way/sirius/sirius_b").getComponent(SpaceRender.class).orElseThrow().objects.get(0);
+        assertEquals(0, siriusB.granulation); // naine blanche : surface lisse
     }
 
     @Test
@@ -99,13 +103,17 @@ class ProvidersTest {
                 assertTrue(o.getComponent(fr.systamynna.spacemod.core.component.components.MajorContainer.class).isPresent(), s.tree().addressOf(o));
                 continue;
             }
-            assertEquals(1, r.get().objects.size(), s.tree().addressOf(o)); // un rayon invalide fait ignorer l'objet au chargement
-            PlanetRender p = (PlanetRender) r.get().objects.get(0);
+            if (!(r.get().objects.get(0) instanceof PlanetRender p)) { // trous noirs, pulsar : effets procéduraux, sans texture
+                r.get().objects.forEach(x -> assertTrue(x.radius() > 0, s.tree().addressOf(o)));
+                continue;
+            }
+            // une planète : un seul élément texturé, plus ses anneaux éventuels (un rayon invalide fait ignorer l'objet au chargement)
+            assertTrue(r.get().objects.stream().skip(1).allMatch(x -> x instanceof RingRender), s.tree().addressOf(o));
             assertTrue(p.radius() > 0, s.tree().addressOf(o));
             String path = "/assets/" + p.texture.replaceFirst(":", "/"); // namespace:chemin -> /assets/namespace/chemin
             assertNotNull(Providers.class.getResource(path), p.texture);
         }
-        assertEquals(78, withRender); // 65 planètes/lunes/Soleil + 13 galaxies
+        assertEquals(81, withRender); // 65 planètes/lunes/Soleil + 13 galaxies + 3 objets compacts
     }
 
     @Test
@@ -117,9 +125,10 @@ class ProvidersTest {
         for (SpaceObject o : s.tree().children(gal)) { // les systèmes (niveau année-lumière)
             MajorObject k = o.getComponent(MajorObject.class).orElseThrow(() -> new AssertionError("pas de major_object : " + o.getName()));
             assertTrue(k.luminosity > 0 && k.color != 0, o.getName());
+            assertTrue(o.getComponent(fr.systamynna.spacemod.core.component.components.StellarSystem.class).isPresent(), o.getName()); // chaque système est un référentiel stellaire
             n++;
         }
-        assertEquals(10, n);
+        assertEquals(13, n); // + Cygnus X-1, Sagittarius A, Crab Pulsar
     }
 
     @Test

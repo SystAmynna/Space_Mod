@@ -9,10 +9,12 @@ import java.util.function.Supplier;
 import javax.annotation.Nullable;
 
 import fr.systamynna.spacemod.core.SpaceObjectException;
+import fr.systamynna.spacemod.core.component.components.ArtificialStructure;
 import fr.systamynna.spacemod.core.component.components.Identity;
 import fr.systamynna.spacemod.core.component.components.MajorContainer;
 import fr.systamynna.spacemod.core.component.components.MajorObject;
 import fr.systamynna.spacemod.core.component.components.MinorObject;
+import fr.systamynna.spacemod.core.component.components.StellarSystem;
 import fr.systamynna.spacemod.core.render.SpaceRender;
 import net.minecraft.nbt.CompoundTag;
 
@@ -28,6 +30,8 @@ public final class SpaceComponents {
         ENTRIES.put(MajorObject.ID, new Entry(MajorObject.class, MajorObject::new, MajorObject::load));
         ENTRIES.put(MajorContainer.ID, new Entry(MajorContainer.class, MajorContainer::new, MajorContainer::load));
         ENTRIES.put(MinorObject.ID, new Entry(MinorObject.class, MinorObject::new, MinorObject::load));
+        ENTRIES.put(ArtificialStructure.ID, new Entry(ArtificialStructure.class, ArtificialStructure::new, ArtificialStructure::load));
+        ENTRIES.put(StellarSystem.ID, new Entry(StellarSystem.class, StellarSystem::new, StellarSystem::load));
     }
 
     private SpaceComponents() {}

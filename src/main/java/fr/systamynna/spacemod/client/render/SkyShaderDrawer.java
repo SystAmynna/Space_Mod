@@ -20,17 +20,18 @@ import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
 import fr.systamynna.spacemod.core.render.RenderMath.Placed;
+import fr.systamynna.spacemod.core.render.Rgba;
 import fr.systamynna.spacemod.core.render.SpaceRenderObject;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 
 /**
- * Base des dessins de galaxie à shader : une sphère plein ciel dont le fragment lance un rayon dans le repère de la galaxie.
+ * Base des dessins à shader (galaxies, étoiles, trous noirs, anneaux…) : une sphère plein ciel dont le fragment lance un rayon dans le repère de la galaxie.
  * Le même dessin sert vue de l'extérieur (galaxie lointaine) et de l'intérieur (la nôtre) : un rayon qui rate la sphère englobante est rejeté.
  * Les sous-classes donnent le shader et ses uniformes propres ({@link GalaxyCloudDrawer}, {@link GalaxyStarsDrawer}).
  * shortcut: une sphère plein ciel par galaxie (coût de remplissage) ; passer à un quad englobant au-delà d'une dizaine de galaxies visibles.
  */
-abstract class GalaxyShaderDrawer implements SpaceRenderObjectDrawer {
+abstract class SkyShaderDrawer implements SpaceRenderObjectDrawer {
     private static final int LON = 32, LAT = 16;
 
     /** Partagée par tous les dessins de galaxie. */
@@ -45,8 +46,14 @@ abstract class GalaxyShaderDrawer implements SpaceRenderObjectDrawer {
     /** Uniformes propres au type, en plus de {@code GalRot}, {@code CamPos} et {@code Seed}. */
     abstract void uniforms(ShaderInstance sh, SpaceRenderObject ro);
 
+    /** Galaxies par défaut ; les effets locaux (étoile, anneau, trou noir…) surchargent par {@code custom()=false} et {@code overlay()=true}. */
     @Override
     public boolean custom() { return true; }
+
+    static void color(ShaderInstance sh, String name, Rgba c) { sh.safeGetUniform(name).set((float) c.r(), (float) c.g(), (float) c.b(), (float) c.a()); }
+
+    /** Préparation propre au type juste avant le dessin (ex. capture de l'image pour la lentille). */
+    void beforeDraw(ShaderInstance sh) {}
 
     @Override
     @Nullable
@@ -56,7 +63,7 @@ abstract class GalaxyShaderDrawer implements SpaceRenderObjectDrawer {
     public void emit(BufferBuilder out, Matrix4f modelView, Placed p, double k, SpaceRenderObject ro) {}
 
     @Override
-    public void draw(Matrix4f modelView, Placed p, UUID carrier, SpaceRenderObject ro) {
+    public void draw(Matrix4f modelView, Placed p, UUID carrier, SpaceRenderObject ro, float flare) {
         ShaderInstance sh = shader();
         if (sh == null) return; // ressources pas (encore) chargées
         // galaxie -> observateur : p.orientation ; on veut l'inverse. shortcut: échelle supposée uniforme (p.scale().x)
@@ -66,7 +73,10 @@ abstract class GalaxyShaderDrawer implements SpaceRenderObjectDrawer {
         sh.safeGetUniform("GalRot").set(rot.set(new Quaternionf(inv)));
         sh.safeGetUniform("CamPos").set((float) cam.x, (float) cam.y, (float) cam.z);
         sh.safeGetUniform("Seed").set((s & 0xFFFFFF) / 16777216f, (s >>> 24 & 0xFFFFFF) / 16777216f);
+        sh.safeGetUniform("Flare").set(flare);
+        sh.safeGetUniform("Time").set((float) (System.nanoTime() / 1e9 % 3600)); // modulo : garde la précision float
         uniforms(sh, ro);
+        beforeDraw(sh);
 
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);

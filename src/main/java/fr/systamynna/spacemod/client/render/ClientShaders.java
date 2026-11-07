@@ -20,12 +20,19 @@ public final class ClientShaders {
     static ShaderInstance galaxyCloud;
     @Nullable
     static ShaderInstance galaxyStars;
+    @Nullable
+    static ShaderInstance star, blackHole, gammaEruption, ring, distorsion;
 
     /** À brancher sur le bus du mod, côté client uniquement. */
     public static void register(RegisterShadersEvent event) {
         try {
             event.registerShader(load(event, "galaxy_cloud"), sh -> galaxyCloud = sh);
             event.registerShader(load(event, "galaxy_stars"), sh -> galaxyStars = sh);
+            event.registerShader(load(event, "star"), sh -> star = sh);
+            event.registerShader(load(event, "black_hole"), sh -> blackHole = sh);
+            event.registerShader(load(event, "gamma_eruption"), sh -> gammaEruption = sh);
+            event.registerShader(load(event, "ring"), sh -> ring = sh);
+            event.registerShader(load(event, "distorsion"), sh -> distorsion = sh);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

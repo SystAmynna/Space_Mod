@@ -28,6 +28,93 @@ class RenderMathTest {
 
     private RenderConfig cfg(SpaceObject host) { return new RenderConfig(ResourceLocation.parse("a:b"), host.getUuid()); }
 
+    /** Comme {@link #obj}, avec le tag {@code stellar_system}. */
+    private SpaceObject system(SpaceObject parent, String name) {
+        SpaceObject o = obj(parent, name, 0, 0, 0, 0, 1);
+        CompoundTag t = o.save();
+        t.getCompound("components").put("stellar_system", new CompoundTag());
+        o = SpaceObject.load(o.getUuid(), o.getParent(), t);
+        world.put(o.getUuid(), o);
+        return o;
+    }
+
+    private java.util.List<SpaceObject> childrenOf(UUID parent) { return world.values().stream().filter(o -> parent.equals(o.getParent())).toList(); }
+
+    @Test
+    void stellarSystemOfFindsTheTaggedAncestor() {
+        SpaceObject gal = obj(null, "gal", 0, 0, 0, 0, 1);
+        SpaceObject sys = system(gal, "sys");
+        SpaceObject star = obj(sys, "star", 0, 0, 0, 0, 1);
+        SpaceObject sister = obj(sys, "sister", 5, 0, 0, 0, 1);
+        SpaceObject planet = obj(star, "planet", 1, 0, 0, 0, 1);
+        SpaceObject far = system(gal, "far");
+        SpaceObject farPlanet = obj(far, "farPlanet", 1, 0, 0, 0, 1);
+        SpaceObject untagged = obj(gal, "untagged", 7, 0, 0, 0, 1);
+        for (SpaceObject host : new SpaceObject[] {planet, star, sister, sys}) // dans le système (le nœud lui-même compris)
+            assertSame(sys, RenderMath.stellarSystemOf(world::get, RenderMath.observer(world::get, host, cfg(host)), star), host.getName());
+        for (SpaceObject host : new SpaceObject[] {gal, far, farPlanet, untagged}) // niveau galaxie, autre système, objet sans tag
+            assertNull(RenderMath.stellarSystemOf(world::get, RenderMath.observer(world::get, host, cfg(host)), star), host.getName());
+        // sans tag sur le parent, l'étoile n'est dans aucun système
+        SpaceObject bare = obj(gal, "bare", 0, 0, 0, 0, 1), bareStar = obj(bare, "bareStar", 0, 0, 0, 0, 1);
+        assertNull(RenderMath.stellarSystemOf(world::get, RenderMath.observer(world::get, bareStar, cfg(bareStar)), bareStar));
+    }
+
+    @Test
+    void farthestFromIsTheLargestDistanceToTheStar() {
+        SpaceObject sys = system(null, "sys");
+        SpaceObject star = obj(sys, "star", 10, 0, 0, 0, 1);
+        obj(star, "near", 0, 0, 100, 0, 1);                  // 100 km de l'étoile (repère de l'étoile)
+        SpaceObject planet = obj(star, "far", 300, 0, 0, 0, 1); // 300 km de l'étoile
+        obj(planet, "moon", 0, 0, 50, 0, 1);                  // à ~304 km de l'étoile
+        obj(sys, "sister", -90, 0, 0, 0, 1);                  // à 100 km de l'étoile
+        double d = RenderMath.farthestFrom(this::childrenOf, sys, star);
+        assertEquals(Math.sqrt(300 * 300 + 50 * 50), d, 1e-6);
+        assertEquals(0, RenderMath.farthestFrom(this::childrenOf, sys, obj(null, "stranger", 0, 0, 0, 0, 1)), 0); // étoile hors du système
+        SpaceObject lonely = system(null, "lonely");
+        assertEquals(0, RenderMath.farthestFrom(this::childrenOf, lonely, obj(lonely, "alone", 0, 0, 0, 0, 1)), 0);
+    }
+
+    @Test
+    void farthestFromIgnoresArtificialStructuresAndTheirChildren() {
+        SpaceObject sys = system(null, "sys");
+        SpaceObject star = obj(sys, "star", 0, 0, 0, 0, 1);
+        obj(star, "planet", 100, 0, 0, 0, 1);
+        SpaceObject ship = obj(sys, "ship", 9000, 0, 0, 0, 1);
+        obj(ship, "module", 500, 0, 0, 0, 1);
+        double before = RenderMath.farthestFrom(this::childrenOf, sys, star);
+        assertEquals(9500, before, 1e-6); // sans tag, le vaisseau compterait
+        CompoundTag t = ship.save();
+        t.getCompound("components").put("artificial_structure", new CompoundTag());
+        SpaceObject tagged = SpaceObject.load(ship.getUuid(), ship.getParent(), t);
+        world.put(tagged.getUuid(), tagged);
+        assertEquals(100, RenderMath.farthestFrom(this::childrenOf, sys, star), 1e-6); // ni lui ni son module ne comptent
+    }
+
+    @Test
+    void flareFollowsTheDocumentedTable() { // étoile en 0, objet notable le plus loin en 10
+        double dmax = 10;
+        assertEquals(RenderMath.flare(2 / dmax), RenderMath.flare(18 / dmax), 1e-12);
+        assertEquals(RenderMath.flare(7 / dmax), RenderMath.flare(13 / dmax), 1e-12);
+        assertEquals(1, RenderMath.flare(10 / dmax), 1e-12);
+        assertTrue(RenderMath.flare(2 / dmax) < RenderMath.flare(7 / dmax) && RenderMath.flare(7 / dmax) < RenderMath.flare(10 / dmax));
+        assertEquals(0, RenderMath.flare(20 / dmax));
+        assertEquals(0, RenderMath.flare(21 / dmax));
+        for (double x = 0.05; x < 1; x += 0.05) assertTrue(RenderMath.flare(x + 0.05) > RenderMath.flare(x)); // croît jusqu'au pic
+        for (double x = 1.05; x < 1.95; x += 0.05) assertTrue(RenderMath.flare(x + 0.05) < RenderMath.flare(x)); // puis décroît
+    }
+
+    @Test
+    void flareIsASymmetricParabola() {
+        assertEquals(0, RenderMath.flare(0));
+        assertEquals(0.75, RenderMath.flare(0.5), 1e-12);
+        assertEquals(1, RenderMath.flare(1), 1e-12);
+        assertEquals(0.75, RenderMath.flare(1.5), 1e-12);
+        assertEquals(0, RenderMath.flare(2));
+        assertEquals(0, RenderMath.flare(-1));
+        assertEquals(0, RenderMath.flare(3));
+        for (double x : new double[] {0.1, 0.3, 0.7}) assertEquals(RenderMath.flare(x), RenderMath.flare(2 - x), 1e-12);
+    }
+
     @Test
     void siblingPlacedRelativeToHost() {
         SpaceObject sys = obj(null, "sys", 0, 0, 0, 0, 1);

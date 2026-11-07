@@ -27,7 +27,7 @@ public final class Providers {
     private Providers() {}
 
     /** Ressources DEFAULT, dans l'ordre d'import (un parent doit exister avant ses enfants, même d'un fichier à l'autre). */
-    private static final List<String> DEFAULT_RESOURCES = Stream.of("galaxies", "solar_system", "nearby_stars")
+    private static final List<String> DEFAULT_RESOURCES = Stream.of("galaxies", "solar_system", "nearby_stars", "compact_objects")
             .map(n -> "/data/" + AmynnaSpaceMod.MODID + "/default/" + n + ".json").toList();
 
     /** Bilan d'un refresh : adresses créées/modifiées, nombre d'inchangés, erreurs (clé de traduction + arguments). */

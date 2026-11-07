@@ -36,6 +36,55 @@ public final class SpaceRenderObjects {
             if (!GalaxyStarsRender.valid(v[0], (int) v[1], v[2], v[3])) throw usage(GalaxyStarsRender.TYPE);
             return new GalaxyStarsRender(new RenderTransform(), v[0], (int) v[1], v[2], v[3]);
         }, "galaxy_stars <radius> [arms] [thickness] [density]"));
+        ENTRIES.put(StarRender.TYPE, new Entry(StarRender::load, a -> {
+            String u = StarRender.TYPE;
+            if (a.isEmpty() || a.size() > 6) throw usage(u);
+            double r = num(u, a, 0, 0), s = num(u, a, 3, 1), g = num(u, a, 4, 1), e = num(u, a, 5, StarRender.DEFAULT_EMISSIVE);
+            if (!StarRender.valid(r, s, g, e)) throw usage(u);
+            return new StarRender(new RenderTransform(), r, rgba(u, a, 1, StarRender.DEFAULT_HOT), rgba(u, a, 2, StarRender.DEFAULT_COOL), s, g, e);
+        }, "star <radius> [hot RRGGBB[AA]] [cool RRGGBB[AA]] [speed] [granulation] [emissive]"));
+        ENTRIES.put(BlackHoleRender.TYPE, new Entry(BlackHoleRender::load, a -> {
+            String u = BlackHoleRender.TYPE;
+            if (a.isEmpty() || a.size() > 2) throw usage(u);
+            double r = num(u, a, 0, 0);
+            if (!(r > 0) || !Double.isFinite(r)) throw usage(u);
+            return new BlackHoleRender(new RenderTransform(), r, rgba(u, a, 1, BlackHoleRender.DEFAULT_COLOR));
+        }, "black_hole <radius> [color RRGGBB[AA]]"));
+        ENTRIES.put(DistorsionRender.TYPE, new Entry(DistorsionRender::load, a -> {
+            String u = DistorsionRender.TYPE;
+            if (a.isEmpty() || a.size() > 3) throw usage(u);
+            double r = num(u, a, 0, 0), s = num(u, a, 1, DistorsionRender.DEFAULT_STRENGTH), e = num(u, a, 2, DistorsionRender.DEFAULT_EXTENT);
+            if (!DistorsionRender.valid(r, s, e)) throw usage(u);
+            return new DistorsionRender(new RenderTransform(), r, s, e);
+        }, "distorsion <radius> [strength] [extent]"));
+        ENTRIES.put(GammaEruptionRender.TYPE, new Entry(GammaEruptionRender::load, a -> {
+            String u = GammaEruptionRender.TYPE;
+            if (a.isEmpty() || a.size() > 6) throw usage(u);
+            double r = num(u, a, 0, 0), w = num(u, a, 1, 0.05), s = num(u, a, 4, 1), seed = num(u, a, 5, 0);
+            if (!GammaEruptionRender.valid(r, w, s) || seed != Math.rint(seed) || Math.abs(seed) > Integer.MAX_VALUE) throw usage(u);
+            return new GammaEruptionRender(new RenderTransform(), r, w, rgba(u, a, 2, GammaEruptionRender.DEFAULT_A), rgba(u, a, 3, GammaEruptionRender.DEFAULT_B), s, (int) seed);
+        }, "gamma_eruption <length> [width] [colorA RRGGBB[AA]] [colorB RRGGBB[AA]] [speed] [seed]"));
+        ENTRIES.put(RingRender.TYPE, new Entry(RingRender::load, a -> {
+            String u = RingRender.TYPE;
+            if (a.size() < 2 || a.size() > 7) throw usage(u);
+            double inner = num(u, a, 0, 0), outer = num(u, a, 1, 0), op = num(u, a, 4, 1), oc = num(u, a, 6, 0);
+            if (a.size() > 5 && !a.get(5).equals("true") && !a.get(5).equals("false")) throw usage(u);
+            if (!RingRender.valid(outer, inner, op, oc)) throw usage(u);
+            return new RingRender(new RenderTransform(), outer, inner, rgba(u, a, 2, RingRender.DEFAULT_INNER), rgba(u, a, 3, RingRender.DEFAULT_OUTER), op, a.size() > 5 && a.get(5).equals("true"), oc);
+        }, "ring <inner> <outer> [colorInner RRGGBB[AA]] [colorOuter RRGGBB[AA]] [opacity] [emissive true|false] [occluder]"));
+    }
+
+    /** Argument numérique {@code i} (défaut {@code def} s'il est absent) ; usage affiché si ce n'est pas un nombre. */
+    private static double num(String type, List<String> a, int i, double def) {
+        if (i >= a.size()) return def;
+        try { return Double.parseDouble(a.get(i)); } catch (NumberFormatException e) { throw usage(type); }
+    }
+
+    private static Rgba rgba(String type, List<String> a, int i, Rgba def) {
+        if (i >= a.size()) return def;
+        Rgba c = Rgba.parse(a.get(i));
+        if (c == null) throw usage(type);
+        return c;
     }
 
     /** {@code <radius> [arms] [thickness] [density]} → {radius, arms, thickness, density} avec les défauts 2, 0,04 et 1 ; au plus {@code max} arguments. */

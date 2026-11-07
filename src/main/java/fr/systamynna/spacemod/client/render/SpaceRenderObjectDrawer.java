@@ -27,6 +27,12 @@ interface SpaceRenderObjectDrawer {
     /** Vrai si le type se dessine lui-même par {@link #draw} (pas de texture ni de lot). */
     default boolean custom() { return false; }
 
-    /** Dessin d'un type {@link #custom()} ; {@code carrier} = UUID du SpaceObject porteur (sert de graine). */
-    default void draw(Matrix4f modelView, Placed p, UUID carrier, SpaceRenderObject ro) {}
+    /** Vrai pour un effet du système local (étoile, anneau, trou noir…) : dessiné par {@link #draw} dans l'ordre loin→près, avec les éléments texturés. */
+    default boolean overlay() { return false; }
+
+    /** Ordre à distance égale (même porteur) : plus petit d'abord. */
+    default int priority() { return 0; }
+
+    /** Dessin d'un type {@link #custom()} ; {@code carrier} = UUID du SpaceObject porteur (sert de graine) ; {@code flare} = intensité du flare [0, 1] d'une étoile (0 hors de son système stellaire ; voir {@code RenderMath.stellarSystemOf} et {@code RenderMath.flare}). */
+    default void draw(Matrix4f modelView, Placed p, UUID carrier, SpaceRenderObject ro, float flare) {}
 }

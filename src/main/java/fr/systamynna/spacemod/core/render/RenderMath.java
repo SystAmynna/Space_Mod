@@ -2,8 +2,10 @@ package fr.systamynna.spacemod.core.render;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -13,6 +15,8 @@ import org.joml.Quaterniond;
 import org.joml.Vector3d;
 
 import fr.systamynna.spacemod.core.SpaceObject;
+import fr.systamynna.spacemod.core.component.components.ArtificialStructure;
+import fr.systamynna.spacemod.core.component.components.StellarSystem;
 
 /**
  * Calcul pur (sans Minecraft client) de la place d'un élément de rendu dans le ciel d'un observateur : tout en double,
@@ -95,6 +99,48 @@ public final class RenderMath {
         Quaterniond orient = new Quaterniond(inv).mul(new Quaterniond(pb.q).mul(rt.rot));
         return new Placed(rel, radius, new Vector3d(rt.scale), orient);
     }
+
+    /**
+     * Système stellaire de {@code star} vu de l'observateur : le premier objet de la chaîne de l'observateur (lui-même compris) qui porte {@link StellarSystem}
+     * et qui est aussi un ancêtre de l'étoile (ou l'étoile elle-même) ; {@code null} si l'observateur n'est dans aucun système de l'étoile.
+     */
+    @Nullable
+    public static SpaceObject stellarSystemOf(Function<UUID, SpaceObject> lookup, Observer ob, SpaceObject star) {
+        Set<UUID> starChain = new HashSet<>();
+        for (SpaceObject o : chain(lookup, star)) starChain.add(o.getUuid());
+        for (SpaceObject o : ob.chain) if (o.getComponent(StellarSystem.class).isPresent() && starChain.contains(o.getUuid())) return o;
+        return null;
+    }
+
+    /**
+     * Distance (km) de {@code star} à l'objet notable le plus éloigné d'elle parmi les descendants de {@code system} (étoile exclue), toutes poses dans le repère du système ;
+     * une {@link ArtificialStructure} (vaisseau, station) n'est pas notable : elle et son sous-arbre sont ignorés ;
+     * 0 si l'étoile n'est pas dans le système ou s'il n'y a aucun autre objet.
+     */
+    public static double farthestFrom(Function<UUID, List<SpaceObject>> children, SpaceObject system, SpaceObject star) {
+        Map<UUID, Vector3d> pos = new HashMap<>();
+        walk(children, system, Pose.identity(), pos);
+        Vector3d s = pos.get(star.getUuid());
+        if (s == null) return 0;
+        double max = 0;
+        for (Map.Entry<UUID, Vector3d> e : pos.entrySet()) if (!e.getKey().equals(star.getUuid())) max = Math.max(max, e.getValue().distance(s));
+        return max;
+    }
+
+    private static void walk(Function<UUID, List<SpaceObject>> children, SpaceObject o, Pose acc, Map<UUID, Vector3d> out) {
+        for (SpaceObject c : children.apply(o.getUuid())) {
+            if (c.getComponent(ArtificialStructure.class).isPresent()) continue;
+            Pose p = local(c).then(acc);
+            out.put(c.getUuid(), p.t());
+            walk(children, c, p, out);
+        }
+    }
+
+    /**
+     * Intensité du flare d'une étoile pour {@code x = distance à l'étoile / distance de son objet le plus éloigné} : parabole {@code x(2 − x)}, croît de 0 en x = 0
+     * à 1 en x = 1 puis décroît symétriquement jusqu'à 0 en x = 2 ; 0 en dehors de ]0, 2[.
+     */
+    public static double flare(double x) { return x > 0 && x < 2 ? x * (2 - x) : 0; }
 
     /** {yaw, pitch} en degrés (convention Minecraft : yaw 0 = +Z, pitch négatif = vers le haut) pour regarder dans la direction {@code d} ; {@code null} si nulle. */
     @Nullable

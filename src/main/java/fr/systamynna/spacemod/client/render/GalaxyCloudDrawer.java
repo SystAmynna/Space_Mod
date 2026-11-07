@@ -7,7 +7,7 @@ import fr.systamynna.spacemod.core.render.SpaceRenderObject;
 import net.minecraft.client.renderer.ShaderInstance;
 
 /** Nuage d'une galaxie : ray-marching dans le volume (voir {@code shaders/core/galaxy_cloud.fsh}). */
-final class GalaxyCloudDrawer extends GalaxyShaderDrawer {
+final class GalaxyCloudDrawer extends SkyShaderDrawer {
     @Override
     @Nullable
     ShaderInstance shader() { return ClientShaders.galaxyCloud; }
