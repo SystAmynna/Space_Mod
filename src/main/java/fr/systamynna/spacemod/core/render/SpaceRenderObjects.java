@@ -73,6 +73,20 @@ public final class SpaceRenderObjects {
             if (!RingRender.valid(outer, inner, op, oc, th)) throw usage(u);
             return new RingRender(new RenderTransform(), outer, inner, rgba(u, a, 2, RingRender.DEFAULT_INNER), rgba(u, a, 3, RingRender.DEFAULT_OUTER), op, a.size() > 5 && a.get(5).equals("true"), oc, th);
         }, "ring <inner> <outer> [colorInner RRGGBB[AA]] [colorOuter RRGGBB[AA]] [opacity] [emissive true|false] [occluder] [thickness]"));
+        ENTRIES.put(ShadowRender.TYPE, new Entry(ShadowRender::load, a -> {
+            String u = ShadowRender.TYPE;
+            if (a.isEmpty() || a.size() > 3) throw usage(u);
+            double r = num(u, a, 0, 0), am = num(u, a, 1, ShadowRender.DEFAULT_AMBIENT), s = num(u, a, 2, ShadowRender.DEFAULT_SOFTNESS);
+            if (!ShadowRender.valid(r, am, s)) throw usage(u);
+            return new ShadowRender(new RenderTransform(), r, am, s);
+        }, "shadow <radius> [ambient 0..1] [softness]"));
+        ENTRIES.put(AtmosphereRender.TYPE, new Entry(AtmosphereRender::load, a -> {
+            String u = AtmosphereRender.TYPE;
+            if (a.size() < 2 || a.size() > 5) throw usage(u);
+            double r = num(u, a, 0, 0), i = num(u, a, 1, 0), d = num(u, a, 4, 1);
+            if (!AtmosphereRender.valid(r, i, d)) throw usage(u);
+            return new AtmosphereRender(new RenderTransform(), r, i, rgba(u, a, 2, AtmosphereRender.DEFAULT_DAY), rgba(u, a, 3, AtmosphereRender.DEFAULT_SUNSET), d);
+        }, "atmosphere <radius> <surface radius> [day RRGGBB[AA]] [sunset RRGGBB[AA]] [density]"));
     }
 
     /** Argument numérique {@code i} (défaut {@code def} s'il est absent) ; usage affiché si ce n'est pas un nombre. */

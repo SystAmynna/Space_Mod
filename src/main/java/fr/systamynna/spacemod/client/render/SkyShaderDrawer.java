@@ -1,5 +1,7 @@
 package fr.systamynna.spacemod.client.render;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -9,6 +11,7 @@ import org.joml.Matrix4f;
 import org.joml.Quaterniond;
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
+import org.joml.Vector4f;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -55,6 +58,43 @@ abstract class SkyShaderDrawer implements SpaceRenderObjectDrawer {
     /** Préparation propre au type juste avant le dessin (ex. capture de l'image pour la lentille). */
     void beforeDraw(ShaderInstance sh) {}
 
+    /** Mélange avec l'image : par défaut couleur prémultipliée par-dessus. */
+    void blend() { RenderSystem.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA); }
+
+    /** Étoile de l'image : position (repère observateur, km), rayon apparent (km), couleur normalisée (max = 1). */
+    record Light(Vector3d pos, double radius, float r, float g, float b) {}
+
+    /** Étoiles de l'image courante, remplies par {@link SpaceRenderer} avant le dessin. */
+    static final List<Light> LIGHTS = new ArrayList<>();
+    private static final int MAX_LIGHTS = 4;
+    private final Matrix4f lightDirs = new Matrix4f(), lightColors = new Matrix4f();
+
+    /**
+     * Uniformes {@code Lights} (colonne i = direction de l'étoile vue du centre de l'objet, repère de l'objet ; w = flux relatif (R/d)², le plus fort = 1)
+     * et {@code LightColors} (colonne i = couleur) : les {@value #MAX_LIGHTS} étoiles les plus fortes vues de l'objet, celles sous 1 % ignorées.
+     */
+    private void lights(ShaderInstance sh, Placed p, Quaterniond inv) {
+        if (sh.getUniform("Lights") == null) return; // shader sans éclairage
+        lightDirs.zero();
+        lightColors.zero();
+        List<double[]> l = new ArrayList<>(); // {flux, index}
+        for (int i = 0; i < LIGHTS.size(); i++) {
+            double d2 = LIGHTS.get(i).pos.distanceSquared(p.pos());
+            if (d2 > 0) l.add(new double[] {LIGHTS.get(i).radius * LIGHTS.get(i).radius / d2, i});
+        }
+        l.sort((a, b) -> Double.compare(b[0], a[0]));
+        for (int k = 0; k < Math.min(MAX_LIGHTS, l.size()); k++) {
+            double w = l.get(k)[0] / l.get(0)[0];
+            if (w < 0.01) break;
+            Light s = LIGHTS.get((int) l.get(k)[1]);
+            Vector3d dir = inv.transform(new Vector3d(s.pos).sub(p.pos())).normalize();
+            lightDirs.setColumn(k, new Vector4f((float) dir.x, (float) dir.y, (float) dir.z, (float) w));
+            lightColors.setColumn(k, new Vector4f(s.r, s.g, s.b, 1));
+        }
+        sh.safeGetUniform("Lights").set(lightDirs);
+        sh.safeGetUniform("LightColors").set(lightColors);
+    }
+
     @Override
     @Nullable
     public ResourceLocation texture(SpaceRenderObject ro) { return null; }
@@ -76,10 +116,11 @@ abstract class SkyShaderDrawer implements SpaceRenderObjectDrawer {
         sh.safeGetUniform("Flare").set(flare);
         sh.safeGetUniform("Time").set((float) (System.nanoTime() / 1e9 % 3600)); // modulo : garde la précision float
         uniforms(sh, ro);
+        lights(sh, p, inv);
         beforeDraw(sh);
 
         RenderSystem.enableBlend();
-        RenderSystem.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        blend();
         VertexBuffer vb = sphere();
         vb.bind();
         vb.drawWithShader(modelView, RenderSystem.getProjectionMatrix(), sh);

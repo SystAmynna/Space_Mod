@@ -10,8 +10,25 @@ uniform vec4 ColorB;   // couleur extérieure
 uniform vec4 Params;   // x = rayon intérieur, y = opacité, z = émissif (0/1), w = rayon de l'astre central (0 = aucun)
 uniform float Thickness; // demi-épaisseur (unité = rayon extérieur)
 uniform float Flare;     // passe (champ commun à tous les dessins) : 0 = entier, 1 = moitié arrière, 2 = moitié avant (par rapport au centre de l'anneau)
+uniform mat4 Lights;      // colonne i : direction de l'étoile i vue du centre (repère de l'anneau), w = flux relatif (0 = pas d'étoile)
+uniform mat4 LightColors; // colonne i : couleur de l'étoile i (max = 1)
 
 out vec4 fragColor;
+
+// Éclairement d'un point d'un anneau non émissif : ombre de l'astre central (cylindre derrière lui, bord doux) pour chaque étoile ; 1 sans étoile (rendu d'origine).
+vec3 lighting(vec3 p) {
+    float occ = Params.w, wsum = 0.0;
+    vec3 light = vec3(0.05);
+    for (int i = 0; i < 4; i++) {
+        vec4 L = Lights[i];
+        if (L.w <= 0.0) continue;
+        wsum += L.w;
+        float pl = dot(p, L.xyz);
+        float s = (occ <= 0.0 || pl > 0.0) ? 1.0 : smoothstep(occ * 0.98, occ * 1.02, length(p - pl * L.xyz));
+        light += L.w * s * mix(vec3(1.0), LightColors[i].rgb, 0.35);
+    }
+    return wsum > 0.0 ? min(light, vec3(1.0)) : vec3(1.0);
+}
 
 float hash11(float p) {
     p = fract(p * 0.1031);
@@ -81,10 +98,11 @@ void main() {
         float u = (r - Params.x) / (1.0 - Params.x);
         vec4 cc = mix(ColorA, ColorB, u);
         float band = 0.6 + 0.4 * noise1(u * 60.0) * (0.5 + 0.5 * noise1(u * 9.0 + 3.0)); // stries axisymétriques
-        float edge = smoothstep(0.0, 0.02, u) * smoothstep(1.0, 0.98, u);
+        // fondu intérieur borné par le rayon intérieur : un disque qui descend au centre ne se recreuse pas un trou (le ciel apparaîtrait par la lentille)
+        float edge = smoothstep(Params.x, Params.x + 0.02 * min(1.0 - Params.x, Params.x), r) * smoothstep(1.0, 0.98, u);
         float vert = exp(-2.0 * p.y * p.y / (h * h));
         float aStep = 1.0 - exp(-tau * band * edge * vert * dt / (1.2533 * h));
-        vec3 col = Params.z > 0.5 ? cc.rgb * cc.a : cc.rgb * 0.85;
+        vec3 col = Params.z > 0.5 ? cc.rgb * cc.a : cc.rgb * 0.85 * lighting(p);
         acc += T * aStep * col;
         T *= 1.0 - aStep;
     }

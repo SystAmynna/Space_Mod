@@ -94,4 +94,26 @@ class EffectRenderTest {
         assertThrows(RuntimeException.class, () -> SpaceRenderObjects.create("ring", List.of("100", "200", "FF0000", "00FF00", "0.5", "maybe")));
         assertThrows(RuntimeException.class, () -> SpaceRenderObjects.create("gamma_eruption", List.of("1e9", "0.1", "FFFFFF", "0000FF", "2", "1.5"))); // graine non entière
     }
+
+    @Test
+    void shadowAndAtmosphere() {
+        ShadowRender s = (ShadowRender) SpaceRenderObjects.create("shadow", List.of("6371"));
+        assertEquals(ShadowRender.DEFAULT_AMBIENT, s.ambient);
+        assertEquals(s.describe(), SpaceRenderObjects.load(s.save()).describe());
+        AtmosphereRender a = (AtmosphereRender) SpaceRenderObjects.create("atmosphere", List.of("6560", "6371", "4D8CFF", "FF6A2A", "2"));
+        assertEquals(6371, a.inner);
+        assertEquals(Rgba.parse("4D8CFF"), a.day);
+        assertEquals(a.describe(), SpaceRenderObjects.load(a.save()).describe());
+        assertEquals(AtmosphereRender.DEFAULT_SUNSET, ((AtmosphereRender) SpaceRenderObjects.create("atmosphere", List.of("2", "1"))).sunset);
+        for (List<String> bad : List.of(List.of("6371", "1.5"), List.of("6371", "0.1", "0"), List.of("0"), List.of("6371", "0.1", "0.1", "x")))
+            assertThrows(RuntimeException.class, () -> SpaceRenderObjects.create("shadow", bad), bad.toString());
+        for (List<String> bad : List.of(List.of("100"), List.of("100", "100"), List.of("100", "200"), List.of("200", "100", "4D8CFF", "FF6A2A", "0"), List.of("200", "100", "zz")))
+            assertThrows(RuntimeException.class, () -> SpaceRenderObjects.create("atmosphere", bad), bad.toString());
+        CompoundTag t = a.save();
+        t.putDouble("inner", 0);
+        assertNull(SpaceRenderObjects.load(t));
+        t = s.save();
+        t.putDouble("radius", Double.NaN);
+        assertNull(SpaceRenderObjects.load(t));
+    }
 }

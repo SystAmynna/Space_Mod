@@ -12,10 +12,12 @@ import fr.systamynna.spacemod.core.StrategicLayer;
 import fr.systamynna.spacemod.core.component.components.Identity;
 import fr.systamynna.spacemod.core.component.components.MajorObject;
 import fr.systamynna.spacemod.core.controller.controllers.OrbitalController;
+import fr.systamynna.spacemod.core.render.AtmosphereRender;
 import fr.systamynna.spacemod.core.render.GalaxyCloudRender;
 import fr.systamynna.spacemod.core.render.GalaxyStarsRender;
 import fr.systamynna.spacemod.core.render.PlanetRender;
 import fr.systamynna.spacemod.core.render.RingRender;
+import fr.systamynna.spacemod.core.render.ShadowRender;
 import fr.systamynna.spacemod.core.render.StarRender;
 import fr.systamynna.spacemod.core.render.SpaceRender;
 import fr.systamynna.spacemod.core.store.JdbcSpaceStore;
@@ -107,8 +109,9 @@ class ProvidersTest {
                 r.get().objects.forEach(x -> assertTrue(x.radius() > 0, s.tree().addressOf(o)));
                 continue;
             }
-            // une planète : un seul élément texturé, plus ses anneaux éventuels (un rayon invalide fait ignorer l'objet au chargement)
-            assertTrue(r.get().objects.stream().skip(1).allMatch(x -> x instanceof RingRender), s.tree().addressOf(o));
+            // une planète : un seul élément texturé, son ombre, son atmosphère et ses anneaux éventuels (un rayon invalide fait ignorer l'objet au chargement)
+            assertTrue(r.get().objects.get(1) instanceof ShadowRender sh && sh.radius() == p.radius(), s.tree().addressOf(o));
+            assertTrue(r.get().objects.stream().skip(2).allMatch(x -> x instanceof RingRender || x instanceof AtmosphereRender a && a.inner == p.radius()), s.tree().addressOf(o));
             assertTrue(p.radius() > 0, s.tree().addressOf(o));
             String path = "/assets/" + p.texture.replaceFirst(":", "/"); // namespace:chemin -> /assets/namespace/chemin
             assertNotNull(Providers.class.getResource(path), p.texture);

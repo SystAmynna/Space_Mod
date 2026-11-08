@@ -12,6 +12,10 @@ final class RingDrawer extends EffectDrawer {
     @Nullable
     ShaderInstance shader() { return ClientShaders.ring; }
 
+    /** Après la planète, son ombre (1) et son atmosphère (2) : l'avant de l'anneau les recouvre (la partie arrière est cachée par l'occulteur). */
+    @Override
+    public int priority() { return 3; }
+
     @Override
     void uniforms(ShaderInstance sh, SpaceRenderObject ro) {
         RingRender r = (RingRender) ro;

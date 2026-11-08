@@ -49,7 +49,7 @@ public final class SpaceRenderer implements ClientLayer.Listener {
     private final Map<String, SpaceRenderObjectDrawer> drawers = Map.of("planet", new PlanetDrawer(),
             "galaxy_cloud", new GalaxyCloudDrawer(), "galaxy_stars", new GalaxyStarsDrawer(),
             "star", new StarDrawer(), "black_hole", new BlackHoleDrawer(), "gamma_eruption", new GammaEruptionDrawer(),
-            "ring", new RingDrawer(), "distorsion", new DistorsionDrawer());
+            "ring", new RingDrawer(), "distorsion", new DistorsionDrawer(), "shadow", new ShadowDrawer(), "atmosphere", new AtmosphereDrawer());
     // shortcut: liste et enregistrements de placement réalloués à chaque image ; à réutiliser si le nombre d'éléments grossit.
     /** {@code flare} : intensité du flare d'une étoile, ou passe d'un anneau (1 = moitié arrière, 2 = moitié avant) ; {@code prio} : ordre à distance égale. */
     private record Item(SpaceRenderObject ro, SpaceRenderObjectDrawer drawer, Placed placed, ResourceLocation texture, UUID carrier, float flare, int prio) {}
@@ -99,6 +99,7 @@ public final class SpaceRenderer implements ClientLayer.Listener {
         RenderMath.Observer ob = RenderMath.observer(layer::get, host, cfg);
 
         List<Item> items = new ArrayList<>(), galaxies = new ArrayList<>();
+        SkyShaderDrawer.LIGHTS.clear();
         for (Map.Entry<UUID, SpaceRender> e : renders.entrySet()) {
             SpaceObject carrier = layer.get(e.getKey());
             if (carrier == null) continue;
@@ -107,6 +108,10 @@ public final class SpaceRenderer implements ClientLayer.Listener {
                 if (d == null) continue;
                 Placed p = RenderMath.place(layer::get, ob, carrier, ro.transform(), ro.radius());
                 if (p == null) continue;
+                if (ro instanceof StarRender s) { // source de lumière pour l'ombrage et les atmosphères, même trop petite pour être dessinée
+                    double m = Math.max(1e-6, Math.max(s.hot.r(), Math.max(s.hot.g(), s.hot.b())));
+                    SkyShaderDrawer.LIGHTS.add(new SkyShaderDrawer.Light(p.pos(), p.radius() * p.scale().x, (float) (s.hot.r() / m), (float) (s.hot.g() / m), (float) (s.hot.b() / m)));
+                }
                 double ar = p.angularRadius();
                 if (d.custom()) { // l'observateur peut être dans la galaxie (NaN) : on la dessine quand même
                     if (Double.isNaN(ar) || ar >= MIN_ANGLE) galaxies.add(new Item(ro, d, p, null, e.getKey(), 0f, 0));
@@ -119,7 +124,7 @@ public final class SpaceRenderer implements ClientLayer.Listener {
                         float flare = system == null ? 0f : (float) RenderMath.flare(p.distance() / farthest(layer, system, carrier));
                         // anneau d'un trou noir : moitié arrière avant la lentille (déformée), moitié avant après la sphère noire (jamais déformée)
                         if (ro instanceof RingRender && e.getValue().objects.stream().anyMatch(o -> o instanceof DistorsionRender || o instanceof BlackHoleRender)) {
-                            items.add(new Item(ro, d, p, null, e.getKey(), 1f, d.priority()));
+                            items.add(new Item(ro, d, p, null, e.getKey(), 1f, 0));
                             items.add(new Item(ro, d, p, null, e.getKey(), 2f, 3));
                         } else items.add(new Item(ro, d, p, null, e.getKey(), flare, d.priority()));
                     }
