@@ -73,7 +73,14 @@ public final class SpaceRenderObjects {
             if (!RingRender.valid(outer, inner, op, oc, th)) throw usage(u);
             return new RingRender(new RenderTransform(), outer, inner, rgba(u, a, 2, RingRender.DEFAULT_INNER), rgba(u, a, 3, RingRender.DEFAULT_OUTER), op, a.size() > 5 && a.get(5).equals("true"), oc, th);
         }, "ring <inner> <outer> [colorInner RRGGBB[AA]] [colorOuter RRGGBB[AA]] [opacity] [emissive true|false] [occluder] [thickness]"));
-        ENTRIES.put(ShadowRender.TYPE, new Entry(ShadowRender::load, a -> {
+        ENTRIES.put(AccretionDiskRender.TYPE, new Entry(AccretionDiskRender::load, a -> {
+            String u = AccretionDiskRender.TYPE;
+            if (a.size() < 2 || a.size() > 7) throw usage(u);
+            double inner = num(u, a, 0, 0), outer = num(u, a, 1, 0), op = num(u, a, 4, 1), th = num(u, a, 5, AccretionDiskRender.DEFAULT_THICKNESS * outer), s = num(u, a, 6, 0);
+            if (!AccretionDiskRender.valid(outer, inner, op, th, s)) throw usage(u);
+            return new AccretionDiskRender(new RenderTransform(), outer, inner, rgba(u, a, 2, AccretionDiskRender.DEFAULT_INNER), rgba(u, a, 3, AccretionDiskRender.DEFAULT_OUTER), op, th, s);
+        }, "accretion_disk <inner> <outer> [colorInner RRGGBB[AA]] [colorOuter RRGGBB[AA]] [opacity] [thickness] [speed rad/s]"));
+        ENTRIES.put(ShadowRender.TYPE,new Entry(ShadowRender::load, a -> {
             String u = ShadowRender.TYPE;
             if (a.isEmpty() || a.size() > 3) throw usage(u);
             double r = num(u, a, 0, 0), am = num(u, a, 1, ShadowRender.DEFAULT_AMBIENT), s = num(u, a, 2, ShadowRender.DEFAULT_SOFTNESS);

@@ -8,14 +8,15 @@ import org.junit.jupiter.api.Test;
 
 import net.minecraft.nbt.CompoundTag;
 
-/** Star, black_hole, distorsion, gamma_eruption, ring : aller-retour par le registre, données invalides, création en commande. */
+/** Star, black_hole, distorsion, gamma_eruption, ring, accretion_disk : aller-retour par le registre, données invalides, création en commande. */
 class EffectRenderTest {
     private static final List<SpaceRenderObject> ALL = List.of(
             new StarRender(new RenderTransform(), 6.9e5, StarRender.DEFAULT_HOT, StarRender.DEFAULT_COOL, 2, 3, 2.5),
             new BlackHoleRender(new RenderTransform(), 162.5, new Rgba(0.1, 0, 0, 1)),
             new DistorsionRender(new RenderTransform(), 62.5, 2.8, 25),
             new GammaEruptionRender(new RenderTransform(), 1e9, 0.04, GammaEruptionRender.DEFAULT_A, GammaEruptionRender.DEFAULT_B, 3, 33, 0.8, 35, 0.3),
-            new RingRender(new RenderTransform(), 136775, 122170, RingRender.DEFAULT_INNER, RingRender.DEFAULT_OUTER, 0.65, true, 58232, 683));
+            new RingRender(new RenderTransform(), 136775, 122170, RingRender.DEFAULT_INNER, RingRender.DEFAULT_OUTER, 0.65, true, 58232, 683),
+            new AccretionDiskRender(new RenderTransform(), 2.54e8, 1.27e5, AccretionDiskRender.DEFAULT_INNER, AccretionDiskRender.DEFAULT_OUTER, 0.9, 5.08e6, -0.02));
 
     @Test
     void roundTripsThroughTheRegistry() {
@@ -86,7 +87,13 @@ class EffectRenderTest {
         assertEquals(200, r.radius());
         assertTrue(r.emissive);
         assertEquals(50, r.occluder);
-        for (String type : List.of("star", "black_hole", "distorsion", "gamma_eruption", "ring")) {
+        AccretionDiskRender a = (AccretionDiskRender) SpaceRenderObjects.create("accretion_disk", List.of("100", "200"));
+        assertEquals(AccretionDiskRender.DEFAULT_THICKNESS * 200, a.thickness);
+        assertEquals(0, a.speed);
+        assertEquals(0.5, ((AccretionDiskRender) SpaceRenderObjects.create("accretion_disk", List.of("100", "200", "FF0000", "00FF00", "1", "4", "0.5"))).speed);
+        assertThrows(RuntimeException.class, () -> SpaceRenderObjects.create("accretion_disk", List.of("200", "100"))); // intérieur > extérieur
+        assertThrows(RuntimeException.class, () -> SpaceRenderObjects.create("accretion_disk", List.of("100", "200", "FF0000", "00FF00", "1", "4", "NaN")));
+        for (String type : List.of("star", "black_hole", "distorsion", "gamma_eruption", "ring", "accretion_disk")) {
             assertThrows(RuntimeException.class, () -> SpaceRenderObjects.create(type, List.of()));
             assertThrows(RuntimeException.class, () -> SpaceRenderObjects.create(type, List.of("abc", "abc")));
         }

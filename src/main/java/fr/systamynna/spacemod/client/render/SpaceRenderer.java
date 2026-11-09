@@ -20,6 +20,7 @@ import fr.systamynna.spacemod.client.ClientLayer;
 import fr.systamynna.spacemod.core.render.RenderMath.Placed;
 import fr.systamynna.spacemod.core.SpaceObject;
 import fr.systamynna.spacemod.core.clock.SpaceClock;
+import fr.systamynna.spacemod.core.render.AccretionDiskRender;
 import fr.systamynna.spacemod.core.render.BlackHoleRender;
 import fr.systamynna.spacemod.core.render.DistorsionRender;
 import fr.systamynna.spacemod.core.render.RenderConfig;
@@ -46,10 +47,11 @@ public final class SpaceRenderer implements ClientLayer.Listener {
     private static final double MIN_ANGLE = 2e-4;
 
     private final Map<UUID, SpaceRender> renders = new HashMap<>();
-    private final Map<String, SpaceRenderObjectDrawer> drawers = Map.of("planet", new PlanetDrawer(),
-            "galaxy_cloud", new GalaxyCloudDrawer(), "galaxy_stars", new GalaxyStarsDrawer(),
-            "star", new StarDrawer(), "black_hole", new BlackHoleDrawer(), "gamma_eruption", new GammaEruptionDrawer(),
-            "ring", new RingDrawer(), "distorsion", new DistorsionDrawer(), "shadow", new ShadowDrawer(), "atmosphere", new AtmosphereDrawer());
+    private final Map<String, SpaceRenderObjectDrawer> drawers = Map.ofEntries(Map.entry("planet", new PlanetDrawer()),
+            Map.entry("galaxy_cloud", new GalaxyCloudDrawer()), Map.entry("galaxy_stars", new GalaxyStarsDrawer()),
+            Map.entry("star", new StarDrawer()), Map.entry("black_hole", new BlackHoleDrawer()), Map.entry("gamma_eruption", new GammaEruptionDrawer()),
+            Map.entry("ring", new RingDrawer()), Map.entry("accretion_disk", new AccretionDiskDrawer()), Map.entry("distorsion", new DistorsionDrawer()),
+            Map.entry("shadow", new ShadowDrawer()), Map.entry("atmosphere", new AtmosphereDrawer()));
     // shortcut: liste et enregistrements de placement réalloués à chaque image ; à réutiliser si le nombre d'éléments grossit.
     /** {@code flare} : intensité du flare d'une étoile, ou passe d'un anneau (1 = moitié arrière, 2 = moitié avant) ; {@code prio} : ordre à distance égale. */
     private record Item(SpaceRenderObject ro, SpaceRenderObjectDrawer drawer, Placed placed, ResourceLocation texture, UUID carrier, float flare, int prio) {}
@@ -122,8 +124,8 @@ public final class SpaceRenderer implements ClientLayer.Listener {
                     if (Double.isNaN(ar) || ar >= MIN_ANGLE || ro instanceof StarRender) {
                         SpaceObject system = ro instanceof StarRender ? RenderMath.stellarSystemOf(layer::get, ob, carrier) : null; // étoile locale : l'observateur est dans son système stellaire
                         float flare = system == null ? 0f : (float) RenderMath.flare(p.distance() / farthest(layer, system, carrier));
-                        // anneau d'un trou noir : moitié arrière avant la lentille (déformée), moitié avant après la sphère noire (jamais déformée)
-                        if (ro instanceof RingRender && e.getValue().objects.stream().anyMatch(o -> o instanceof DistorsionRender || o instanceof BlackHoleRender)) {
+                        // anneau / disque d'accrétion d'un trou noir : moitié arrière avant la lentille (déformée), moitié avant après la sphère noire (jamais déformée)
+                        if ((ro instanceof RingRender || ro instanceof AccretionDiskRender) && e.getValue().objects.stream().anyMatch(o -> o instanceof DistorsionRender || o instanceof BlackHoleRender)) {
                             items.add(new Item(ro, d, p, null, e.getKey(), 1f, 0));
                             items.add(new Item(ro, d, p, null, e.getKey(), 2f, 3));
                         } else items.add(new Item(ro, d, p, null, e.getKey(), flare, d.priority()));
